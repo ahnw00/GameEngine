@@ -23,6 +23,11 @@
 *.dll
 *.so.*
 
+# Binaries and Intermediate
+Bin/
+Intermediate/
+Includes/
+Lib/
 
 # Fortran module files
 *.mod
