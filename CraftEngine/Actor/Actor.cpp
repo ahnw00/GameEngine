@@ -5,13 +5,13 @@
 namespace Craft
 {
 	Actor::Actor(
-		const std::string& image,
+		const std::vector<std::string>& image,
 		const Vector2& position,
 		Color color) 
 		: image(image), position(position), color(color),
-		width(static_cast<int>(image.length()))
-	{
-	}
+		width(static_cast<int>(image[0].length())),
+		height(static_cast<int>(image.size()))
+	{ }
 
 	Actor::~Actor()
 	{

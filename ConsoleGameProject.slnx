@@ -2,6 +2,7 @@
   <Configurations>
     <Platform Name="x64" />
   </Configurations>
+  <Project Path="BulletEcho/BulletEcho.vcxproj" Id="b0788c42-be57-4d7b-99eb-289fc7286b7f" />
   <Project Path="CraftEngine/CraftEngine.vcxproj" Id="50bca226-9784-4e6e-8449-d338379fc89e" />
   <Project Path="Game/Game.vcxproj" Id="7076bbd6-f3c9-4ac4-873b-e697d0c22f7c">
     <BuildDependency Project="CraftEngine/CraftEngine.vcxproj" />

@@ -1,6 +1,9 @@
 ﻿#include "Input.h"
 #include <cassert>
 #include <Windows.h>
+#include <iostream>
+#include <Render/Renderer.h>
+#include <cassert>
 
 namespace Craft
 {
@@ -15,9 +18,19 @@ namespace Craft
 
 		// 마우스 위치를 가져오기 위해 콘솔 모드 설정
 		buffer = GetStdHandle(STD_INPUT_HANDLE);
+		assert(buffer != INVALID_HANDLE_VALUE && "Invalid handle value");
+
 		DWORD mode;
-		GetConsoleMode(buffer, &mode);
-		SetConsoleMode(buffer, mode | ENABLE_MOUSE_INPUT); // 마우스 입력 활성화
+
+		BOOL result = GetConsoleMode(buffer, &mode);
+		assert(result);
+
+		mode |= ENABLE_MOUSE_INPUT;
+		mode |= ENABLE_EXTENDED_FLAGS;
+		mode &= ~ENABLE_QUICK_EDIT_MODE;
+
+		result = SetConsoleMode(buffer, mode); // 마우스 입력 활성화
+		assert(result);
 	}
 
 	bool Input::GetKeyDown(int keyCode) const
@@ -54,8 +67,42 @@ namespace Craft
 			keyStates[ix].isKeyDown = ((GetAsyncKeyState(ix) & 0x8000) != 0);
 		}
 
-		// 현재 프레임에 마우스 입력이나 움직임이 있으면 위치 반환
-		//INPUT_
+		DWORD eventCount = 0;
+		GetNumberOfConsoleInputEvents(buffer, &eventCount);
+
+		while(eventCount > 0)
+		{
+			// 현재 프레임에 마우스 입력이나 움직임이 있으면 위치 반환
+			INPUT_RECORD record;
+			DWORD count = 0;
+			
+			BOOL result = ReadConsoleInput(buffer, &record, 1, &count);
+			
+			if (!result)
+				break;
+
+			if (record.EventType == MOUSE_EVENT)
+			{
+				const auto& mouseEvent = record.Event.MouseEvent;
+
+				mousePosition = Vector2(
+					static_cast<float>(mouseEvent.dwMousePosition.X),
+					static_cast<float>(mouseEvent.dwMousePosition.Y)
+				);
+			}
+		
+			--eventCount;
+		}
+
+		std::string temp =
+			std::to_string(mousePosition.x) +
+			", " +
+			std::to_string(mousePosition.y);
+
+		Renderer::Get().Submit(
+			{ temp },
+			Vector2(20, 0)
+		);
 	}
 
 	void Input::SavePreviousStates()

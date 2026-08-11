@@ -79,7 +79,7 @@ namespace Craft
 			0,								// Left 
 			0,								// Top
 			static_cast<short>(size.x - 1), // Right
-			static_cast<short>(size.x - 1)  // Bottom
+			static_cast<short>(size.y - 1)  // Bottom
 		};
 
 		// 콘솔에 CHAR_INFO 타입으로 글자 쓰는 함수

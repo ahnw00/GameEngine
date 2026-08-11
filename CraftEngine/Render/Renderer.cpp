@@ -99,7 +99,7 @@ namespace Craft
 		SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
 	}
 
-	void Renderer::Submit(const std::string& image, const Vector2& position, Color color, int sortingOrder)
+	void Renderer::Submit(const std::vector<std::string>& image, const Vector2& position, Color color, int sortingOrder)
 	{
 		// 렌더 명령 생성 및 값 설정
 		RenderCommand command;
@@ -141,6 +141,10 @@ namespace Craft
 		GetCurrentBuffer()->Clear();
 	}
 
+	// "***"
+	// " * "
+	// "***"
+
 	void Renderer::DrawRenderQueue()
 	{
 		// 렌더 큐를 순회하면서 그리기 명령 실행
@@ -150,52 +154,54 @@ namespace Craft
 			if (command.image.empty())
 				continue;
 
-			// y 위치가 화면을 벗어났으면 건너뛰기
-			if (command.position.y < 0 || command.position.y >= screenSize.y)
-				continue;
-
-			// 그리려는 문자열 길이 값
-			const int length = static_cast<int>(command.image.length());
-
 			// 글자의 시작 위치
-			const int startX = command.position.x;
+			const int startX = static_cast<int>(std::round(command.position.x));
+			const int startY = static_cast<int>(std::round(command.position.y));
 
-			// 글자의 끝 위치
-			const int endX = startX + length - 1;
+			const int height = static_cast<int>(command.image.size());
 
-			// x 위치가 화면을 벗어났는지 확인
-			if (endX < 0 || startX >= screenSize.x)
-				continue;
-
-			// 실제 그릴 글자의 위치 구하기
-			const int visibleStart = startX < 0 ? 0 : startX;
-			const int visibleEnd = endX >= screenSize.x ? screenSize.x - 1 : endX;
-
-			// 문자열을 루프 순회하면서 글자를 2차원 배열에 하나씩 기록
-			for (int x = visibleStart; x <= visibleEnd; ++x)
+			for (int localY = 0; localY < height; ++localY)
 			{
-				// 문자열에서 글자값을 가져올 때 사용할 인덱스
-				const int sourceIndex = x - startX;
+				const std::string& row = command.image[localY];
 
-				// 글자 2차원 배열의 인덱스
-				// (y * width) + x
-				const int index = (command.position.y * screenSize.x) + x;
+				const int width = static_cast<int>(row.length());
 
-				// 정렬 순서를 비교해서 그릴지 말지를 판정
-				// 이미 그려진 값이 우선순위가 높으면 건너뛰기
-				// 같거나 새로 그리려는 값이 우선순위가 높으면 덮어쓰기
-				if (frame->sortingOrderArray[index] > command.sortingOrder)
-					continue;
+				for (int localX = 0; localX < width; ++localX)
+				{
+					const int x = startX + localX;
+					const int y = startY + localY;
 
+					// 화면 밖이면 건너뛰기
+					if (x < 0 || x >= screenSize.x ||
+						y < 0 || y >= screenSize.y)
+						continue;
 
-				// 2차원 배열에 글자, 속성 설정
-				frame->charInfoArray[index].Char.AsciiChar = command.image[sourceIndex];
+					const int index =
+						y * screenSize.x + x;
 
-				// 글자 색상 값 설정
-				frame->charInfoArray[index].Attributes = static_cast<DWORD>(command.color);
+					// 빈 칸이면 그리지 않음
+					if (row[localX] == ' ')
+						continue;
 
-				// 그리기 우선순위 값도 설정
-				frame->sortingOrderArray[index] = command.sortingOrder;
+					// 정렬 순서 확인
+					if (frame->sortingOrderArray[index] >
+						command.sortingOrder)
+					{
+						continue;
+					}
+
+					// 문자 기록
+					frame->charInfoArray[index].Char.AsciiChar =
+						row[localX];
+
+					// 색상 기록
+					frame->charInfoArray[index].Attributes =
+						static_cast<DWORD>(command.color);
+
+					// 정렬 순서 기록
+					frame->sortingOrderArray[index] =
+						command.sortingOrder;
+				}
 			}
 		}
 
@@ -221,6 +227,7 @@ namespace Craft
 		// 마법의 공식 -> One Minus
 		currentBufferIndex = 1 - currentBufferIndex;
 	}
+
 	const ScreenBuffer* const Renderer::GetCurrentBuffer() const
 	{
 		// const로 감싸서 원시 포인터로 값 변경 못하도록

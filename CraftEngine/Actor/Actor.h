@@ -6,6 +6,7 @@
 #include <Core/CraftObject.h>
 #include <memory>  // std::weak_ptr 사용을 위해
 #include <string>
+#include <vector>
 
 namespace Craft
 {
@@ -15,13 +16,20 @@ namespace Craft
 	// 가상 공간에 배치될 모든 액터의 기본 클래스
 	class CRAFT_API Actor : public CraftObject
 	{
+	public:
+		// 액터가 바라보는 방향
+		enum class Direction
+		{
+			N, NE, E, SE, S, SW, W, NW
+		};
+
 		// 매크로 지정할 때 끝에 세미콜론 넣지 않도록 주의
 		// 언리얼의 GeneratedBody()랑 비슷한거
 		TYPE_DECLARATIONS(Actor, CraftObject)
 
 	public:
 		Actor(
-			const std::string& image = "",
+			const std::vector<std::string>& image = { "" },
 			const Vector2& position = Vector2::Zero,
 			Color color = Color::White
 		);
@@ -52,6 +60,12 @@ namespace Craft
 		inline Vector2 GetPosition() const { return position; }
 		void SetPosition(const Vector2& newPosition);
 
+		inline Vector2 GetCenterPosition()
+		{
+			center = Vector2(position.x + (width / 2), position.y + (height / 2));
+			return center;
+		}
+
 		// 이전 위치 반환 함수
 		inline Vector2 GetPreviousPosition() const { return prevPosition; }
 
@@ -61,11 +75,15 @@ namespace Craft
 		// 너비 반환 함수
 		inline int GetWidth() const { return width; }
 
+		// 너비 반환 함수
+		inline int GetHeight() const { return height; }
+
 		// 액터의 이미지 설정 함수
-		inline void ChangeImage(const std::string& newImage)
+		inline void ChangeImage(const std::vector<std::string>& newImage)
 		{
 			// 이미지 길이 설정
-			width = static_cast<int>(newImage.length());
+			width = static_cast<int>(newImage[0].length());
+			height = static_cast<int>(newImage.size());
 
 			// 새로운 글자 값 설정
 			image = newImage;
@@ -86,7 +104,7 @@ namespace Craft
 		std::weak_ptr<Level> owner;
 
 		// 화면에 그릴 글자
-		std::string image;
+		std::vector<std::string> image;
 
 		// 글자 색상
 		Color color = Color::White;
@@ -94,13 +112,25 @@ namespace Craft
 		// 글자 길이
 		int width = 0;
 
+		// 글자 높이
+		int height = 0;
+
 		// 렌더링 순서
 		int sortingOrder = 0;
 
 		// 위치
 		Vector2 position;
 
+		// 중앙 위치
+		Vector2 center;
+
 		// 이전 프레임 위치
 		Vector2 prevPosition;
+
+		// 바라보는 방향
+		Vector2 forward = Vector2::Zero;
+
+		// 방향 스테이트
+		Direction direction = Direction::N;
 	};
 }

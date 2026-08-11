@@ -8,7 +8,7 @@ namespace Craft
 	class CRAFT_API Vector2
 	{
 	public:
-		Vector2(int x = 0, int y = 0);
+		Vector2(float x = 0, float y = 0);
 		~Vector2() = default;
 
 		// 연산자 오버로딩
@@ -21,10 +21,13 @@ namespace Craft
 		Vector2 operator+(const Vector2& other) const;
 		Vector2 operator-(const Vector2& other) const;
 		Vector2 operator*(const Vector2& other) const;
+		Vector2 operator*(const float multiply) const;
 		Vector2 operator/(const Vector2& other) const;
 
 		// 대입 연산자 오버로딩
 		Vector2& operator=(const Vector2& other);
+		Vector2& operator+=(const Vector2& other);
+		Vector2& operator-=(const Vector2& other);
 
 		// 비교 연산자 오버로딩
 		bool operator==(const Vector2& other) const;
@@ -36,9 +39,11 @@ namespace Craft
 		static Vector2 Right;
 		static Vector2 Up;
 
+		Vector2 normalized() const;
+
 	public:
 		// 좌표계 값으로 사용하기 위한 변수
-		int x = 0;
-		int y = 0;
+		float x = 0;
+		float y = 0;
 	};
 }
