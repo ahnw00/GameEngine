@@ -25,8 +25,6 @@ namespace Craft
 		// 액터를 순회하면서 충돌을 확인하는 함수.
 		void ProcessCollision(const std::vector<std::shared_ptr<Actor>>& actorList);
 
-	private:
-
 		// 두 액터가 충돌했는지 확인(테스트)하는 함수.
 		bool Test(
 			const std::shared_ptr<Actor>& left,

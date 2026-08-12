@@ -1,13 +1,15 @@
 ﻿#pragma once
 
 #include <Actor/Actor.h>
+#include <Actor/Character.h>
+#include <Util/Sight.h>
 #include <Util/Timer.h>
 
 //" * "
 //"***"
 //" * "
 
-class Player : public Craft::Actor
+class Player : public Character
 {
 	// 발사 모드(단발/연사)
 	enum class FireMode
@@ -18,7 +20,7 @@ class Player : public Craft::Actor
 	};
 
 	// RTTI 등록
-	TYPE_DECLARATIONS(Player, Actor)
+	TYPE_DECLARATIONS(Player, Character)
 
 public:
 	Player();

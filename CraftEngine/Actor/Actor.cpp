@@ -34,7 +34,7 @@ namespace Craft
 			return;
 
 		// 렌더러에 필요한 데이터 제출
-		Renderer::Get().Submit(image, position, color, sortingOrder);
+		Renderer::Get().Submit(this, image, position, color, sortingOrder);
 	}
 
 	void Actor::OnCollision(const std::shared_ptr<Actor>& other)

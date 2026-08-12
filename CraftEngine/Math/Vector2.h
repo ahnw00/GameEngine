@@ -39,7 +39,12 @@ namespace Craft
 		static Vector2 Right;
 		static Vector2 Up;
 
+		// 단위 벡터
 		Vector2 normalized() const;
+		// 내적
+		float dot(const Vector2& other) const;
+		// 크기
+		float size() const;
 
 	public:
 		// 좌표계 값으로 사용하기 위한 변수

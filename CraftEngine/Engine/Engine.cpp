@@ -203,16 +203,21 @@ namespace Craft
 
 	void Engine::Draw()
 	{
-		if (!mainLevel)
+		if (!mainLevel || !renderer)
 			return;
+
+		renderer->BeginFrame();
 
 		mainLevel->Draw();
 
-		// 렌더러에 Draw 이벤트 호출
-		if (!renderer)
-			return;
+		renderer->DrawRenderQueue();
 
-		renderer->Draw();
+		// Player::Sight::Detect
+		mainLevel->ProcessPlayerSight();
+
+		renderer->DrawSight();
+
+		renderer->Present();
 	}
 
 	void Engine::ProcessCollision()

@@ -1,4 +1,4 @@
-#include "CollisionSystem.h"
+﻿#include "CollisionSystem.h"
 #include "Actor/Actor.h"
 
 namespace Craft
@@ -91,15 +91,30 @@ namespace Craft
 		const Vector2 rightPrevious = right->GetPreviousPosition();
 
 		// 이전 프레임 위치와 현재 위치를 모두 포함하는 swept bounds 계산.
+		
+		// Left Actor의 x 최대/최소값
 		const float leftXMin = (leftCurrent.x < leftPrevious.x) ? leftCurrent.x : leftPrevious.x;
 		const float leftXMaxCurrent = leftCurrent.x + left->GetWidth() - 1;
 		const float leftXMaxPrevious = leftPrevious.x + left->GetWidth() - 1;
 		const float leftXMax = (leftXMaxCurrent > leftXMaxPrevious) ? leftXMaxCurrent : leftXMaxPrevious;
 
+		// Left Actor의 y 최대/최소값
+		const float leftYMin = (leftCurrent.y < leftPrevious.y) ? leftCurrent.y : leftPrevious.y;
+		const float leftYMaxCurrent = leftCurrent.y + left->GetHeight() - 1;
+		const float leftYMaxPrevious = leftPrevious.y + left->GetHeight() - 1;
+		const float leftYMax = (leftYMaxCurrent > leftYMaxPrevious) ? leftYMaxCurrent : leftYMaxPrevious;
+
+		// Right Actor의 x 최대/최소값
 		const float rightXMin = (rightCurrent.x < rightPrevious.x) ? rightCurrent.x : rightPrevious.x;
 		const float rightXMaxCurrent = rightCurrent.x + right->GetWidth() - 1;
 		const float rightXMaxPrevious = rightPrevious.x + right->GetWidth() - 1;
 		const float rightXMax = (rightXMaxCurrent > rightXMaxPrevious) ? rightXMaxCurrent : rightXMaxPrevious;
+
+		// Right Actor의 y 최대/최소값
+		const float rightYMin = (rightCurrent.y < rightPrevious.y) ? rightCurrent.y : rightPrevious.y;
+		const float rightYMaxCurrent = rightCurrent.y + right->GetHeight() - 1;
+		const float rightYMaxPrevious = rightPrevious.y + right->GetHeight() - 1;
+		const float rightYMax = (rightYMaxCurrent > rightYMaxPrevious) ? rightYMaxCurrent : rightYMaxPrevious;
 
 		// X좌표 기준으로 충돌이 발생할 수 없는 상황 처리.
 		if (rightXMin > leftXMax)
@@ -112,14 +127,7 @@ namespace Craft
 			return false;
 		}
 
-		// 이전 프레임까지 고려한 y 충돌 영역 계산.
-		const float leftYMin = (leftCurrent.y < leftPrevious.y) ? leftCurrent.y : leftPrevious.y;
-		const float leftYMax = (leftCurrent.y > leftPrevious.y) ? leftCurrent.y : leftPrevious.y;
-
-		const float rightYMin = (rightCurrent.y < rightPrevious.y) ? rightCurrent.y : rightPrevious.y;
-		const float rightYMax = (rightCurrent.y > rightPrevious.y) ? rightCurrent.y : rightPrevious.y;
-
-		// y좌표 기준으로 충돌이 발생할 수 없는 상황 처리.
+		// Y좌표 기준으로 충돌이 발생할 수 없는 상황 처리.
 		if (rightYMin > leftYMax)
 		{
 			return false;
@@ -129,6 +137,7 @@ namespace Craft
 		{
 			return false;
 		}
+
 
 		// 충돌 발생.
 		return true;

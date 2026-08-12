@@ -105,7 +105,6 @@ xcopy $(OutDir)\*.dll ..\Lib\ /e /y /i</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Actor.cpp" />
-    <ClCompile Include="Actor\Sight.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Level\Level.cpp" />
@@ -116,7 +115,6 @@ xcopy $(OutDir)\*.dll ..\Lib\ /e /y /i</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Actor.h" />
-    <ClInclude Include="Actor\Sight.h" />
     <ClInclude Include="Core\Core.h" />
     <ClInclude Include="Core\CraftObject.h" />
     <ClInclude Include="Engine\Engine.h" />

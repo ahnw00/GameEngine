@@ -11,10 +11,17 @@ namespace Craft
 {
 	// 전방 선언
 	class ScreenBuffer;
+	class Actor;
 
 	// 그리기 기능을 전담하는 전문 객체
 	class CRAFT_API Renderer
 	{
+		enum class RenderMode
+		{
+			DEBUG,
+			PLAY
+		};
+
 		// 프레임(이미지) 데이터 구조체
 		struct Frame
 		{
@@ -29,11 +36,19 @@ namespace Craft
 
 			// 그리기 정렬 값 2차원 배열(1차원 배열로 다뤄)
 			std::unique_ptr<int[]> sortingOrderArray;
+
+			// 2차원 배열의 각 칸에 올라와있는 액터 리스트(1차원 배열 안에 리스트가 있어)
+			std::unique_ptr<std::vector<Actor*>[]> actorArray;
+
+			// 시야 영역 여부
+			std::unique_ptr<bool[]> sightArray;
 		};
 		
 		// 화면에 그릴 데이터를 명령 단위로 저장하기 위한 구조체
 		struct RenderCommand
 		{
+			Actor* actor = nullptr;
+
 			// 화면에 그릴 문자값
 			std::vector<std::string> image;
 
@@ -53,6 +68,7 @@ namespace Craft
 
 		// 화면에 그릴 데이터를 제출(전달)하는 함수
 		void Submit(
+			Actor* actor,
 			const std::vector<std::string>& image, 
 			const Vector2& position,
 			Color color = Color::White,
@@ -65,15 +81,25 @@ namespace Craft
 		// 전역 접근 함수
 		static Renderer& Get();
 
-	private:
-		// 그리기 작업을 시작할 때 프레임(화면)을 지우는 함수
-		void Clear();
+		// 프레임 읽기 전용 함수
+		inline const std::unique_ptr<Frame>& GetFrame() const { return frame; }
 
+		void SetSight(const Vector2& position);
+
+		const std::vector<Actor*>& GetActorsAt(const Vector2& position);
+
+	public:
+		void BeginFrame();
+		void DrawSight();
 		// 전달 받은 렌더 명령을 활용해 화면을 그리는 함수
 		void DrawRenderQueue();
 
 		// 그린 결과를 화면에 표시하는 함수
 		void Present();
+
+	private:
+		// 그리기 작업을 시작할 때 프레임(화면)을 지우는 함수
+		void Clear();
 
 		// Getter
 		const ScreenBuffer* const GetCurrentBuffer() const;
@@ -97,5 +123,8 @@ namespace Craft
 
 		// 버퍼 인덱스
 		int currentBufferIndex = 0;
+
+		// 렌더 모드
+		RenderMode mode = RenderMode::PLAY;
 	};
 }

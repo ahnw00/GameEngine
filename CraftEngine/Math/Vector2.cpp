@@ -100,4 +100,14 @@ namespace Craft
 
 		return Vector2(x / size, y / size);
 	}
+
+	float Vector2::dot(const Vector2& other) const
+	{
+		return x * other.x + y * other.y;
+	}
+
+	float Vector2::size() const
+	{
+		return sqrt(x * x + y * y);
+	}
 }

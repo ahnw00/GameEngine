@@ -16,3 +16,23 @@ void GameLevel::OnInitialized()
 	// 적 생성기 액터 추가
 	//SpawnActor<EnemySpawner>();
 }
+
+void GameLevel::ProcessPlayerSight()
+{
+	for (const auto& actor : actorList)
+	{
+		if (!actor) continue;
+
+		std::shared_ptr<Player> player = Cast<Player>(actor);
+
+		if (player)
+		{
+			Sight* sight = player->GetSight();
+
+			if (!sight) continue;
+
+			sight->Detect();
+			return;
+		}
+	}
+}

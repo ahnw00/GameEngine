@@ -15,9 +15,17 @@
 using namespace Craft;
 
 Player::Player()
-	: Actor({ " * ", "***", " * "}, Vector2::Zero, Color::Green),
+	: Character({ " * ", "***", " * "}, Vector2::Zero, Color::Green),
 	fireMode(FireMode::OneShot)
 {
+	// 캐릭터 타입 설정
+	SetCharacterType(Character::Type::Player);
+
+	// 시야 세팅
+	sight = std::make_unique<Sight>(this);
+	sight->SetRadius(5.f);
+	sight->SetDegree(60.f);
+
 	// 그려지는 우선순위
 	sortingOrder = 5;
 
@@ -37,6 +45,7 @@ Player::Player()
 void Player::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
+	sight->Tick(deltaTime);
 
 	// ESC 키 종료
 	if (Input::Get().GetKeyDown(VK_ESCAPE))

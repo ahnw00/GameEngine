@@ -12,6 +12,8 @@ namespace Craft
 		// 2차원 배열 생성
 		charInfoArray = std::make_unique<CHAR_INFO[]>(bufferCount);
 		sortingOrderArray = std::make_unique<int[]>(bufferCount);
+		actorArray = std::make_unique<std::vector<Actor*>[]>(bufferCount);
+		sightArray = std::make_unique<bool[]>(bufferCount);
 	}
 
 	Renderer::Frame::~Frame()
@@ -20,6 +22,8 @@ namespace Craft
 	// 프레임 초기화 함수
 	void Renderer::Frame::Clear(const Vector2& screenSize)
 	{
+		assert(sightArray != nullptr);
+
 		// 이중 루프를 순회하면서 값 초기화
 		const int width = screenSize.x;
 		const int height = screenSize.y;
@@ -41,6 +45,11 @@ namespace Craft
 
 				// 그리기 순서 배열 항목 초기화
 				sortingOrderArray[index] = -1;
+
+				// 해당 칸에 올라가 있던 Actor 정보 제거
+				actorArray[index].clear();
+
+				sightArray[index] = false;
 			}
 		}
 	}
@@ -99,10 +108,17 @@ namespace Craft
 		SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
 	}
 
-	void Renderer::Submit(const std::vector<std::string>& image, const Vector2& position, Color color, int sortingOrder)
+	void Renderer::Submit(
+		Actor* actor,
+		const std::vector<std::string>& image, 
+		const Vector2& position, 
+		Color color, 
+		int sortingOrder)
 	{
 		// 렌더 명령 생성 및 값 설정
 		RenderCommand command;
+
+		command.actor = actor;
 		command.image = image;
 		command.position = position;
 		command.color = color;
@@ -122,6 +138,9 @@ namespace Craft
 		// 프레임 그리기
 		DrawRenderQueue();
 
+		// 시야 밖 처리
+		DrawSight();
+
 		// 화면(이미지/프레임) 표시
 		Present();
 	}
@@ -130,6 +149,77 @@ namespace Craft
 	{
 		assert(instance && "instance should not be null");
 		return *instance;
+	}
+
+	void Renderer::SetSight(const Vector2& position)
+	{
+		const int x = static_cast<int>(position.x);
+		const int y = static_cast<int>(position.y);
+
+		if (x < 0 || x >= screenSize.x ||
+			y < 0 || y >= screenSize.y)
+		{
+			return;
+		}
+
+		const int index =
+			y * static_cast<int>(screenSize.x) + x;
+
+		frame->sightArray[index] = true;
+	}
+
+	void Renderer::BeginFrame()
+	{
+		Clear();
+	}
+
+	void Renderer::DrawSight()
+	{
+		if (mode != RenderMode::PLAY)
+			return;
+
+		const int width = static_cast<int>(screenSize.x);
+		const int height = static_cast<int>(screenSize.y);
+
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				const int index = y * width + x;
+
+				if (frame->sightArray[index])
+				{
+					// 시야 안 -> 흰색 배경
+					frame->charInfoArray[index].Attributes |= BACKGROUND_RED;
+					frame->charInfoArray[index].Attributes |= BACKGROUND_GREEN;
+					frame->charInfoArray[index].Attributes |= BACKGROUND_BLUE;
+				}
+				else
+				{
+					// 시야 밖은 검정
+					//frame->charInfoArray[index].Attributes |= BACKGROUND_GREEN;
+				}
+			}
+		}
+	}
+
+	const std::vector<Actor*>& Renderer::GetActorsAt(const Vector2& position)
+	{
+		static const std::vector<Actor*> empty;
+
+		const int x = static_cast<int>(position.x);
+		const int y = static_cast<int>(position.y);
+
+		if (x < 0 || x >= screenSize.x ||
+			y < 0 || y >= screenSize.y)
+		{
+			return empty;
+		}
+
+		const int index =
+			y * static_cast<int>(screenSize.x) + x;
+
+		return frame->actorArray[index];
 	}
 
 	void Renderer::Clear()
@@ -183,6 +273,12 @@ namespace Craft
 					if (row[localX] == ' ')
 						continue;
 
+					// 이 칸에 Actor가 존재한다는 정보 저장
+					if (command.actor)
+					{
+						frame->actorArray[index].emplace_back(command.actor);
+					}
+
 					// 정렬 순서 확인
 					if (frame->sortingOrderArray[index] >
 						command.sortingOrder)
@@ -206,7 +302,7 @@ namespace Craft
 		}
 
 		// 앞에서 설정한 2차원 배열을 콘솔에 그리기
-		GetCurrentBuffer()->Draw(frame->charInfoArray.get());
+		//GetCurrentBuffer()->Draw(frame->charInfoArray.get());
 
 		// 렌더큐 비우기
 		renderQueue.clear();
@@ -220,6 +316,8 @@ namespace Craft
 
 	void Renderer::Present()
 	{
+		GetCurrentBuffer()->Draw(frame->charInfoArray.get());
+
 		// 현재 순번의 콘솔 버퍼를 활성화
 		SetConsoleActiveScreenBuffer(GetCurrentBuffer()->GetBuffer());
 

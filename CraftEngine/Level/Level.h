@@ -80,6 +80,9 @@ namespace Craft
 		// 액터의 이전 상태 처리 함수
 		void SavePrevActorStates();
 
+		// 플레이어 시야 처리
+		virtual void ProcessPlayerSight() = 0;
+
 	protected:
 		// 초기화 처리 여부 플래그
 		bool hasInitialized = false;

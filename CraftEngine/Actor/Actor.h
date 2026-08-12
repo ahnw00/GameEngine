@@ -78,6 +78,9 @@ namespace Craft
 		// 너비 반환 함수
 		inline int GetHeight() const { return height; }
 
+		// forward 반환 함수
+		inline Vector2 GetForward() const { return forward; }
+
 		// 액터의 이미지 설정 함수
 		inline void ChangeImage(const std::vector<std::string>& newImage)
 		{
