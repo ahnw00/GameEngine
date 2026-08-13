@@ -161,8 +161,10 @@
   <ItemGroup>
     <ClInclude Include="Actor\Bullet.h" />
     <ClInclude Include="Actor\Character.h" />
+    <ClInclude Include="Actor\DestroyEffect.h" />
     <ClInclude Include="Actor\Enemy.h" />
     <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\Wall.h" />
     <ClInclude Include="Util\Sight.h" />
     <ClInclude Include="Level\GameLevel.h" />
     <ClInclude Include="Util\Timer.h" />
@@ -170,8 +172,10 @@
   <ItemGroup>
     <ClCompile Include="Actor\Bullet.cpp" />
     <ClCompile Include="Actor\Character.cpp" />
+    <ClCompile Include="Actor\DestroyEffect.cpp" />
     <ClCompile Include="Actor\Enemy.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\Wall.cpp" />
     <ClCompile Include="Util\Sight.cpp" />
     <ClCompile Include="Level\GameLevel.cpp" />
     <ClCompile Include="Main.cpp" />

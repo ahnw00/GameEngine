@@ -2,6 +2,7 @@
 
 #include <Actor/Character.h>
 
+class Player;
 
 class Sight
 {
@@ -14,8 +15,13 @@ public:
 	void Tick(float deltaTime);
 
 public:
-	// 범위 안에 적/플레이어 감지
-	bool Detect();
+	// 플레이어 시야 계산
+	void CalculatePlayerSight();
+
+	// 적의 시야(플레이어 감지)
+	Player* DetectPlayer();
+
+	void CalculateSight();
 
 	inline void SetRadius(float r) { radius = r; }
 	inline void SetDegree(float d) { degree = d; }
@@ -35,5 +41,8 @@ private:
 
 	// 탐지 주체의 타입
 	Character::Type ownerType = Character::Type::None;
+
+	// 적이면 플레이어 감지시 타겟 설정
+	void SetTarget(Player* detectedPlayer);
 };
 

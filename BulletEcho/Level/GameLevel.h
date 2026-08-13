@@ -12,5 +12,7 @@ private:
 
 public:
 	virtual void ProcessPlayerSight() override;
+
+	bool CanMove(const Craft::Vector2& nextPosition);
 };
 

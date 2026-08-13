@@ -36,6 +36,12 @@
     <ClInclude Include="Util\Sight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Actor\Wall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\DestroyEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Player.cpp">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Sight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Wall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\DestroyEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

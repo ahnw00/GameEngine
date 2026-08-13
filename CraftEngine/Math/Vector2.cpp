@@ -96,7 +96,9 @@ namespace Craft
 	{
 		// TODO: insert return statement here
 		float size = std::sqrt(x * x + y * y);
-		assert(size != 0);
+
+		if (size == 0.f)
+			return Vector2::Zero;
 
 		return Vector2(x / size, y / size);
 	}

@@ -196,8 +196,17 @@ namespace Craft
 				}
 				else
 				{
-					// 시야 밖은 검정
-					//frame->charInfoArray[index].Attributes |= BACKGROUND_GREEN;
+					// 시야 밖은 어둡게
+					WORD& attributes = frame->charInfoArray[index].Attributes;
+
+					// 전경색 제거
+					attributes &= ~(FOREGROUND_RED |
+						FOREGROUND_GREEN |
+						FOREGROUND_BLUE |
+						FOREGROUND_INTENSITY);
+
+					// 어두운 회색
+					attributes |= FOREGROUND_INTENSITY; // 필요하면 제거
 				}
 			}
 		}
