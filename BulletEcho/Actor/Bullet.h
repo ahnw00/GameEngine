@@ -27,6 +27,9 @@ public:
 	inline void SetShooter(std::shared_ptr<Character>& s) { shooter = s; }
 
 private:
+	void DestroyAndEffect();
+
+private:
 	// 총알 속도
 	float moveSpeed = 90.f;
 

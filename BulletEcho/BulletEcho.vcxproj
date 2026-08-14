@@ -133,6 +133,9 @@
     <PostBuildEvent>
       <Command>xcopy ..\Lib\*.dll $(OutDir)\ /e /y /i</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>xcopy ..\Assets\* $(OutDir)..\Assets\ /e /y /i</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -157,9 +160,13 @@
     <PostBuildEvent>
       <Command>xcopy ..\Lib\*.dll $(OutDir)\ /e /y /i</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>xcopy ..\Assets\* $(OutDir)..\Assets\ /e /y /i</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Bullet.h" />
+    <ClInclude Include="Util\Camera.h" />
     <ClInclude Include="Actor\Character.h" />
     <ClInclude Include="Actor\DestroyEffect.h" />
     <ClInclude Include="Actor\Enemy.h" />
@@ -171,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Bullet.cpp" />
+    <ClCompile Include="Util\Camera.cpp" />
     <ClCompile Include="Actor\Character.cpp" />
     <ClCompile Include="Actor\DestroyEffect.cpp" />
     <ClCompile Include="Actor\Enemy.cpp" />

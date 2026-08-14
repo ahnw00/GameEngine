@@ -89,21 +89,23 @@ namespace Craft
 					static_cast<float>(mouseEvent.dwMousePosition.X),
 					static_cast<float>(mouseEvent.dwMousePosition.Y)
 				);
+
+				mousePosition += Renderer::Get().GetRenderStartPosition();
 			}
 		
 			--eventCount;
 		}
 
-		std::string temp =
-			std::to_string(mousePosition.x) +
-			", " +
-			std::to_string(mousePosition.y);
+		//std::string temp =
+		//	std::to_string(mousePosition.x) +
+		//	", " +
+		//	std::to_string(mousePosition.y);
 
-		Renderer::Get().Submit(
-			nullptr,
-			{ temp },
-			Vector2(20, 0)
-		);
+		//Renderer::Get().Submit(
+		//	nullptr,
+		//	{ temp },
+		//	mousePosition
+		//);
 	}
 
 	void Input::SavePreviousStates()

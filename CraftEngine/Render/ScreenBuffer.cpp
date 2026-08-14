@@ -3,8 +3,8 @@
 
 namespace Craft
 {
-	ScreenBuffer::ScreenBuffer(const Vector2& ScreenSize)
-		:size(ScreenSize)
+	ScreenBuffer::ScreenBuffer(const Vector2& worldSize, const Vector2& screenSize)
+		: worldSize(worldSize), screenSize(screenSize)
 	{
 		// 콘솔 버퍼 생성
 		buffer = CreateConsoleScreenBuffer(
@@ -22,15 +22,15 @@ namespace Craft
 		SMALL_RECT rect = {};
 		rect.Top = 0;
 		rect.Left = 0;
-		rect.Right = static_cast<short>(size.x - 1);
-		rect.Bottom = static_cast<short>(size.y - 1);
+		rect.Right = static_cast<short>(screenSize.x - 1);
+		rect.Bottom = static_cast<short>(screenSize.y - 1);
 		BOOL result = SetConsoleWindowInfo(buffer, TRUE, &rect);
 
 		// 결과 확인
 		assert(result == TRUE);
 
 		// 화면 버퍼 크기 설정
-		result = SetConsoleScreenBufferSize(buffer, size);
+		result = SetConsoleScreenBufferSize(buffer, screenSize);
 		assert(result == TRUE);
 
 		// 직접 만든 콘솔의 커서 끄기
@@ -62,7 +62,7 @@ namespace Craft
 		BOOL result = FillConsoleOutputCharacterA(
 			buffer,
 			' ',
-			size.x * size.y,
+			screenSize.x * screenSize.y,
 			Vector2::Zero,
 			&writtenCount
 		);
@@ -78,15 +78,15 @@ namespace Craft
 		SMALL_RECT rect = { 
 			0,								// Left 
 			0,								// Top
-			static_cast<short>(size.x - 1), // Right
-			static_cast<short>(size.y - 1)  // Bottom
+			static_cast<short>(screenSize.x - 1), // Right
+			static_cast<short>(screenSize.y - 1)  // Bottom
 		};
 
 		// 콘솔에 CHAR_INFO 타입으로 글자 쓰는 함수
 		BOOL result = WriteConsoleOutputA(
 			buffer,
 			charInfo,
-			size,
+			screenSize,
 			Vector2::Zero,
 			&rect
 		);

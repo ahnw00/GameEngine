@@ -56,16 +56,16 @@ void Enemy::Tick(float deltaTime)
 		targetPoint = target->GetCenterPosition();
 		forward = (targetPoint - GetCenterPosition()).normalized();
 
-		std::string temp = 
-		std::to_string(target->GetCenterPosition().x) + 
-		", " + 
-		std::to_string(target->GetCenterPosition().y);
-		
-		Renderer::Get().Submit(
-			nullptr,
-			{ temp },
-			Vector2(20, 1)
-		);
+		//std::string temp = 
+		//std::to_string(target->GetCenterPosition().x) + 
+		//", " + 
+		//std::to_string(target->GetCenterPosition().y);
+		//
+		//Renderer::Get().Submit(
+		//	nullptr,
+		//	{ temp },
+		//	Vector2(20, 1)
+		//);
 
 		timer.IsTimeOut();
 		FireInterval();

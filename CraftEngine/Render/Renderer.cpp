@@ -60,8 +60,8 @@ namespace Craft
 	// static 변수 초기화
 	Renderer* Renderer::instance = nullptr;
 
-	Renderer::Renderer(const Vector2& screenSize)
-		: screenSize(screenSize)
+	Renderer::Renderer(const Vector2& worldSize, const Vector2& screenSize)
+		: worldSize(worldSize), screenSize(screenSize)
 	{
 		assert(!instance && "instance should be null");
 		instance = this;
@@ -82,10 +82,10 @@ namespace Craft
 		frame->Clear(screenSize);
 
 		// 이중 버퍼 구현을 위한 콘솔 버퍼 생성 및 초기화
-		screenBufferArray[0] = std::make_unique<ScreenBuffer>(screenSize);
+		screenBufferArray[0] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
 		screenBufferArray[0]->Clear();
 
-		screenBufferArray[1] = std::make_unique<ScreenBuffer>(screenSize);
+		screenBufferArray[1] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
 		screenBufferArray[1]->Clear();
 
 		// 화면에 0번 콘솔 버퍼 활성화
@@ -153,17 +153,31 @@ namespace Craft
 
 	void Renderer::SetSight(const Vector2& position)
 	{
-		const int x = static_cast<int>(position.x);
-		const int y = static_cast<int>(position.y);
+		const int worldX = static_cast<int>(position.x);
+		const int worldY = static_cast<int>(position.y);
 
-		if (x < 0 || x >= screenSize.x ||
-			y < 0 || y >= screenSize.y)
+		if (worldX < 0 || worldX >= worldSize.x ||
+			worldY < 0 || worldY >= worldSize.y)
+		{
+			return;
+		}
+
+		// 월드 좌표 -> 화면 좌표
+		const int screenX =
+			worldX - static_cast<int>(renderStartPosition.x);
+
+		const int screenY =
+			worldY - static_cast<int>(renderStartPosition.y);
+
+		// 화면 밖이면 무시
+		if (screenX < 0 || screenX >= screenSize.x ||
+			screenY < 0 || screenY >= screenSize.y)
 		{
 			return;
 		}
 
 		const int index =
-			y * static_cast<int>(screenSize.x) + x;
+			screenY * static_cast<int>(screenSize.x) + screenX;
 
 		frame->sightArray[index] = true;
 	}
@@ -173,13 +187,17 @@ namespace Craft
 		Clear();
 	}
 
+	// 시야 안에 들어온 좌표들 처리
 	void Renderer::DrawSight()
 	{
 		if (mode != RenderMode::PLAY)
 			return;
 
-		const int width = static_cast<int>(screenSize.x);
-		const int height = static_cast<int>(screenSize.y);
+		const int width =
+			static_cast<int>(screenSize.x);
+
+		const int height =
+			static_cast<int>(screenSize.y);
 
 		for (int y = 0; y < height; ++y)
 		{
@@ -189,24 +207,24 @@ namespace Craft
 
 				if (frame->sightArray[index])
 				{
-					// 시야 안 -> 흰색 배경
-					frame->charInfoArray[index].Attributes |= BACKGROUND_RED;
-					frame->charInfoArray[index].Attributes |= BACKGROUND_GREEN;
-					frame->charInfoArray[index].Attributes |= BACKGROUND_BLUE;
+					// 시야 안
+					frame->charInfoArray[index].Attributes |=
+						BACKGROUND_RED |
+						BACKGROUND_GREEN |
+						BACKGROUND_BLUE;
 				}
 				else
 				{
-					// 시야 밖은 어둡게
-					WORD& attributes = frame->charInfoArray[index].Attributes;
+					// 시야 밖
+					WORD& attributes =
+						frame->charInfoArray[index].Attributes;
 
-					// 전경색 제거
 					attributes &= ~(FOREGROUND_RED |
 						FOREGROUND_GREEN |
 						FOREGROUND_BLUE |
 						FOREGROUND_INTENSITY);
 
-					// 어두운 회색
-					attributes |= FOREGROUND_INTENSITY; // 필요하면 제거
+					attributes |= FOREGROUND_INTENSITY;
 				}
 			}
 		}
@@ -214,19 +232,32 @@ namespace Craft
 
 	const std::vector<Actor*>& Renderer::GetActorsAt(const Vector2& position)
 	{
+		// static을 사용하는 이유는 다른 클래스에 보내주기 위해
 		static const std::vector<Actor*> empty;
 
-		const int x = static_cast<int>(position.x);
-		const int y = static_cast<int>(position.y);
+		const int worldX = static_cast<int>(position.x);
+		const int worldY = static_cast<int>(position.y);
 
-		if (x < 0 || x >= screenSize.x ||
-			y < 0 || y >= screenSize.y)
+		if (worldX < 0 || worldX >= worldSize.x ||
+			worldY < 0 || worldY >= worldSize.y)
+		{
+			return empty;
+		}
+
+		const int screenX =
+			worldX - static_cast<int>(renderStartPosition.x);
+
+		const int screenY =
+			worldY - static_cast<int>(renderStartPosition.y);
+
+		if (screenX < 0 || screenX >= screenSize.x ||
+			screenY < 0 || screenY >= screenSize.y)
 		{
 			return empty;
 		}
 
 		const int index =
-			y * static_cast<int>(screenSize.x) + x;
+			screenY * static_cast<int>(screenSize.x) + screenX;
 
 		return frame->actorArray[index];
 	}
@@ -267,20 +298,34 @@ namespace Craft
 
 				for (int localX = 0; localX < width; ++localX)
 				{
-					const int x = startX + localX;
-					const int y = startY + localY;
+					const int worldX = startX + localX;
+					const int worldY = startY + localY;
 
 					// 화면 밖이면 건너뛰기
-					if (x < 0 || x >= screenSize.x ||
-						y < 0 || y >= screenSize.y)
+					if (worldX < 0 || worldX >= worldSize.x ||
+						worldY < 0 || worldY >= worldSize.y)
 						continue;
-
-					const int index =
-						y * screenSize.x + x;
 
 					// 빈 칸이면 그리지 않음
 					if (row[localX] == ' ')
 						continue;
+
+					// 월드 좌표 -> 화면 좌표
+					const int screenX =
+						worldX - static_cast<int>(renderStartPosition.x);
+
+					const int screenY =
+						worldY - static_cast<int>(renderStartPosition.y);
+
+					// 화면 밖이면 렌더링하지 않음
+					if (screenX < 0 || screenX >= screenSize.x ||
+						screenY < 0 || screenY >= screenSize.y)
+					{
+						continue;
+					}
+
+					const int index =
+						screenY * static_cast<int>(screenSize.x) + screenX;
 
 					// 이 칸에 Actor가 존재한다는 정보 저장
 					if (command.actor)
@@ -325,6 +370,7 @@ namespace Craft
 
 	void Renderer::Present()
 	{
+		
 		GetCurrentBuffer()->Draw(frame->charInfoArray.get());
 
 		// 현재 순번의 콘솔 버퍼를 활성화

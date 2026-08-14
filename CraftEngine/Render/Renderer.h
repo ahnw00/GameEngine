@@ -16,12 +16,14 @@ namespace Craft
 	// 그리기 기능을 전담하는 전문 객체
 	class CRAFT_API Renderer
 	{
+	public:
 		enum class RenderMode
 		{
 			DEBUG,
 			PLAY
 		};
 
+	private:
 		// 프레임(이미지) 데이터 구조체
 		struct Frame
 		{
@@ -63,7 +65,7 @@ namespace Craft
 		};
 
 	public:
-		Renderer(const Vector2& screenSize);
+		Renderer(const Vector2& worldSize, const Vector2& screenSize);
 		~Renderer();
 
 		// 화면에 그릴 데이터를 제출(전달)하는 함수
@@ -88,9 +90,20 @@ namespace Craft
 
 		const std::vector<Actor*>& GetActorsAt(const Vector2& position);
 
+		inline const RenderMode GetRenderMode() const { return mode; }
+
+		inline const Vector2 GetScreenSize() const { return screenSize; }
+
+		inline void SetRenderStartPosition(const Vector2& position) { renderStartPosition = position; }
+
+		inline const Vector2 GetRenderStartPosition() const { return renderStartPosition; }
+
 	public:
 		void BeginFrame();
+
+		// 표시한 시야 렌더
 		void DrawSight();
+
 		// 전달 받은 렌더 명령을 활용해 화면을 그리는 함수
 		void DrawRenderQueue();
 
@@ -115,16 +128,23 @@ namespace Craft
 		// 화면 크기
 		Vector2 screenSize;
 
+		// 월드 크기
+		Vector2 worldSize;
+
 		// 글자/그리기 순서 2차원 배열을 관리하는 프레임 객체
 		std::unique_ptr<Frame> frame;
 
 		// 이중 버퍼링 구현을 위한 화면 버퍼 2개
 		std::unique_ptr<ScreenBuffer> screenBufferArray[2];
 
+		std::unique_ptr<CHAR_INFO[]> screenCharInfoArray;
+
 		// 버퍼 인덱스
 		int currentBufferIndex = 0;
 
 		// 렌더 모드
 		RenderMode mode = RenderMode::PLAY;
+
+		Vector2 renderStartPosition = Vector2::Zero;
 	};
 }

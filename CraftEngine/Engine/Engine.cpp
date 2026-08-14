@@ -27,6 +27,7 @@ namespace Craft
 
 		// 렌더러 객체 생성
 		renderer = std::make_unique<Renderer>(
+			Vector2(200, 100),
 			Vector2(setting.width, setting.height)
 		);
 

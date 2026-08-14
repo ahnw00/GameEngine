@@ -26,13 +26,25 @@ void Bullet::Tick(float deltaTime)
 
 	Vector2 newPosition = GetPosition() + (direction * moveSpeed * deltaTime);
 
-	int xLimit = Engine::Get().GetWidth();
-	int yLimit = Engine::Get().GetHeight();
+	int xLimit = Engine::Get().GetWidth() - 1;
+	int yLimit = Engine::Get().GetHeight() - 1;
 
 	if (newPosition.x < 0.f || newPosition.x >= xLimit)
 		Destroy();
 	if (newPosition.y < 0.f || newPosition.y >= yLimit)
 		Destroy();
+
+	// 현재 체크하는 위치에 올라와있는 액터들 가져와
+	const auto& actors = Renderer::Get().GetActorsAt(newPosition);
+
+	bool checked = false;
+	for (const auto& actor : actors)
+	{
+		if (actor->IsTypeOf<Wall>())
+		{
+			DestroyAndEffect();
+		}
+	}
 
 	SetPosition(newPosition);
 }
@@ -49,17 +61,22 @@ void Bullet::OnCollision(const std::shared_ptr<Actor>& other)
 		return;
 
 	// 충돌시 총알 제거
-	Destroy();
-	// 파괴 이펙트 생성
-	if (GetOwner())
-	{
-		GetOwner()->SpawnActor<DestroyEffect>(GetPosition());
-	}
+	DestroyAndEffect();
 
 	// 캐릭터(적/플레이어)와 충돌했을 경우
 	if (other->IsTypeOf<Character>())
 	{
 		std::shared_ptr<Character> damagedCharacter = Cast<Character>(other);
 		damagedCharacter->ApplyDamage(damage);
+	}
+}
+
+void Bullet::DestroyAndEffect()
+{
+	Destroy();
+	// 파괴 이펙트 생성
+	if (GetOwner())
+	{
+		GetOwner()->SpawnActor<DestroyEffect>(GetPosition());
 	}
 }

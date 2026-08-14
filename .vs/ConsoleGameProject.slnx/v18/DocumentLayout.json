@@ -3,64 +3,108 @@
   "WorkspaceRootPath": "C:\\UnrealWorkspace\\GameEngine\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Timer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Timer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Engine\\Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Engine\\Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\GameLevel.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Sight.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Sight.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\Renderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Input\\Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Input\\Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Bullet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Bullet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\GameLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Bullet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Bullet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\ScreenBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\ScreenBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Sight.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Sight.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\Renderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Engine\\Engine.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Engine\\Engine.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Wall.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Wall.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\ScreenBuffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\ScreenBuffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Input\\Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Input\\Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Actor\\Actor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Actor\\Actor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Actor\\Actor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Actor\\Actor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Wall.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Wall.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Timer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Timer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,11 +114,193 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 15,
+              "Title": "Wall.cpp",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Wall.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Wall.cpp",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Wall.cpp",
+              "RelativeToolTip": "BulletEcho\\Actor\\Wall.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-14T06:19:46.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Wall.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Wall.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Wall.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Wall.h",
+              "RelativeToolTip": "BulletEcho\\Actor\\Wall.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-14T06:19:18.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Engine.cpp",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Engine\\Engine.cpp",
+              "RelativeDocumentMoniker": "CraftEngine\\Engine\\Engine.cpp",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Engine\\Engine.cpp",
+              "RelativeToolTip": "CraftEngine\\Engine\\Engine.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-14T05:12:12.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Engine.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Engine\\Engine.h",
+              "RelativeDocumentMoniker": "CraftEngine\\Engine\\Engine.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Engine\\Engine.h",
+              "RelativeToolTip": "CraftEngine\\Engine\\Engine.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-14T05:13:10.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ScreenBuffer.cpp",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\ScreenBuffer.cpp",
+              "RelativeDocumentMoniker": "CraftEngine\\Render\\ScreenBuffer.cpp",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\ScreenBuffer.cpp",
+              "RelativeToolTip": "CraftEngine\\Render\\ScreenBuffer.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-14T05:07:14.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ScreenBuffer.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\ScreenBuffer.h",
+              "RelativeDocumentMoniker": "CraftEngine\\Render\\ScreenBuffer.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\ScreenBuffer.h",
+              "RelativeToolTip": "CraftEngine\\Render\\ScreenBuffer.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-14T05:07:15.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Renderer.cpp",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
+              "RelativeDocumentMoniker": "CraftEngine\\Render\\Renderer.cpp",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
+              "RelativeToolTip": "CraftEngine\\Render\\Renderer.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-13T06:35:52.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Renderer.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.h",
+              "RelativeDocumentMoniker": "CraftEngine\\Render\\Renderer.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.h",
+              "RelativeToolTip": "CraftEngine\\Render\\Renderer.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFwAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-13T06:35:56.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GameLevel.cpp",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\GameLevel.cpp",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\GameLevel.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-13T06:11:53.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GameLevel.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\GameLevel.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.h",
+              "RelativeToolTip": "BulletEcho\\Level\\GameLevel.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-14T04:45:52.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Actor.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Actor\\Actor.h",
+              "RelativeDocumentMoniker": "CraftEngine\\Actor\\Actor.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Actor\\Actor.h",
+              "RelativeToolTip": "CraftEngine\\Actor\\Actor.h",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAmwEAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-14T03:02:45.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Camera.cpp",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Camera.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Util\\Camera.cpp",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Camera.cpp",
+              "RelativeToolTip": "BulletEcho\\Util\\Camera.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-14T02:42:11.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Camera.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Camera.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Util\\Camera.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Camera.h",
+              "RelativeToolTip": "BulletEcho\\Util\\Camera.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-14T02:36:45.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Actor.cpp",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Actor\\Actor.cpp",
+              "RelativeDocumentMoniker": "CraftEngine\\Actor\\Actor.cpp",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Actor\\Actor.cpp",
+              "RelativeToolTip": "CraftEngine\\Actor\\Actor.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-14T02:10:38.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
               "Title": "Timer.cpp",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Timer.cpp",
               "RelativeDocumentMoniker": "BulletEcho\\Util\\Timer.cpp",
@@ -82,190 +308,148 @@
               "RelativeToolTip": "BulletEcho\\Util\\Timer.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-13T08:57:05.722Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-13T08:57:05.722Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 6,
               "Title": "Bullet.cpp",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Bullet.cpp",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Bullet.cpp",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Bullet.cpp",
               "RelativeToolTip": "BulletEcho\\Actor\\Bullet.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-08-13T08:45:55.691Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 24,
+              "Title": "Enemy.h",
+              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Enemy.h",
+              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.h",
+              "RelativeToolTip": "BulletEcho\\Actor\\Enemy.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-12T23:54:40.113Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Bullet.h",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Bullet.h",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Bullet.h",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Bullet.h",
               "RelativeToolTip": "BulletEcho\\Actor\\Bullet.h",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB0AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-08-13T08:45:55.027Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 17,
               "Title": "Input.cpp",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Input\\Input.cpp",
               "RelativeDocumentMoniker": "CraftEngine\\Input\\Input.cpp",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Input\\Input.cpp",
               "RelativeToolTip": "CraftEngine\\Input\\Input.cpp",
-              "ViewState": "AgIAAFIAAAAAAAAAAAAhwGUAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAACwAAAAAAAAAAAAmwGIAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-08-13T07:47:28.237Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Renderer.cpp",
-              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
-              "RelativeDocumentMoniker": "CraftEngine\\Render\\Renderer.cpp",
-              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
-              "RelativeToolTip": "CraftEngine\\Render\\Renderer.cpp",
-              "ViewState": "AgIAAMQAAAAAAAAAAAAAANYAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-13T06:35:52.996Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Renderer.h",
-              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.h",
-              "RelativeDocumentMoniker": "CraftEngine\\Render\\Renderer.h",
-              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\CraftEngine\\Render\\Renderer.h",
-              "RelativeToolTip": "CraftEngine\\Render\\Renderer.h",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAAFgAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-08-13T06:35:56.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "GameLevel.cpp",
-              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Level\\GameLevel.cpp",
-              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
-              "RelativeToolTip": "BulletEcho\\Level\\GameLevel.cpp",
-              "ViewState": "AgIAADgAAAAAAAAAAAAhwBsAAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-13T06:11:53.365Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "Character.cpp",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.cpp",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Character.cpp",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.cpp",
               "RelativeToolTip": "BulletEcho\\Actor\\Character.cpp",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAAEoAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-08-13T06:09:26.599Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "Character.h",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.h",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Character.h",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Character.h",
               "RelativeToolTip": "BulletEcho\\Actor\\Character.h",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAC0AAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-08-13T06:09:25.975Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 13,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.cpp",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Player.cpp",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.cpp",
               "RelativeToolTip": "BulletEcho\\Actor\\Player.cpp",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAAB0AAAATAAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAmwF4AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-08-13T06:08:53.79Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "Player.h",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.h",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Player.h",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Player.h",
               "RelativeToolTip": "BulletEcho\\Actor\\Player.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-08-13T06:08:54.967Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "Sight.cpp",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Sight.cpp",
               "RelativeDocumentMoniker": "BulletEcho\\Util\\Sight.cpp",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Sight.cpp",
               "RelativeToolTip": "BulletEcho\\Util\\Sight.cpp",
-              "ViewState": "AgIAAO0AAAAAAAAAAAAAAPQAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOQAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-08-13T06:07:26.735Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 9,
               "Title": "Sight.h",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Sight.h",
               "RelativeDocumentMoniker": "BulletEcho\\Util\\Sight.h",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Util\\Sight.h",
               "RelativeToolTip": "BulletEcho\\Util\\Sight.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-08-13T06:11:16.432Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 23,
               "Title": "Enemy.cpp",
               "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Enemy.cpp",
               "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp",
               "RelativeToolTip": "BulletEcho\\Actor\\Enemy.cpp",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAEYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-13T06:05:39.279Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Enemy.h",
-              "DocumentMoniker": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.h",
-              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Enemy.h",
-              "ToolTip": "C:\\UnrealWorkspace\\GameEngine\\BulletEcho\\Actor\\Enemy.h",
-              "RelativeToolTip": "BulletEcho\\Actor\\Enemy.h",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAADcAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-08-12T23:54:40.113Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-13T06:05:39.279Z"
             }
           ]
         }

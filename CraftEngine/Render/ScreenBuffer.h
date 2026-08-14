@@ -10,7 +10,7 @@ namespace Craft
 	class ScreenBuffer
 	{
 	public:
-		ScreenBuffer(const Vector2& ScreenSize);
+		ScreenBuffer(const Vector2& worldSize, const Vector2& screenSize);
 		~ScreenBuffer();
 
 		// 콘솔 초기화 - 화면 지우기
@@ -27,6 +27,9 @@ namespace Craft
 		HANDLE buffer = nullptr;
 
 		// 화면 크기
-		Vector2 size;
+		Vector2 screenSize;
+
+		// 월드 크기
+		Vector2 worldSize;
 	};
 }

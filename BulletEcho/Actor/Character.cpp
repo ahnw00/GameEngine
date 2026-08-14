@@ -39,36 +39,39 @@ void Character::Move(float xDir, float yDir, float deltaTime)
 {
 	// x 위치 업데이트
 	// 이동 처리 -> 이동 방향과 빠르기를 적용해서 새로운 위치를 구하는 것
-	xPosition += xDir * moveSpeed * deltaTime;
-	yPosition += yDir * moveSpeed * deltaTime;
+	float newX = xPosition + xDir * moveSpeed * deltaTime;
+	float newY = yPosition + yDir * moveSpeed * deltaTime;
+
+	//xPosition += xDir * moveSpeed * deltaTime;
+	//yPosition += yDir * moveSpeed * deltaTime;
 
 	// 화면 왼쪽 벗어나지 않도록 처리
-	if (xPosition < 0)
+	if (newX < 0)
 	{
-		xPosition = 0.f;
+		newX = 0.f;
 	}
 	// 화면 오른쪽 벗어나지 않도록 처리
-	if (xPosition + width >= Engine::Get().GetWidth())
+	if (newX + width >= Engine::Get().GetWidth())
 	{
-		xPosition = static_cast<float>(Engine::Get().GetWidth() - width);
+		newX = static_cast<float>(Engine::Get().GetWidth() - width);
 	}
 
 	// 화면 위쪽 벗어나지 않도록 처리
-	if (yPosition < 0)
+	if (newY < 0)
 	{
-		yPosition = 0.f;
+		newY = 0.f;
 	}
 	// 화면 오른쪽 벗어나지 않도록 처리
-	if (yPosition >= Engine::Get().GetHeight())
+	if (newY >= Engine::Get().GetHeight())
 	{
-		yPosition = static_cast<float>(Engine::Get().GetHeight());
+		newY = static_cast<float>(Engine::Get().GetHeight());
 	}
 
 	// 위치 업데이트
 	Vector2 newPosition = GetPosition();
 	// float 값을 int로 형변환할 때 소숫점 값은 버림 처리됨!
-	newPosition.x = static_cast<int>(xPosition);
-	newPosition.y = static_cast<int>(yPosition);
+	newPosition.x = static_cast<int>(newX);
+	newPosition.y = static_cast<int>(newY);
 
 	// 이동 처리를 위해 GameLevel 객체 얻어오기
 	// 다운 캐스팅 - 형변환 실패하면 null 반환
@@ -76,6 +79,8 @@ void Character::Move(float xDir, float yDir, float deltaTime)
 	if (level && level->CanMove(newPosition))
 	{
 		SetPosition(newPosition);
+		xPosition = newX;
+		yPosition = newY;
 	}
 }
 

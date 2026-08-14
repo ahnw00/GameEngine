@@ -2,6 +2,7 @@
 
 using namespace Craft;
 
-Wall::Wall()
+Wall::Wall(Vector2 position)
+	: Actor({"#"}, position, Color::Green)
 {
 }

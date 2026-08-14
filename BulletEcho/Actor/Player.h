@@ -1,12 +1,16 @@
 ﻿#pragma once
 
-#include <Actor/Actor.h>
+//#include <Actor/Actor.h>
 #include <Actor/Character.h>
 #include <Util/Sight.h>
+
+#include <memory>
 
 //" * "
 //"***"
 //" * "
+
+class Camera;
 
 class Player : public Character
 {
@@ -23,8 +27,12 @@ class Player : public Character
 
 public:
 	Player(Craft::Vector2 position);
+	~Player();
 
 private:
+	// 이벤트 함수 오버라이드
+	virtual void BeginPlay() override;
+
 	// 이벤트 함수 오버라이드
 	virtual void Tick(float deltaTime) override;
 
@@ -35,40 +43,41 @@ private:
 	// 발사 모드 변수
 	FireMode fireMode = FireMode::None;
 
+	std::unique_ptr<Camera> camera;
+
 	// 8방향 스프라이트
 	// 순서: N, NE, E, SE, S, SW, W, NW
 	std::vector<std::string> sprites[8] = {
-		{" * "
-		," * "
+		{" | "
+		," @ "
 		,"   "},
-		
-		{"  *"
-		," * "
+
+		{"  /"
+		," @ "
 		,"   "},
 
 		{"   "
-		," **"
-		,"   "},
-	
-		{"   "
-		," * "
-		,"  *"},
-
-		{"   "
-		," * "
-		," * "},
-
-		{"   "
-		," * "
-		,"*  "},
-
-		{"   "
-		,"** "
+		," @-"
 		,"   "},
 
-		{"*  "
-		," * "
+		{"   "
+		," @ "
+		,"  \\"},
+
+		{"   "
+		," @ "
+		," | "},
+
+		{"   "
+		," @ "
+		,"/  "},
+
+		{"   "
+		,"-@ "
 		,"   "},
 
+		{"\\  "
+		," @ "
+		,"   "}
 	};
 };

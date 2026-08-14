@@ -2,9 +2,9 @@
 
 #include <Actor/Player.h>
 #include <Actor/Enemy.h>
+#include <Actor/Wall.h>
 #include <Engine/Engine.h>
 #include <Render/Renderer.h>
-#include <Actor/Character.h>
 
 #include <cmath>
 
@@ -15,100 +15,33 @@ Sight::Sight(Character* owner)
     : owner(owner)
 {
     ownerType = owner->GetCharacterType();
+
+    // 화면 범위 제한
+    width = Engine::Get().GetWidth();
+    height = Engine::Get().GetHeight();
 }
 
 void Sight::Tick(float deltaTime)
 {
-    forward = owner->GetForward();
-
-    Player* detectedPlayer = DetectPlayer();
-
-    if (ownerType == Character::Type::Enemy)
-    {
-        SetTarget(detectedPlayer);
-    }
-}
-
-void Sight::CalculatePlayerSight()
-{
-    // 시작 지점부터 반경 radius이고 중심각 degree인 부채꼴 모양으로
-    // 좌표들을 검사해서 액터가 있는지 없는지 판단
-    
-    if (!owner)
-        return;
-
-    Vector2 startPoint = owner->GetCenterPosition();
+    startPoint = owner->GetCenterPosition();
 
     // 반지름 안에 들어올 수 있는 정사각형 범위만 검사
-    int minX = static_cast<int>(startPoint.x - radius);
-    int maxX = static_cast<int>(startPoint.x + radius);
-    int minY = static_cast<int>(startPoint.y - radius);
-    int maxY = static_cast<int>(startPoint.y + radius);
-
-    // 화면 범위 제한
-    int width = Engine::Get().GetWidth();
-    int height = Engine::Get().GetHeight();
+    minX = static_cast<int>(startPoint.x - radius);
+    maxX = static_cast<int>(startPoint.x + radius);
+    minY = static_cast<int>(startPoint.y - radius);
+    maxY = static_cast<int>(startPoint.y + radius);
 
     minX = max(0, minX);
     maxX = min(width - 1, maxX);
     minY = max(0, minY);
     maxY = min(height - 1, maxY);
 
-    float cosHalfAngle = std::cosf(
-        (degree * 0.5f) * 3.14159265f / 180.f
-    );
+    forward = owner->GetForward();
 
-    // 현재 프레임에 화면에 그려지고 있는 구조체 Frame 가져오기
-    const auto& frame = Renderer::Get().GetFrame();
-    
-    if (!frame)
-        return;
-
-    for (int y = minY; y <= maxY; ++y)
+    if (ownerType == Character::Type::Enemy)
     {
-        for (int x = minX; x <= maxX; ++x)
-        {
-            Vector2 point(
-                static_cast<float>(x),
-                static_cast<float>(y)
-            );
-
-            // 플레이어면 일단 렌더
-            const auto& actors = Renderer::Get().GetActorsAt(point);
-
-            bool isPlayer = false;
-            for (const auto& actor : actors)
-            {
-                if (actor->IsTypeOf<Player>())
-                {
-                    Renderer::Get().SetSight(point);
-                    isPlayer = true;
-                    break;
-                }
-            }
-            if (isPlayer) continue;
-
-            Vector2 toPoint = point - startPoint;
-            float distance = toPoint.size();
-
-            // 원 밖
-            if (distance > radius)
-                continue;
-
-            // 시작점
-            if (distance <= 0.f)
-                continue;
-
-            toPoint = toPoint.normalized();
-
-            // 시야각 검사
-            float dot = forward.dot(toPoint);
-
-            if (dot < cosHalfAngle)
-                continue;
-
-            Renderer::Get().SetSight(point);
-        }
+        Player* detectedPlayer = DetectPlayer();
+        SetTarget(detectedPlayer);
     }
 }
 
@@ -122,32 +55,11 @@ Player* Sight::DetectPlayer()
 
     Vector2 startPoint = owner->GetCenterPosition();
 
-    // 반지름 안에 들어올 수 있는 정사각형 범위만 검사
-    int minX = static_cast<int>(startPoint.x - radius);
-    int maxX = static_cast<int>(startPoint.x + radius);
-    int minY = static_cast<int>(startPoint.y - radius);
-    int maxY = static_cast<int>(startPoint.y + radius);
-
-    // 화면 범위 제한
-    int width = Engine::Get().GetWidth();
-    int height = Engine::Get().GetHeight();
-
-    minX = max(0, minX);
-    maxX = min(width - 1, maxX);
-    minY = max(0, minY);
-    maxY = min(height - 1, maxY);
-
-    float cosHalfAngle = std::cosf(
-        (degree * 0.5f) * 3.14159265f / 180.f
-    );
-
     // 현재 프레임에 화면에 그려지고 있는 구조체 Frame 가져오기
     const auto& frame = Renderer::Get().GetFrame();
 
     if (!frame)
         return nullptr;
-
-    Player* player = nullptr;
 
     for (int y = minY; y <= maxY; ++y)
     {
@@ -158,26 +70,8 @@ Player* Sight::DetectPlayer()
                 static_cast<float>(y)
             );
 
-            Vector2 toPoint = point - startPoint;
-            float distance = toPoint.size();
-
-            // 원 밖
-            if (distance > radius)
+            if (!CheckRange(point, startPoint))
                 continue;
-
-            // 시작점
-            if (distance <= 0.f)
-                continue;
-
-            toPoint = toPoint.normalized();
-
-            // 시야각 검사
-            float dot = forward.dot(toPoint);
-
-            if (dot < cosHalfAngle)
-                continue;
-
-            Renderer::Get().SetSight(point);
 
             // 현재 포인트 위에 올라와있는 액터들의 리스트 가져오기
             const auto& actors = Renderer::Get().GetActorsAt(point);
@@ -186,13 +80,13 @@ Player* Sight::DetectPlayer()
             {
                 if (actor->IsTypeOf<Player>())
                 {
-                    player = static_cast<Player*>(actor);
+                    return static_cast<Player*>(actor);
                 }
             }
         }
     }
 
-    return player;
+    return nullptr;
 }
 
 void Sight::CalculateSight()
@@ -205,25 +99,6 @@ void Sight::CalculateSight()
 
     Vector2 startPoint = owner->GetCenterPosition();
 
-    // 반지름 안에 들어올 수 있는 정사각형 범위만 검사
-    int minX = static_cast<int>(startPoint.x - radius);
-    int maxX = static_cast<int>(startPoint.x + radius);
-    int minY = static_cast<int>(startPoint.y - radius);
-    int maxY = static_cast<int>(startPoint.y + radius);
-
-    // 화면 범위 제한
-    int width = Engine::Get().GetWidth();
-    int height = Engine::Get().GetHeight();
-
-    minX = max(0, minX);
-    maxX = min(width - 1, maxX);
-    minY = max(0, minY);
-    maxY = min(height - 1, maxY);
-
-    float cosHalfAngle = std::cosf(
-        (degree * 0.5f) * 3.14159265f / 180.f
-    );
-
     // 현재 프레임에 화면에 그려지고 있는 구조체 Frame 가져오기
     const auto& frame = Renderer::Get().GetFrame();
 
@@ -239,38 +114,23 @@ void Sight::CalculateSight()
                 static_cast<float>(y)
             );
 
-            // 본인이면 일단 렌더
+            // 현재 체크하는 위치에 올라와있는 액터들 가져와
             const auto& actors = Renderer::Get().GetActorsAt(point);
 
-            bool isMe = false;
+            bool checked = false;
             for (const auto& actor : actors)
             {
-                if (actor->IsTypeOf<Enemy>())
+                if (actor->IsTypeOf<Player>())
                 {
                     Renderer::Get().SetSight(point);
-                    isMe = true;
-                    break;
+                    checked = true;
                 }
             }
-            if (isMe) continue;
+            if (checked) continue;
 
-            Vector2 toPoint = point - startPoint;
-            float distance = toPoint.size();
-
-            // 원 밖
-            if (distance > radius)
+            if (!CheckRange(point, startPoint))
                 continue;
-
-            // 시작점
-            if (distance <= 0.f)
-                continue;
-
-            toPoint = toPoint.normalized();
-
-            // 시야각 검사
-            float dot = forward.dot(toPoint);
-
-            if (dot < cosHalfAngle)
+            if (IsBehindWall(point, startPoint))
                 continue;
 
             Renderer::Get().SetSight(point);
@@ -278,102 +138,122 @@ void Sight::CalculateSight()
     }
 }
 
-//Player* Sight::CalculateSight()
-//{
-//    if (!owner)
-//        return nullptr;
-//
-//    Vector2 startPoint = owner->GetCenterPosition();
-//
-//    int minX = static_cast<int>(startPoint.x - radius);
-//    int maxX = static_cast<int>(startPoint.x + radius);
-//    int minY = static_cast<int>(startPoint.y - radius);
-//    int maxY = static_cast<int>(startPoint.y + radius);
-//
-//    int width = Engine::Get().GetWidth();
-//    int height = Engine::Get().GetHeight();
-//
-//    minX = max(0, minX);
-//    maxX = min(width - 1, maxX);
-//    minY = max(0, minY);
-//    maxY = min(height - 1, maxY);
-//
-//    float cosHalfAngle = std::cosf(
-//        (degree * 0.5f) * 3.14159265f / 180.f
-//    );
-//
-//    const auto& frame = Renderer::Get().GetFrame();
-//
-//    if (!frame)
-//        return nullptr;
-//
-//    Player* player = nullptr;
-//
-//    for (int y = minY; y <= maxY; ++y)
-//    {
-//        for (int x = minX; x <= maxX; ++x)
-//        {
-//            Vector2 point(
-//                static_cast<float>(x),
-//                static_cast<float>(y)
-//            );
-//
-//            // 현재 좌표의 액터
-//            const auto& actors = Renderer::Get().GetActorsAt(point);
-//
-//            
-//
-//            for (const auto& actor : actors)
-//            {
-//                if (actor->IsTypeOf<Player>())
-//                {
-//                    player = static_cast<Player*>(actor);
-//                    break;
-//                }
-//            }
-//
-//            // Player가 자기 자신의 시야를 계산하는 경우
-//            if (ownerType == Character::Type::Player && player)
-//            {
-//                Renderer::Get().SetSight(point);
-//                continue;
-//            }
-//
-//            // 거리 검사
-//            Vector2 toPoint = point - startPoint;
-//            float distance = toPoint.size();
-//
-//            if (distance > radius)
-//                continue;
-//
-//            if (distance <= 0.f)
-//                continue;
-//
-//            // 시야각 검사
-//            toPoint = toPoint.normalized();
-//
-//            float dot = forward.dot(toPoint);
-//
-//            if (dot < cosHalfAngle)
-//                continue;
-//
-//            // Enemy가 Player를 탐지하는 경우
-//            //if (ownerType == Character::Type::Enemy)
-//            //{
-//            //    if (player)
-//            //        return player;
-//            //}
-//
-//            // Player의 시야 표시
-//            if (ownerType == Character::Type::Player)
-//            {
-//            }
-//            Renderer::Get().SetSight(point);
-//        }
-//    }
-//
-//    return player;
-//}
+bool Sight::CheckRange(Vector2 point, Vector2 startPoint)
+{
+    Vector2 toPoint = point - startPoint;
+    float distance = toPoint.size();
+
+    // 원 밖
+    if (distance > radius)
+        return false;
+
+    // 시작점
+    if (distance <= 0.f)
+        return false;
+
+    toPoint = toPoint.normalized();
+
+    // 시야각 검사
+    float dot = forward.dot(toPoint);
+
+    float cosHalfAngle = std::cosf(
+        (degree * 0.5f) * 3.14159265f / 180.f
+    );
+
+    if (dot < cosHalfAngle)
+        return false;
+
+    return true;
+}
+
+bool Sight::IsBehindWall(Craft::Vector2 point, Craft::Vector2 startPoint)
+{
+    //Vector2 direction = point - startPoint;
+    //float distance = direction.size();
+
+    //if (distance <= 0.f)
+    //    return false;
+
+    //direction = direction.normalized();
+
+    //// 1칸 단위로 시작점부터 point까지 검사
+    //int steps = static_cast<int>(distance);
+
+    //for (int i = 0; i <= steps; ++i)
+    //{
+    //    Vector2 checkPoint = startPoint + direction * static_cast<float>(i);
+
+    //    const auto& actors = Renderer::Get().GetActorsAt(checkPoint);
+
+    //    for (const auto& actor : actors)
+    //    {
+    //        if (actor->IsTypeOf<Wall>())
+    //        {
+    //            return true;
+    //        }
+    //    }
+    //}
+
+    //return false;
+
+    // 시작점과 목표점을 정수 타일 좌표로 변환
+    int x0 = static_cast<int>(std::round(startPoint.x));
+    int y0 = static_cast<int>(std::round(startPoint.y));
+
+    int x1 = static_cast<int>(std::round(point.x));
+    int y1 = static_cast<int>(std::round(point.y));
+
+    int dx = std::abs(x1 - x0);
+    int dy = std::abs(y1 - y0);
+
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+
+    int error = dx - dy;
+
+    while (true)
+    {
+        // 시작점은 검사하지 않음
+        if (!(x0 == static_cast<int>(std::round(startPoint.x)) &&
+            y0 == static_cast<int>(std::round(startPoint.y))))
+        {
+            Vector2 checkPoint(
+                static_cast<float>(x0),
+                static_cast<float>(y0)
+            );
+
+            const auto& actors = Renderer::Get().GetActorsAt(checkPoint);
+
+            for (const auto& actor : actors)
+            {
+                if (actor->IsTypeOf<Wall>())
+                {
+                    return true;
+                }
+            }
+        }
+
+        // 목표 지점까지 도착
+        if (x0 == x1 && y0 == y1)
+            break;
+
+        int error2 = error * 2;
+
+        if (error2 > -dy)
+        {
+            error -= dy;
+            x0 += sx;
+        }
+
+        if (error2 < dx)
+        {
+            error += dx;
+            y0 += sy;
+        }
+    }
+
+    return false;
+}
 
 void Sight::SetTarget(Player* detectedPlayer)
 {

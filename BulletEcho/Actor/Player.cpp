@@ -9,6 +9,7 @@
 //#include <Actor/EnemyBullet.h>
 //#include <Actor/DestroyEffect.h>
 #include <Render/Renderer.h>
+#include <Util/Camera.h>
 
 #include <cmath>
 
@@ -30,6 +31,8 @@ Player::Player(
 	sight->SetRadius(20.f);
 	sight->SetDegree(30.f);
 
+	camera = std::make_unique<Camera>(Renderer::Get().GetScreenSize(), this);
+
 	// 생성 위치 설정
 	int x = (Engine::Get().GetWidth() / 2) - (width / 2);
 	int y = (Engine::Get().GetHeight() / 2) - (height / 2);
@@ -48,10 +51,21 @@ Player::Player(
 	timer.SetTargetTime(fireInterval);
 }
 
+Player::~Player() = default;
+
+void Player::BeginPlay()
+{
+	//camera = std::make_unique<Camera>(Renderer::Get().)
+}
+
 void Player::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 	sight->Tick(deltaTime);
+
+	camera->FollowPlayer();
+
+	
 
 	// ESC 키 종료
 	if (Input::Get().GetKeyDown(VK_ESCAPE))
@@ -75,6 +89,17 @@ void Player::Tick(float deltaTime)
 	// 바라보는 방향 구하기
 	Vector2 mousePos = Input::Get().GetMousePosition();
 	forward = (mousePos - GetCenterPosition()).normalized();
+
+	std::string temp =
+		std::to_string(mousePos.x) +
+		", " +
+		std::to_string(mousePos.y);
+
+	Renderer::Get().Submit(
+		nullptr,
+		{ temp },
+		Vector2(20, 0)
+	);
 
 	// 바라보는 방향에 따라 이미지 바꿔주기
 	Actor::Direction dir = GetForwardDirection();
