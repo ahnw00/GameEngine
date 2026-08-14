@@ -5,6 +5,7 @@
 #include <Level/Level.h>
 #include <Actor/Bullet.h>
 #include <Level/GameLevel.h>
+#include <Actor/DestroyEffect.h>
 
 #include <cmath>
 
@@ -35,8 +36,11 @@ void Character::OnCollision(const std::shared_ptr<Actor>& other)
 
 }
 
-void Character::Move(float xDir, float yDir, float deltaTime)
+bool Character::Move(float xDir, float yDir, float deltaTime)
 {
+	if (xDir == 0.f && yDir == 0.f)
+		return false;
+
 	// x 위치 업데이트
 	// 이동 처리 -> 이동 방향과 빠르기를 적용해서 새로운 위치를 구하는 것
 	float newX = xPosition + xDir * moveSpeed * deltaTime;
@@ -78,14 +82,22 @@ void Character::Move(float xDir, float yDir, float deltaTime)
 	std::shared_ptr<GameLevel> level = Cast<GameLevel>(GetOwner());
 	if (level && level->CanMove(newPosition))
 	{
+		//Vector2 prevPosition = Vector2(xPosition, yPosition);
+
 		SetPosition(newPosition);
 		xPosition = newX;
 		yPosition = newY;
+
+		return true;
 	}
+
+	return false;
 }
 
 void Character::Fire()
 {
+	Engine::Get().PlayerOneShot("shot.wav");
+
 	Vector2 bulletInitPosition = Vector2(
 		GetPosition().x + (width / 2),
 		GetPosition().y + (height / 2)
@@ -154,7 +166,23 @@ void Character::ApplyDamage(float damage)
 
 void Character::Die()
 {
-	// Todo: 죽는 모션 재생
+	Engine::Get().PlayerOneShot("falling.wav");
+
+	std::vector<DestroyEffect::EffectFrame> sequence =
+	{
+		{ {"   ", " % ", "   "}, 0.7f, Color::Red },
+		{ {" % ", "%%%", " % "}, 0.7f, Color::Red },
+		{ {" % ", "% %", " % "}, 1.f, Color::Red }
+	};
+
+	// 파괴 이펙트 생성
+	if (GetOwner())
+	{
+		GetOwner()->SpawnActor<DestroyEffect>(
+			GetPosition(),
+			sequence
+		);
+	}
 
 	Destroy();
 }

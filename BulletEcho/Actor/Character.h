@@ -34,7 +34,7 @@ protected:
 	virtual void OnCollision(const std::shared_ptr<Actor>& other) override;
 
 	// 이동 처리 함수(내부에서 사용)
-	virtual void Move(float xDir, float yDir, float deltaTime);
+	virtual bool Move(float xDir, float yDir, float deltaTime);
 
 	// 탄약 발사 함수
 	virtual void Fire();

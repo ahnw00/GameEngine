@@ -45,6 +45,9 @@ private:
 
 	std::unique_ptr<Camera> camera;
 
+	float footstepTimer = 0.35f;
+	float footstepInterval = 0.4f;
+
 	// 8방향 스프라이트
 	// 순서: N, NE, E, SE, S, SW, W, NW
 	std::vector<std::string> sprites[8] = {

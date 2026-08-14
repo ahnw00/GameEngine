@@ -3,6 +3,7 @@
 #include <Input/Input.h>
 #include <Render/Renderer.h>
 #include <Physics/CollisionSystem.h>
+#include <SoundSystem/Sound.h>
 
 #include <iostream>
 #include <Windows.h>
@@ -33,6 +34,9 @@ namespace Craft
 
 		// 충돌 시스템 객체 생성
 		collisionSystem = std::make_unique<CollisionSystem>();
+
+		// 사운드 시스템 객체 생성
+		sound = std::make_unique<Sound>();
 	}
 
 	Engine::~Engine()
@@ -146,6 +150,33 @@ namespace Craft
 	{
 		// 엔진 종료 플래그 설정
 		isQuit = true;
+	}
+
+	void Engine::PlayerOneShot(const std::string& filename)
+	{
+		if (!sound)
+			return;
+
+		// 사운드 시스템 함수 호출
+		sound->PlayOneShot(std::string("../Assets/Sound/") + filename);
+	}
+
+	void Engine::PlayerBackgroundMusic(const std::string& filename)
+	{
+		if (!sound)
+			return;
+
+		// 사운드 시스템 함수 호출
+		sound->PlayBackgroundMusic(std::string("../Assets/Sound/") + filename);
+	}
+
+	void Engine::StopBackgroundMusic()
+	{
+		if (!sound)
+			return;
+
+		// 사운드 시스템 함수 호출
+		sound->StopBackgroundMusic();
 	}
 
 	Engine& Engine::Get()

@@ -117,16 +117,17 @@ void Sight::CalculateSight()
             // 현재 체크하는 위치에 올라와있는 액터들 가져와
             const auto& actors = Renderer::Get().GetActorsAt(point);
 
-            bool checked = false;
-            for (const auto& actor : actors)
-            {
-                if (actor->IsTypeOf<Player>())
-                {
-                    Renderer::Get().SetSight(point);
-                    checked = true;
-                }
-            }
-            if (checked) continue;
+            // DEBUGGING
+            //bool checked = false;
+            //for (const auto& actor : actors)
+            //{
+            //    if (actor->IsTypeOf<Player>())
+            //    {
+            //        Renderer::Get().SetSight(point);
+            //        checked = true;
+            //    }
+            //}
+            //if (checked) continue;
 
             if (!CheckRange(point, startPoint))
                 continue;

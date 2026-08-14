@@ -34,11 +34,12 @@ Player::Player(
 	camera = std::make_unique<Camera>(Renderer::Get().GetScreenSize(), this);
 
 	// 생성 위치 설정
-	int x = (Engine::Get().GetWidth() / 2) - (width / 2);
-	int y = (Engine::Get().GetHeight() / 2) - (height / 2);
+	// DEBUGGING
+	//int x = (Engine::Get().GetWidth() / 2) - (width / 2);
+	//int y = (Engine::Get().GetHeight() / 2) - (height / 2);
 
-	//int x = position.x;
-	//int y = position.y;
+	int x = position.x;
+	int y = position.y;
 
 	SetPosition(Vector2(x, y));
 
@@ -62,10 +63,8 @@ void Player::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 	sight->Tick(deltaTime);
-
 	camera->FollowPlayer();
 
-	
 
 	// ESC 키 종료
 	if (Input::Get().GetKeyDown(VK_ESCAPE))
@@ -84,7 +83,22 @@ void Player::Tick(float deltaTime)
 		yDir = -1.f;
 
 	// 이동 함수 호출
-	Move(xDir, yDir, deltaTime);
+	bool isMoving = Move(xDir, yDir, deltaTime);
+
+	if (isMoving)
+	{
+		footstepTimer += deltaTime;
+
+		if (footstepTimer >= footstepInterval)
+		{
+			footstepTimer = 0.f;
+			Engine::Get().PlayerOneShot("step.wav");
+		}
+	}
+	else
+	{
+		footstepTimer = 0.35f;
+	}
 
 	// 바라보는 방향 구하기
 	Vector2 mousePos = Input::Get().GetMousePosition();

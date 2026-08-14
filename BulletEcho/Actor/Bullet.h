@@ -26,6 +26,9 @@ private:
 public:
 	inline void SetShooter(std::shared_ptr<Character>& s) { shooter = s; }
 
+	// 총알은 시야 벗어나도 보여야해
+	virtual bool IsVisibleOutsideSight() const override { return true; };
+
 private:
 	void DestroyAndEffect();
 

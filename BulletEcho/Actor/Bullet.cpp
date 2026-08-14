@@ -16,7 +16,7 @@ Bullet::Bullet(
 	const Vector2& direction,
 	std::shared_ptr<Character> shooter,
 	float damage
-) : Actor({ "*" }, position, Color::Yellow),
+) : Actor({ "*" }, position, Color::Cyan),
 	direction(direction), position(position), shooter(shooter), damage(damage)
 {}
 
@@ -73,10 +73,21 @@ void Bullet::OnCollision(const std::shared_ptr<Actor>& other)
 
 void Bullet::DestroyAndEffect()
 {
-	Destroy();
+	Engine::Get().PlayerOneShot("hit.wav");
+
+	std::vector<DestroyEffect::EffectFrame> sequence =
+	{
+		{ {"x"}, 0.08f, Color::Red }
+	};
+
 	// 파괴 이펙트 생성
 	if (GetOwner())
 	{
-		GetOwner()->SpawnActor<DestroyEffect>(GetPosition());
+		GetOwner()->SpawnActor<DestroyEffect>(
+			GetPosition(),
+			sequence
+		);
 	}
+
+	Destroy();
 }

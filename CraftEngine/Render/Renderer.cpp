@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 #include <Windows.h>
+#include <Actor/Actor.h>
 
 namespace Craft
 {
@@ -212,6 +213,39 @@ namespace Craft
 						BACKGROUND_RED |
 						BACKGROUND_GREEN |
 						BACKGROUND_BLUE;
+
+					continue;
+				}
+
+				bool visibleOutsideSight = false;
+
+				// 이 칸에 실제로 렌더링된 Actor 검사
+				for (Actor* actor :
+					frame->actorArray[index])
+				{
+					if (actor &&
+						actor->IsVisibleOutsideSight())
+					{
+						visibleOutsideSight = true;
+						break;
+					}
+				}
+
+				// 시야 밖에서도 보여야 하는 Actor
+				if (visibleOutsideSight)
+				{
+					// 시야 밖
+					WORD& attributes =
+						frame->charInfoArray[index].Attributes;
+
+					// 검은색으로 보여
+					attributes &= ~(FOREGROUND_RED |
+						FOREGROUND_GREEN |
+						FOREGROUND_BLUE |
+						FOREGROUND_INTENSITY);
+
+					// 이거 하면 회색으로 보여
+					attributes |= FOREGROUND_INTENSITY;
 				}
 				else
 				{
@@ -219,12 +253,15 @@ namespace Craft
 					WORD& attributes =
 						frame->charInfoArray[index].Attributes;
 
+					// 검은색으로 보여
 					attributes &= ~(FOREGROUND_RED |
 						FOREGROUND_GREEN |
 						FOREGROUND_BLUE |
 						FOREGROUND_INTENSITY);
 
-					attributes |= FOREGROUND_INTENSITY;
+					// 이거 하면 회색으로 보여
+					// DEBUGGING
+					//attributes |= FOREGROUND_INTENSITY;
 				}
 			}
 		}

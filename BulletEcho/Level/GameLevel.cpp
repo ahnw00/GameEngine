@@ -3,8 +3,10 @@
 #include <Actor/Player.h>
 #include <Actor/Enemy.h>
 #include <Actor/Wall.h>
+#include <Actor/Bullet.h>
 #include <Render/Renderer.h>
 #include <Input/Input.h>
+#include <Engine/Engine.h>
 
 #include <cassert>
 
@@ -14,6 +16,8 @@ using namespace Craft;
 void GameLevel::OnInitialized()
 {
 	Level::OnInitialized();
+
+	Engine::Get().PlayerBackgroundMusic("bgm.wav");
 
 	LoadMap("BulletEchoMap2.txt");
 
@@ -34,6 +38,7 @@ void GameLevel::ProcessPlayerSight()
 
 		bool b = actor->IsTypeOf<Player>();
 		// 플레이 모드면 적의 시야 렌더 안해줘
+		// DEBUGGING
 		if (currentMode == Renderer::RenderMode::PLAY &&
 			!actor->IsTypeOf<Player>())
 			continue;
@@ -48,6 +53,12 @@ void GameLevel::ProcessPlayerSight()
 
 			// 시야 렌더해주기
 			sight->CalculateSight();
+		}
+		else if (std::shared_ptr<Bullet> bullet = Cast<Bullet>(actor))
+		{
+			Vector2 bulletPosition = bullet->GetCenterPosition();
+
+			Renderer::Get().SetSight(bulletPosition);
 		}
 	}
 }

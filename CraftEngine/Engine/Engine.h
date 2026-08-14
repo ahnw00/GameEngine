@@ -2,7 +2,10 @@
 
 #include <Core/Core.h>
 #include <memory> // 스마트 포인터 사용을 위해
+#include <string>
 
+// Sound는 Craft 네임스페이스 사용 안함
+class Sound;
 // CraftEngine 프로젝트 안의 클래스는 Craft 네임 스페이스 사용
 namespace Craft
 {
@@ -39,6 +42,11 @@ namespace Craft
 
 		// 엔진 종료 함수
 		void Quit();
+
+		// 사운드 재생 함수
+		void PlayerOneShot(const std::string& filename);
+		void PlayerBackgroundMusic(const std::string& filename);
+		void StopBackgroundMusic();
 
 		// 레벨 추가 요청 함수
 		// 1. std::is_base_of 하는일이 무엇인지
@@ -107,5 +115,8 @@ namespace Craft
 
 		// 충돌 시스템
 		std::unique_ptr<CollisionSystem> collisionSystem;
+
+		// 사운드 시스템
+		std::unique_ptr<Sound> sound;
 	};
 }

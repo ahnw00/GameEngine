@@ -43,6 +43,10 @@ namespace Craft
 		// 충돌 이벤트 함수
 		virtual void OnCollision(const std::shared_ptr<Actor>& other);
 
+		// 시야 벗어나도 보이는 액터인지
+		// 기본값 false = 기본적으로 모든 액터는 시야 밖에서 안보임
+		virtual bool IsVisibleOutsideSight() const { return false; };
+
 		// 액터 제거 함수
 		void Destroy();
 

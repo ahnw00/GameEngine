@@ -25,11 +25,12 @@ Enemy::Enemy(
 	sight->SetDegree(30.f);
 
 	// 생성 위치 설정
-	int x = (Engine::Get().GetWidth() / 2) - (width / 2);
-	int y = (height / 2) + 1;
+	// DEBUGGING
+	//int x = (Engine::Get().GetWidth() / 2) - (width / 2);
+	//int y = (height / 2) + 1;
 
-	//int x = position.x;
-	//int y = position.y;
+	int x = position.x;
+	int y = position.y;
 
 	SetPosition(Vector2(x, y));
 

@@ -8,6 +8,7 @@ class DestroyEffect : public Craft::Actor
 	// 커스텀 RTTI 등록.
 	TYPE_DECLARATIONS(DestroyEffect, Actor)
 
+public:
 	// 애니메이션 이펙트 프레임 구조체.
 	struct EffectFrame
 	{
@@ -33,7 +34,10 @@ class DestroyEffect : public Craft::Actor
 public:
 
 	// 위치를 전달받아 생성 가능하도록 생성자 구성.
-	DestroyEffect(const Craft::Vector2& position);
+	DestroyEffect(
+		const Craft::Vector2& position, 
+		const std::vector<EffectFrame>& sequence
+	);
 	~DestroyEffect() = default;
 
 private:
@@ -51,4 +55,8 @@ private:
 	// 애니메이션 재생에 사용할 타이머.
 	// 시퀀스 사이에 시간 계산용.
 	Timer timer;
+
+	//const EffectFrame* sequence = nullptr;
+
+	std::vector<EffectFrame> sequence;
 };
