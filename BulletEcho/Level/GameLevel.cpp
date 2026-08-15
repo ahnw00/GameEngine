@@ -19,13 +19,13 @@ void GameLevel::OnInitialized()
 
 	Engine::Get().PlayerBackgroundMusic("bgm.wav");
 
-	LoadMap("BulletEchoMap2.txt");
+	//LoadMap("BulletEchoMap2.txt");
 
-	//// 플레이어 액터 추가
-	//SpawnActor<Player>(Vector2::Zero);
+	// 플레이어 액터 추가
+	SpawnActor<Player>(Vector2(50, 50));
 
-	//// 적 생성기 액터 추가
-	//SpawnActor<Enemy>(Vector2::Zero);
+	// 적 생성기 액터 추가
+	SpawnActor<Enemy>(Vector2(20, 20));
 }
 
 void GameLevel::ProcessPlayerSight()
@@ -63,47 +63,57 @@ void GameLevel::ProcessPlayerSight()
 	}
 }
 
-bool GameLevel::CanMove(const Craft::Vector2& nextPosition)
+bool GameLevel::CanMove(
+	const Craft::Vector2& nextPosition,
+	const std::shared_ptr<Actor>& movingActor)
 {
 	// 게임 클리어인 경우 처리 안함
 	//if (isGameClear)
 	//	return false;
 
-	// 이동하려는 위치에 어떤 액터가 있는지를 확인할 때 타입을 활용
-	std::shared_ptr<Actor> player;
-	for (const std::shared_ptr<Actor>& actor : actorList)
-	{
-		// 현재 액터가 플레이어 타입인지 확인(커스텀 RTTI 활용)
-		if (actor->IsTypeOf<Player>())
-		{
-			player = actor;
-			break;
-		}
-	}
-
-	float playerMinX = nextPosition.x;
-	float playerMinY = nextPosition.y;
-	float playerMaxX = playerMinX + player->GetWidth() - 1;
-	float playerMaxY = playerMinY + player->GetHeight() - 1;
-
-	// 레벨을 순회하면서 플레이어가 아닌 타입을 actorList에 저장
-	for (const std::shared_ptr<Actor>& actor : actorList)
-	{
-		// 현재 액터가 플레이어 타입인지 확인(커스텀 RTTI 활용)
-		if (actor->IsTypeOf<Player>())
-			continue;
-		
-		float actorMinX = actor->GetPosition().x;
-		float actorMinY = actor->GetPosition().y;
-		float actorMaxX = actorMinX + actor->GetWidth() - 1;
-		float actorMaxY = actorMinY + actor->GetHeight() - 1;
-
-		if (playerMaxX < actorMinX || actorMaxX < playerMinX)
-			continue;
-		if (playerMaxY < actorMinY || actorMaxY < playerMinY)
-			continue;
-
+	if (!movingActor)
 		return false;
+
+	//// 이동하려는 위치에 어떤 액터가 있는지를 확인할 때 타입을 활용
+	//std::shared_ptr<Actor> player;
+	//for (const std::shared_ptr<Actor>& actor : actorList)
+	//{
+	//	// 현재 액터가 플레이어 타입인지 확인(커스텀 RTTI 활용)
+	//	if (actor->IsTypeOf<Player>())
+	//	{
+	//		player = actor;
+	//		break;
+	//	}
+	//}
+
+	float movingMinX = nextPosition.x;
+	float movingMinY = nextPosition.y;
+	float movingMaxX = movingMinX + movingActor->GetWidth() - 1;
+	float movingMaxY = movingMinY + movingActor->GetHeight() - 1;
+
+	int startX = static_cast<int>(nextPosition.x);
+	int startY = static_cast<int>(nextPosition.y);
+
+	int endX = startX + movingActor->GetWidth() - 1;
+	int endY = startY + movingActor->GetHeight() - 1;
+
+	for (int x = startX; x <= endX; ++x)
+	{
+		for (int y = startY; y <= endY; ++y)
+		{
+			int index = y * static_cast<int>(MAP_WIDTH) + x;
+
+			const auto& actors = Renderer::Get().GetActorsAt(index);
+
+			for (const auto& actor : actors)
+			{
+				// 자기 자신이면 무시
+				if (actor == movingActor.get())
+					continue;
+
+				return false;
+			}
+		}
 	}
 
 	return true;

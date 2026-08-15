@@ -11,7 +11,7 @@ public:
 
 	// 이거 활성화하면 벽도 시야 밖으로 가도 보여
 	// DEBUGGING
-	//virtual bool IsVisibleOutsideSight() const override { return true; }
+	virtual bool IsVisibleOutsideSight() const override { return true; }
 
 private:
 

@@ -2,6 +2,7 @@
 
 #include <Level/Level.h>
 
+
 class GameLevel : public Craft::Level
 {
 	TYPE_DECLARATIONS(GameLevel, Level)
@@ -13,7 +14,10 @@ private:
 public:
 	virtual void ProcessPlayerSight() override;
 
-	bool CanMove(const Craft::Vector2& nextPosition);
+	bool CanMove(
+		const Craft::Vector2& nextPosition,
+		const std::shared_ptr<Craft::Actor>& movingActor
+	);
 
 private:
 	void LoadMap(const std::string& filename);

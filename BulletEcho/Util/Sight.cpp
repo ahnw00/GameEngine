@@ -118,16 +118,16 @@ void Sight::CalculateSight()
             const auto& actors = Renderer::Get().GetActorsAt(point);
 
             // DEBUGGING
-            //bool checked = false;
-            //for (const auto& actor : actors)
-            //{
-            //    if (actor->IsTypeOf<Player>())
-            //    {
-            //        Renderer::Get().SetSight(point);
-            //        checked = true;
-            //    }
-            //}
-            //if (checked) continue;
+            bool checked = false;
+            for (const auto& actor : actors)
+            {
+                if (actor->IsTypeOf<Player>() /*|| actor->IsTypeOf<Enemy>()*/)
+                {
+                    Renderer::Get().SetSight(point);
+                    checked = true;
+                }
+            }
+            if (checked) continue;
 
             if (!CheckRange(point, startPoint))
                 continue;
@@ -169,34 +169,6 @@ bool Sight::CheckRange(Vector2 point, Vector2 startPoint)
 
 bool Sight::IsBehindWall(Craft::Vector2 point, Craft::Vector2 startPoint)
 {
-    //Vector2 direction = point - startPoint;
-    //float distance = direction.size();
-
-    //if (distance <= 0.f)
-    //    return false;
-
-    //direction = direction.normalized();
-
-    //// 1칸 단위로 시작점부터 point까지 검사
-    //int steps = static_cast<int>(distance);
-
-    //for (int i = 0; i <= steps; ++i)
-    //{
-    //    Vector2 checkPoint = startPoint + direction * static_cast<float>(i);
-
-    //    const auto& actors = Renderer::Get().GetActorsAt(checkPoint);
-
-    //    for (const auto& actor : actors)
-    //    {
-    //        if (actor->IsTypeOf<Wall>())
-    //        {
-    //            return true;
-    //        }
-    //    }
-    //}
-
-    //return false;
-
     // 시작점과 목표점을 정수 타일 좌표로 변환
     int x0 = static_cast<int>(std::round(startPoint.x));
     int y0 = static_cast<int>(std::round(startPoint.y));

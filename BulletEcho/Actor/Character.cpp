@@ -66,7 +66,7 @@ bool Character::Move(float xDir, float yDir, float deltaTime)
 		newY = 0.f;
 	}
 	// 화면 오른쪽 벗어나지 않도록 처리
-	if (newY >= Engine::Get().GetHeight())
+	if (newY + height >= Engine::Get().GetHeight())
 	{
 		newY = static_cast<float>(Engine::Get().GetHeight());
 	}
@@ -80,7 +80,7 @@ bool Character::Move(float xDir, float yDir, float deltaTime)
 	// 이동 처리를 위해 GameLevel 객체 얻어오기
 	// 다운 캐스팅 - 형변환 실패하면 null 반환
 	std::shared_ptr<GameLevel> level = Cast<GameLevel>(GetOwner());
-	if (level && level->CanMove(newPosition))
+	if (level && level->CanMove(newPosition, shared_from_this()))
 	{
 		//Vector2 prevPosition = Vector2(xPosition, yPosition);
 
