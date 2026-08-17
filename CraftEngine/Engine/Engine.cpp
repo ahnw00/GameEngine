@@ -219,14 +219,6 @@ namespace Craft
 
 	void Engine::Tick(float deltaTime)
 	{
-		// deltaTime 출력
-		//std::cout 
-		//	<< "Engine::Tick() - deltaTime: "
-		//	<< deltaTime
-		//	<< " | FPS: "
-		//	<< (1.f / deltaTime)
-		//	<< "\n";
-
 		if (!mainLevel)
 			return;
 
@@ -238,16 +230,22 @@ namespace Craft
 		if (!mainLevel || !renderer)
 			return;
 
+		// Frame 초기화(clear)
 		renderer->BeginFrame();
 
 		mainLevel->Draw();
 
 		renderer->DrawRenderQueue();
 
-		// Player::Sight::Detect
-		mainLevel->ProcessPlayerSight();
+		//if (Engine::Get().GetMainLevelType() == Level::LevelType::GamePlay)
+		//{
+			// Player::Sight::Detect
+			mainLevel->ProcessPlayerSight();
 
-		renderer->DrawSight();
+			renderer->DrawSight();
+
+			renderer->DrawMouseCursor();
+		//}
 
 		renderer->Present();
 	}
@@ -285,7 +283,7 @@ namespace Craft
 		// 예외 처리
 		if (!file)
 		{
-			std::cout << "Failed to open engine setting file.\n";
+			//std::cout << "Failed to open engine setting file.\n";
 
 			// 디버그 모드에서 강제 중단
 			__debugbreak();

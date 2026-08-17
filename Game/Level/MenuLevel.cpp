@@ -11,7 +11,7 @@ MenuLevel::MenuLevel()
 {
 	// 메뉴 아이템 생성
 	itemList.emplace_back(
-		std::make_unique<MenuItem>(
+		std::make_unique<UIItem>(
 			"Resume Game",
 			[]()
 			{
@@ -23,7 +23,7 @@ MenuLevel::MenuLevel()
 	);
 
 	itemList.emplace_back(
-		std::make_unique<MenuItem>(
+		std::make_unique<UIItem>(
 			"Quit Game",
 			[]()
 			{

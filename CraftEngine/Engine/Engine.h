@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <Core/Core.h>
+#include <Level/Level.h>
 #include <memory> // 스마트 포인터 사용을 위해
 #include <string>
 
@@ -66,6 +67,14 @@ namespace Craft
 		// Getter
 		inline int GetWidth() const { return setting.width; }
 		inline int GetHeight() const { return setting.height; }
+
+		inline void SetWorldSize(const int& newWidth, const int& newHeight) 
+		{
+			setting.width = newWidth;
+			setting.height = newHeight;
+		}
+
+		//inline Level::LevelType GetMainLevelType() const { return mainLevel->GetLevelType(); }
 
 	protected:
 		// 입력 처리 함수(입력 폴링)

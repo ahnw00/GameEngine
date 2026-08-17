@@ -3,9 +3,14 @@
 #include <Util/Sight.h>
 #include <Engine/Engine.h>
 #include <Level/Level.h>
+#include <Level/ClearLevel.h>
 #include <Actor/Bullet.h>
 #include <Level/GameLevel.h>
 #include <Actor/DestroyEffect.h>
+#include <Render/Renderer.h>
+#include <Actor/Enemy.h>
+#include <Actor/Player.h>
+#include <Game/Game.h>
 
 #include <cmath>
 
@@ -46,6 +51,8 @@ bool Character::Move(float xDir, float yDir, float deltaTime)
 	float newX = xPosition + xDir * moveSpeed * deltaTime;
 	float newY = yPosition + yDir * moveSpeed * deltaTime;
 
+	const Vector2 worldSize = Renderer::Get().GetWorldSize();
+
 	//xPosition += xDir * moveSpeed * deltaTime;
 	//yPosition += yDir * moveSpeed * deltaTime;
 
@@ -57,7 +64,7 @@ bool Character::Move(float xDir, float yDir, float deltaTime)
 	// 화면 오른쪽 벗어나지 않도록 처리
 	if (newX + width >= Engine::Get().GetWidth())
 	{
-		newX = static_cast<float>(Engine::Get().GetWidth() - width);
+		newX = worldSize.x - width;
 	}
 
 	// 화면 위쪽 벗어나지 않도록 처리
@@ -68,7 +75,7 @@ bool Character::Move(float xDir, float yDir, float deltaTime)
 	// 화면 오른쪽 벗어나지 않도록 처리
 	if (newY + height >= Engine::Get().GetHeight())
 	{
-		newY = static_cast<float>(Engine::Get().GetHeight());
+		newY = worldSize.y - height;
 	}
 
 	// 위치 업데이트
@@ -182,6 +189,40 @@ void Character::Die()
 			GetPosition(),
 			sequence
 		);
+	}
+
+	if (this->IsTypeOf<Enemy>())
+	{
+		std::shared_ptr<GameLevel> gameLevel = Cast<GameLevel>(GetOwner());
+
+		if (gameLevel)
+		{
+			gameLevel->EnemyKilled();
+		}
+
+		if (gameLevel->CheckGameClear())
+		{
+			Game& game = dynamic_cast<Game&>(Engine::Get());
+			std::vector<std::shared_ptr<Level>> levelList = game.GetLevelList();
+			std::shared_ptr<Level> curLevel = levelList[static_cast<int>(State::Clear)];
+			std::shared_ptr<ClearLevel> clearLevel = Cast<ClearLevel>(curLevel);
+
+			if (clearLevel)
+			{
+				clearLevel->SetClearTime(gameLevel->GetElapsedTime());
+			}
+
+
+			game.GotoLevel(State::Clear);
+			game.ResetGame();
+		}
+	}
+
+	if (this->IsTypeOf<Player>())
+	{
+		Game& game = dynamic_cast<Game&>(Engine::Get());
+		game.GotoLevel(State::Died);
+		game.ResetGame();
 	}
 
 	Destroy();

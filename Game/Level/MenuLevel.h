@@ -4,14 +4,14 @@
 #include <string>
 
 // 메뉴 아이템 구조체
-struct MenuItem
+struct UIItem
 {
 	// 메뉴 선택 시 실행할 로직 저장을 위한 함수 포인터
 	//typedef void (*OnSelected)();
 	using OnSelected = void(*)();
 	
 	// 생성자
-	MenuItem(const std::string& text, OnSelected onSelected)
+	UIItem(const std::string& text, OnSelected onSelected)
 		: text(text), onSelected(onSelected)
 	{ }
 
@@ -43,6 +43,6 @@ private:
 	Craft::Color unselectedColor = Craft::Color::White;
 
 	// 메뉴 아이템 배열
-	std::vector<std::unique_ptr<MenuItem>> itemList;
+	std::vector<std::unique_ptr<UIItem>> itemList;
 };
 

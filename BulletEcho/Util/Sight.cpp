@@ -72,6 +72,8 @@ Player* Sight::DetectPlayer()
 
             if (!CheckRange(point, startPoint))
                 continue;
+            if (IsBehindWall(point, startPoint))
+                continue;
 
             // 현재 포인트 위에 올라와있는 액터들의 리스트 가져오기
             const auto& actors = Renderer::Get().GetActorsAt(point);
@@ -114,27 +116,35 @@ void Sight::CalculateSight()
                 static_cast<float>(y)
             );
 
-            // 현재 체크하는 위치에 올라와있는 액터들 가져와
-            const auto& actors = Renderer::Get().GetActorsAt(point);
+            //// 현재 체크하는 위치에 올라와있는 액터들 가져와
+            //const auto& actors = Renderer::Get().GetActorsAt(point);
 
-            // DEBUGGING
-            bool checked = false;
-            for (const auto& actor : actors)
-            {
-                if (actor->IsTypeOf<Player>() /*|| actor->IsTypeOf<Enemy>()*/)
-                {
-                    Renderer::Get().SetSight(point);
-                    checked = true;
-                }
-            }
-            if (checked) continue;
+            //// DEBUGGING
+            //bool checked = false;
+            //for (const auto& actor : actors)
+            //{
+            //    if (actor->IsTypeOf<Player>() /*|| actor->IsTypeOf<Enemy>()*/)
+            //    {
+            //        Renderer::Get().SetSight(point);
+            //        checked = true;
+            //    }
+            //}
+            //if (checked) continue;
 
-            if (!CheckRange(point, startPoint))
+            Vector2 toPoint = point - startPoint;
+            float distance = toPoint.size();
+
+            if (distance > radius || distance <= 0.f)
                 continue;
             if (IsBehindWall(point, startPoint))
                 continue;
 
-            Renderer::Get().SetSight(point);
+            Renderer::Get().SetSight(point, Renderer::SightState::Range);
+
+            if (!CheckRange(point, startPoint))
+                continue;
+
+            Renderer::Get().SetSight(point, Renderer::SightState::Visible);
         }
     }
 }

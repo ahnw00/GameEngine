@@ -16,7 +16,7 @@ Bullet::Bullet(
 	const Vector2& direction,
 	std::shared_ptr<Character> shooter,
 	float damage
-) : Actor({ "*" }, position, Color::Cyan),
+) : Actor({ "*" }, position, Color::Yellow),
 	direction(direction), position(position), shooter(shooter), damage(damage)
 {}
 

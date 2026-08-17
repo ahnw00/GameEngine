@@ -47,6 +47,9 @@ namespace Craft
 		// 기본값 false = 기본적으로 모든 액터는 시야 밖에서 안보임
 		virtual bool IsVisibleOutsideSight() const { return false; };
 
+		// true면 시야처리 무시
+		virtual bool IgnoreSight() const { return false; }
+
 		// 액터 제거 함수
 		void Destroy();
 

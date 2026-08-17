@@ -22,6 +22,15 @@ namespace Craft
 		friend class Engine;
 
 	public:
+		enum class LevelType
+		{
+			None,
+			Menu,
+			GamePlay,
+			TypeLength
+		};
+
+	public:
 		Level();
 		virtual ~Level();
 
@@ -73,6 +82,8 @@ namespace Craft
 		// Getter
 		inline bool HasInitialized() const { return hasInitialized; }
 
+		//inline LevelType GetLevelType() const { return levelType; }
+
 	protected:
 		// 이전 프레임에 추가/제거 요청된 액터 처리 함수
 		void ProcessAddAndDestroyActors();
@@ -82,6 +93,8 @@ namespace Craft
 
 		// 플레이어 시야 처리
 		virtual void ProcessPlayerSight() = 0;
+
+		//inline void SetLevelType(LevelType newLevelType) { levelType = newLevelType; }
 
 	protected:
 		// 초기화 처리 여부 플래그
@@ -95,5 +108,8 @@ namespace Craft
 		// 해당 액터를 바로 추가하면 기존 액터 처리에 문제가 발생할 수 있어서
 		// 현재 프레임을 모두 처리한 후에 추가 요청된 액터를 actorList로 옮김
 		std::vector<std::shared_ptr<Actor>> addResquestedActorList;
+
+	private:
+		//LevelType levelType = LevelType::None;
 	};
 }

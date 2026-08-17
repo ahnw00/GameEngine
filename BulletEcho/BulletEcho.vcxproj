@@ -166,6 +166,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Bullet.h" />
+    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Level\ClearLevel.h" />
+    <ClInclude Include="Level\Credit.h" />
+    <ClInclude Include="Level\DiedLevel.h" />
+    <ClInclude Include="Level\MainLevel.h" />
+    <ClInclude Include="Level\MenuLevel.h" />
+    <ClInclude Include="Level\UILevel.h" />
     <ClInclude Include="Util\Camera.h" />
     <ClInclude Include="Actor\Character.h" />
     <ClInclude Include="Actor\DestroyEffect.h" />
@@ -178,6 +185,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Bullet.cpp" />
+    <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Level\ClearLevel.cpp" />
+    <ClCompile Include="Level\Credit.cpp" />
+    <ClCompile Include="Level\DiedLevel.cpp" />
+    <ClCompile Include="Level\MainLevel.cpp" />
+    <ClCompile Include="Level\MenuLevel.cpp" />
+    <ClCompile Include="Level\UILevel.cpp" />
     <ClCompile Include="Util\Camera.cpp" />
     <ClCompile Include="Actor\Character.cpp" />
     <ClCompile Include="Actor\DestroyEffect.cpp" />

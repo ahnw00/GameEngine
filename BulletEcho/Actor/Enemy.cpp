@@ -13,14 +13,16 @@
 using namespace Craft;
 
 Enemy::Enemy(
-	Craft::Vector2 position
-) : Character({ " * ", "***", " * " }, position, Color::Purple)
+	Vector2 position,
+	const std::vector<Vector2>& patrolPoints
+) : Character({ " * ", "***", " * " }, position, Color::Grey),
+	patrolPoints(patrolPoints)
 {
 	// 캐릭터 타입 설정
 	SetCharacterType(Character::Type::Enemy);
 
 	// 공격력 세팅
-	SetAttackPower(10.f);
+	SetAttackPower(20.f);
 
 	moveSpeed = 10.f;
 
@@ -29,19 +31,11 @@ Enemy::Enemy(
 	sight->SetRadius(20.f);
 	sight->SetDegree(30.f);
 
-	// 생성 위치 설정
-	// DEBUGGING
-	//int x = (Engine::Get().GetWidth() / 2) - (width / 2);
-	//int y = (height / 2) + 1;
-
-	int x = position.x;
-	int y = position.y;
-
-	SetPosition(Vector2(x, y));
+	SetPosition(position);
 
 	// x, y 위치 저장
-	xPosition = static_cast<float>(x);
-	yPosition = static_cast<float>(y);
+	xPosition = position.x;
+	yPosition = position.y;
 
 	// 연사 타이머 시간 설정
 	fireInterval = 0.5f;
@@ -64,7 +58,7 @@ void Enemy::Tick(float deltaTime)
 		// 1. 느낌표(!) 이펙트 등 재생
 		const std::vector<DestroyEffect::EffectFrame> sequence =
 		{
-			{ {"!"}, 1.0f, Color::Red }
+			{ {"!"}, 0.5f, Color::Yellow }
 		};
 		PlayEffect(sequence);
 	}
@@ -86,7 +80,7 @@ void Enemy::Tick(float deltaTime)
 		{
 			const std::vector<DestroyEffect::EffectFrame> sequence =
 			{
-				{ {"?"}, searchingDuration, Color::Red }
+				{ {"?"}, 0.5f, Color::Yellow }
 			};
 			PlayEffect(sequence);
 
@@ -298,17 +292,17 @@ void Enemy::Trace(float deltaTime)
 		if (!level)
 			return;
 
-		// Player 주변의 목표 위치 탐색
-		for (const Vector2& direction : directions)
-		{
-			Vector2 candidate = playerPosition + direction;
+		//// Player 주변의 목표 위치 탐색
+		//for (const Vector2& direction : directions)
+		//{
+		//	Vector2 candidate = playerPosition + direction;
 
-			if (level->CanMove(candidate, shared_from_this()))
-			{
-				targetPosition = candidate;
-				break;
-			}
-		}
+		//	if (level->CanMove(candidate, shared_from_this()))
+		//	{
+		//		targetPosition = candidate;
+		//		break;
+		//	}
+		//}
 
 		CalculatePathToTarget();
 	}

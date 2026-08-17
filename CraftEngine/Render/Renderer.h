@@ -20,7 +20,15 @@ namespace Craft
 		enum class RenderMode
 		{
 			DEBUG,
-			PLAY
+			PLAY,
+			MENU
+		};
+
+		enum class SightState
+		{
+			None,
+			Range,
+			Visible
 		};
 
 	private:
@@ -44,6 +52,7 @@ namespace Craft
 
 			// 시야 영역 여부
 			std::unique_ptr<bool[]> sightArray;
+			std::unique_ptr<SightState[]> sightStateArray;
 		};
 		
 		// 화면에 그릴 데이터를 명령 단위로 저장하기 위한 구조체
@@ -86,17 +95,25 @@ namespace Craft
 		// 프레임 읽기 전용 함수
 		inline const std::unique_ptr<Frame>& GetFrame() const { return frame; }
 
-		void SetSight(const Vector2& position);
+		void SetSight(const Vector2& position, const SightState& sightState);
 
 		const std::vector<Actor*>& GetActorsAt(const Vector2& position);
 
 		inline const RenderMode GetRenderMode() const { return mode; }
 
+		inline void SetRenderMode(RenderMode newMode) { mode = newMode; }
+
 		inline const Vector2 GetScreenSize() const { return screenSize; }
+
+		inline const Vector2 GetWorldSize() const { return worldSize; }
+
+		inline void SetWorldSize(const Vector2& newWorldSize) { worldSize = newWorldSize; }
 
 		inline void SetRenderStartPosition(const Vector2& position) { renderStartPosition = position; }
 
 		inline const Vector2 GetRenderStartPosition() const { return renderStartPosition; }
+
+		bool WorldToScreenPosition(const Vector2& worldPosition, Vector2& screenPosition) const;
 
 	public:
 		void BeginFrame();
@@ -106,6 +123,9 @@ namespace Craft
 
 		// 전달 받은 렌더 명령을 활용해 화면을 그리는 함수
 		void DrawRenderQueue();
+
+		// 마우스 커서 표시
+		void DrawMouseCursor();
 
 		// 그린 결과를 화면에 표시하는 함수
 		void Present();

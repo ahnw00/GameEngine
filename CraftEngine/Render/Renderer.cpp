@@ -4,6 +4,9 @@
 #include <iostream>
 #include <Windows.h>
 #include <Actor/Actor.h>
+#include <Input/Input.h>
+#include <Engine/Engine.h>
+#include <Level/Level.h>
 
 namespace Craft
 {
@@ -15,6 +18,7 @@ namespace Craft
 		sortingOrderArray = std::make_unique<int[]>(bufferCount);
 		actorArray = std::make_unique<std::vector<Actor*>[]>(bufferCount);
 		sightArray = std::make_unique<bool[]>(bufferCount);
+		sightStateArray = std::make_unique<SightState[]>(bufferCount);
 	}
 
 	Renderer::Frame::~Frame()
@@ -51,6 +55,8 @@ namespace Craft
 				actorArray[index].clear();
 
 				sightArray[index] = false;
+
+				sightStateArray[index] = SightState::None;
 			}
 		}
 	}
@@ -68,12 +74,12 @@ namespace Craft
 		instance = this;
 
 		//// 콘솔 커서 안보이게 설정
-		//CONSOLE_CURSOR_INFO info;
-		//GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+		CONSOLE_CURSOR_INFO info;
+		GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 
 		//// 보이기 옵션을 false로
-		//info.bVisible = FALSE; // false를 Windows 스타일로 작성해준거
-		//SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+		info.bVisible = FALSE; // false를 Windows 스타일로 작성해준거
+		SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 
 		// 프레임 객체 생성
 		const int bufferCount = screenSize.x * screenSize.y;
@@ -97,13 +103,13 @@ namespace Craft
 	{
 		instance = nullptr;
 
-		//// 콘솔 커서 다시 보이게 설정(복구)
-		//CONSOLE_CURSOR_INFO info;
-		//GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+		// 콘솔 커서 다시 보이게 설정(복구)
+		CONSOLE_CURSOR_INFO info;
+		GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 
-		//// 보이기 옵션을 true로
-		//info.bVisible = TRUE; // true를 Windows 스타일로 작성해준거
-		//SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+		// 보이기 옵션을 true로
+		info.bVisible = TRUE; // true를 Windows 스타일로 작성해준거
+		SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 
 		// 콘솔 창 원래대로 복구
 		SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
@@ -131,6 +137,7 @@ namespace Craft
 		renderQueue.emplace_back(command);
 	}
 
+	// 사용X(순서를 위해 Draw를 더 잘게 쪼갬)
 	void Renderer::Draw()
 	{
 		// 화면(이미지/프레임) 지우기
@@ -142,6 +149,9 @@ namespace Craft
 		// 시야 밖 처리
 		DrawSight();
 
+		// 마우스 커서 표시
+		DrawMouseCursor();
+
 		// 화면(이미지/프레임) 표시
 		Present();
 	}
@@ -152,35 +162,45 @@ namespace Craft
 		return *instance;
 	}
 
-	void Renderer::SetSight(const Vector2& position)
+	void Renderer::SetSight(const Vector2& position, const SightState& sightState)
 	{
-		const int worldX = static_cast<int>(position.x);
-		const int worldY = static_cast<int>(position.y);
+		Vector2 screenPosition = Vector2::Zero;
 
-		if (worldX < 0 || worldX >= worldSize.x ||
-			worldY < 0 || worldY >= worldSize.y)
+		if (WorldToScreenPosition(position, screenPosition))
 		{
-			return;
+			const int index =
+				screenPosition.y * static_cast<int>(screenSize.x) + screenPosition.x;
+
+			frame->sightArray[index] = true;
+
+			if (frame->sightStateArray[index] == SightState::Visible)
+				return;
+
+			frame->sightStateArray[index] = sightState;
 		}
+	}
 
-		// 월드 좌표 -> 화면 좌표
+	bool Renderer::WorldToScreenPosition(
+		const Vector2& worldPosition, 
+		Vector2& screenPosition) const
+	{
+		if (worldPosition.x < 0 || worldPosition.x >= worldSize.x ||
+			worldPosition.y < 0 || worldPosition.y >= worldSize.y)
+			return false;
+
 		const int screenX =
-			worldX - static_cast<int>(renderStartPosition.x);
-
+			static_cast<int>(worldPosition.x) -
+			static_cast<int>(renderStartPosition.x);
 		const int screenY =
-			worldY - static_cast<int>(renderStartPosition.y);
+			static_cast<int>(worldPosition.y) -
+			static_cast<int>(renderStartPosition.y);
 
-		// 화면 밖이면 무시
 		if (screenX < 0 || screenX >= screenSize.x ||
 			screenY < 0 || screenY >= screenSize.y)
-		{
-			return;
-		}
+			return false;
 
-		const int index =
-			screenY * static_cast<int>(screenSize.x) + screenX;
-
-		frame->sightArray[index] = true;
+		screenPosition = Vector2(screenX, screenY);
+		return true;
 	}
 
 	void Renderer::BeginFrame()
@@ -194,11 +214,8 @@ namespace Craft
 		if (mode != RenderMode::PLAY)
 			return;
 
-		const int width =
-			static_cast<int>(screenSize.x);
-
-		const int height =
-			static_cast<int>(screenSize.y);
+		const int width = static_cast<int>(screenSize.x);
+		const int height = static_cast<int>(screenSize.y);
 
 		for (int y = 0; y < height; ++y)
 		{
@@ -206,13 +223,59 @@ namespace Craft
 			{
 				const int index = y * width + x;
 
+				bool ignoreSight = false;
+				for (Actor* actor : frame->actorArray[index])
+				{
+					if (actor && actor->IgnoreSight())
+					{
+						ignoreSight = true;
+						break;
+					}
+				}
+
 				if (frame->sightArray[index])
 				{
-					// 시야 안
 					frame->charInfoArray[index].Attributes |=
 						BACKGROUND_RED |
 						BACKGROUND_GREEN |
 						BACKGROUND_BLUE;
+
+					// 흰색 시야 안
+					if (frame->sightStateArray[index] == SightState::Visible)
+					{
+						frame->charInfoArray[index].Attributes |=
+							BACKGROUND_INTENSITY;
+
+						continue;
+					}
+
+					if (ignoreSight)
+						continue;
+
+					// 회색 시야 안
+					for (Actor* actor : frame->actorArray[index])
+					{
+						if (actor && !actor->IsVisibleOutsideSight())
+						{
+							frame->charInfoArray[index].Char.AsciiChar = ' ';
+							break;
+						}
+					}
+
+					continue;
+				}
+
+				// 시야 밖
+				if (ignoreSight)
+				{
+					// 전경색은 그대로 유지
+					// 배경색만 시야 밖 상태로 처리
+					WORD& attributes = frame->charInfoArray[index].Attributes;
+
+					attributes &= ~(BACKGROUND_RED |
+						BACKGROUND_GREEN |
+						BACKGROUND_BLUE |
+						BACKGROUND_INTENSITY);
 
 					continue;
 				}
@@ -220,8 +283,7 @@ namespace Craft
 				bool visibleOutsideSight = false;
 
 				// 이 칸에 실제로 렌더링된 Actor 검사
-				for (Actor* actor :
-					frame->actorArray[index])
+				for (Actor* actor : frame->actorArray[index])
 				{
 					if (actor &&
 						actor->IsVisibleOutsideSight())
@@ -235,8 +297,7 @@ namespace Craft
 				if (visibleOutsideSight)
 				{
 					// 시야 밖
-					WORD& attributes =
-						frame->charInfoArray[index].Attributes;
+					WORD& attributes = frame->charInfoArray[index].Attributes;
 
 					// 검은색으로 보여
 					attributes &= ~(FOREGROUND_RED |
@@ -249,19 +310,16 @@ namespace Craft
 				}
 				else
 				{
-					// 시야 밖
-					WORD& attributes =
-						frame->charInfoArray[index].Attributes;
+					// 시야 밖에서는 문자 자체를 숨김
+					//frame->charInfoArray[index].Char.AsciiChar = ' ';
+
+					WORD& attributes = frame->charInfoArray[index].Attributes;
 
 					// 검은색으로 보여
 					attributes &= ~(FOREGROUND_RED |
 						FOREGROUND_GREEN |
 						FOREGROUND_BLUE |
 						FOREGROUND_INTENSITY);
-
-					// 이거 하면 회색으로 보여
-					// DEBUGGING
-					//attributes |= FOREGROUND_INTENSITY;
 				}
 			}
 		}
@@ -347,12 +405,19 @@ namespace Craft
 					if (row[localX] == ' ')
 						continue;
 
-					// 월드 좌표 -> 화면 좌표
-					const int screenX =
-						worldX - static_cast<int>(renderStartPosition.x);
+					int screenX, screenY;
 
-					const int screenY =
-						worldY - static_cast<int>(renderStartPosition.y);
+					if (mode != RenderMode::PLAY)
+					{
+						screenX = worldX;
+						screenY = worldY;
+					}
+					else
+					{
+						// 월드 좌표 -> 화면 좌표
+						screenX = worldX - static_cast<int>(renderStartPosition.x);
+						screenY = worldY - static_cast<int>(renderStartPosition.y);
+					}
 
 					// 화면 밖이면 렌더링하지 않음
 					if (screenX < 0 || screenX >= screenSize.x ||
@@ -361,8 +426,7 @@ namespace Craft
 						continue;
 					}
 
-					const int index =
-						screenY * static_cast<int>(screenSize.x) + screenX;
+					const int index = screenY * static_cast<int>(screenSize.x) + screenX;
 
 					// 이 칸에 Actor가 존재한다는 정보 저장
 					if (command.actor)
@@ -378,16 +442,14 @@ namespace Craft
 					}
 
 					// 문자 기록
-					frame->charInfoArray[index].Char.AsciiChar =
-						row[localX];
+					frame->charInfoArray[index].Char.AsciiChar = row[localX];
 
 					// 색상 기록
 					frame->charInfoArray[index].Attributes =
 						static_cast<DWORD>(command.color);
 
 					// 정렬 순서 기록
-					frame->sortingOrderArray[index] =
-						command.sortingOrder;
+					frame->sortingOrderArray[index] = command.sortingOrder;
 				}
 			}
 		}
@@ -424,5 +486,22 @@ namespace Craft
 		// unique_ptr<>&로 받아올 수 있는데 그러면 unique_ptr의 성격 때문에 불가
 		// 스마트 포인터라서 get()을 이용해 원시 포인터 얻어내
 		return screenBufferArray[currentBufferIndex].get(); 
+	}
+	void Renderer::DrawMouseCursor()
+	{
+		Vector2 mousePosition = Input::Get().GetMousePosition();
+		Vector2 screenPosition = mousePosition;
+
+		if (!WorldToScreenPosition(mousePosition, screenPosition))
+			return;
+
+		const int x = static_cast<int>(screenPosition.x);
+		const int y = static_cast<int>(screenPosition.y);
+
+		const int index = y * static_cast<int>(screenSize.x) + x;
+
+		frame->charInfoArray[index].Char.AsciiChar = '+';
+
+		frame->charInfoArray[index].Attributes |= FOREGROUND_GREEN;
 	}
 }

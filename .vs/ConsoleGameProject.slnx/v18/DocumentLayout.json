@@ -3,60 +3,100 @@
   "WorkspaceRootPath": "D:\\GameEngine\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\DestroyEffect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\DestroyEffect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|D:\\GameEngine\\CraftEngine\\Engine\\Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Engine\\Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Util\\Sight.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Sight.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\GameLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Wall.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Wall.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Wall.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Wall.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|D:\\GameEngine\\CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Game\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Game\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Game\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Game\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\ClearLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\ClearLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\DiedLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\DiedLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\MenuLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\MenuLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\MainLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\MainLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\UILevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\UILevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\DiedLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\DiedLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\MainLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\MainLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\MenuLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\MenuLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\GameLevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Util\\Sight.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Util\\Sight.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Actor\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\GameLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\GameLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|D:\\GameEngine\\CraftEngine\\Level\\Level.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Level\\Level.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|D:\\GameEngine\\CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{50BCA226-9784-4E6E-8449-D338379FC89E}|CraftEngine\\CraftEngine.vcxproj|solutionrelative:CraftEngine\\Render\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\Credit.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\Credit.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\ClearLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\ClearLevel.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\UILevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\UILevel.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|D:\\GameEngine\\BulletEcho\\Level\\Credit.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B0788C42-BE57-4D7B-99EB-289FC7286B7F}|BulletEcho\\BulletEcho.vcxproj|solutionrelative:BulletEcho\\Level\\Credit.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,186 +106,318 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Wall.h",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Wall.h",
-              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Wall.h",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Wall.h",
-              "RelativeToolTip": "BulletEcho\\Actor\\Wall.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-08-15T16:44:04.155Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Player.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Player.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Player.cpp",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Player.cpp",
-              "RelativeToolTip": "BulletEcho\\Actor\\Player.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAEAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "DiedLevel.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\DiedLevel.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\DiedLevel.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\DiedLevel.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\DiedLevel.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T16:44:01.494Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DestroyEffect.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\DestroyEffect.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Actor\\DestroyEffect.cpp",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\DestroyEffect.cpp",
-              "RelativeToolTip": "BulletEcho\\Actor\\DestroyEffect.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T16:20:20.427Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Engine.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\CraftEngine\\Engine\\Engine.cpp",
-              "RelativeDocumentMoniker": "CraftEngine\\Engine\\Engine.cpp",
-              "ToolTip": "D:\\GameEngine\\CraftEngine\\Engine\\Engine.cpp",
-              "RelativeToolTip": "CraftEngine\\Engine\\Engine.cpp",
-              "ViewState": "AgIAADsAAAAAAAAAAAArwGUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T10:08:15.544Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Main.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Main.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Main.cpp",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Main.cpp",
-              "RelativeToolTip": "BulletEcho\\Main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T10:08:12.97Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Level.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\CraftEngine\\Level\\Level.cpp",
-              "RelativeDocumentMoniker": "CraftEngine\\Level\\Level.cpp",
-              "ToolTip": "D:\\GameEngine\\CraftEngine\\Level\\Level.cpp",
-              "RelativeToolTip": "CraftEngine\\Level\\Level.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T10:08:07.14Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Renderer.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
-              "RelativeDocumentMoniker": "CraftEngine\\Render\\Renderer.cpp",
-              "ToolTip": "D:\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
-              "RelativeToolTip": "CraftEngine\\Render\\Renderer.cpp",
-              "ViewState": "AgIAAL8AAAAAAAAAAAAvwAYBAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T09:54:44.251Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Sight.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Util\\Sight.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Util\\Sight.cpp",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Util\\Sight.cpp",
-              "RelativeToolTip": "BulletEcho\\Util\\Sight.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T09:54:38.923Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Character.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Character.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Character.cpp",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Character.cpp",
-              "RelativeToolTip": "BulletEcho\\Actor\\Character.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T07:22:08.432Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Character.h",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Character.h",
-              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Character.h",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Character.h",
-              "RelativeToolTip": "BulletEcho\\Actor\\Character.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAgAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-08-15T07:40:34.634Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GameLevel.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Level\\GameLevel.cpp",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
-              "RelativeToolTip": "BulletEcho\\Level\\GameLevel.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T07:23:39.136Z",
+              "WhenOpened": "2026-08-17T17:31:13.098Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "GameLevel.h",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.h",
-              "RelativeDocumentMoniker": "BulletEcho\\Level\\GameLevel.h",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.h",
-              "RelativeToolTip": "BulletEcho\\Level\\GameLevel.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAGAAAAAAAAAA==",
+              "Title": "DiedLevel.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\DiedLevel.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\DiedLevel.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\DiedLevel.h",
+              "RelativeToolTip": "BulletEcho\\Level\\DiedLevel.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-08-15T07:35:29.555Z",
+              "WhenOpened": "2026-08-17T17:29:53.009Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Enemy.cpp",
-              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp",
-              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Enemy.cpp",
-              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp",
-              "RelativeToolTip": "BulletEcho\\Actor\\Enemy.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-15T07:02:11.318Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "Enemy.h",
               "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Enemy.h",
               "RelativeDocumentMoniker": "BulletEcho\\Actor\\Enemy.h",
               "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Enemy.h",
               "RelativeToolTip": "BulletEcho\\Actor\\Enemy.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAAoAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-08-12T23:54:40.113Z",
+              "WhenOpened": "2026-08-17T17:17:11.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Enemy.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Enemy.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Enemy.cpp",
+              "RelativeToolTip": "BulletEcho\\Actor\\Enemy.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T17:16:56.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Main.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Main.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Main.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Main.cpp",
+              "RelativeToolTip": "BulletEcho\\Main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T16:40:02.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Wall.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Wall.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Wall.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Wall.h",
+              "RelativeToolTip": "BulletEcho\\Actor\\Wall.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T16:33:12.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Renderer.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
+              "RelativeDocumentMoniker": "CraftEngine\\Render\\Renderer.cpp",
+              "ToolTip": "D:\\GameEngine\\CraftEngine\\Render\\Renderer.cpp",
+              "RelativeToolTip": "CraftEngine\\Render\\Renderer.cpp",
+              "ViewState": "AgIAABgBAAAAAAAAAAAnwEEBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T16:32:05.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Sight.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Util\\Sight.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Util\\Sight.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Util\\Sight.cpp",
+              "RelativeToolTip": "BulletEcho\\Util\\Sight.cpp",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAnwIMAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T16:32:01.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Character.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Character.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Character.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Character.cpp",
+              "RelativeToolTip": "BulletEcho\\Actor\\Character.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T15:54:01.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "GameLevel.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\GameLevel.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\GameLevel.cpp",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAvwC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T15:49:43.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GameLevel.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\GameLevel.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\GameLevel.h",
+              "RelativeToolTip": "BulletEcho\\Level\\GameLevel.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T15:48:54.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Credit.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\Credit.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\Credit.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\Credit.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\Credit.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T15:31:35.642Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Credit.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\Credit.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\Credit.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\Credit.h",
+              "RelativeToolTip": "BulletEcho\\Level\\Credit.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T15:29:54.265Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Player.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Actor\\Player.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Actor\\Player.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Actor\\Player.cpp",
+              "RelativeToolTip": "BulletEcho\\Actor\\Player.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T15:10:27.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "UILevel.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\UILevel.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\UILevel.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\UILevel.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\UILevel.cpp",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T14:01:35.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UILevel.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\UILevel.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\UILevel.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\UILevel.h",
+              "RelativeToolTip": "BulletEcho\\Level\\UILevel.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T13:59:43.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MainLevel.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\MainLevel.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\MainLevel.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\MainLevel.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\MainLevel.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T13:58:28.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MainLevel.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\MainLevel.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\MainLevel.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\MainLevel.h",
+              "RelativeToolTip": "BulletEcho\\Level\\MainLevel.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T13:51:57.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MenuLevel.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\MenuLevel.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\MenuLevel.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\MenuLevel.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\MenuLevel.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T13:51:21.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MenuLevel.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\MenuLevel.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\MenuLevel.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\MenuLevel.h",
+              "RelativeToolTip": "BulletEcho\\Level\\MenuLevel.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T13:51:20.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ClearLevel.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\ClearLevel.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\ClearLevel.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\ClearLevel.cpp",
+              "RelativeToolTip": "BulletEcho\\Level\\ClearLevel.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T13:51:16.92Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ClearLevel.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Level\\ClearLevel.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Level\\ClearLevel.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Level\\ClearLevel.h",
+              "RelativeToolTip": "BulletEcho\\Level\\ClearLevel.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T13:51:07.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Game.cpp",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Game\\Game.cpp",
+              "RelativeDocumentMoniker": "BulletEcho\\Game\\Game.cpp",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Game\\Game.cpp",
+              "RelativeToolTip": "BulletEcho\\Game\\Game.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-17T13:50:02.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Game.h",
+              "DocumentMoniker": "D:\\GameEngine\\BulletEcho\\Game\\Game.h",
+              "RelativeDocumentMoniker": "BulletEcho\\Game\\Game.h",
+              "ToolTip": "D:\\GameEngine\\BulletEcho\\Game\\Game.h",
+              "RelativeToolTip": "BulletEcho\\Game\\Game.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-08-17T13:50:03.87Z",
               "EditorCaption": ""
             }
           ]

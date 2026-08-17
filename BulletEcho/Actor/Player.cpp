@@ -10,6 +10,8 @@
 //#include <Actor/DestroyEffect.h>
 #include <Render/Renderer.h>
 #include <Util/Camera.h>
+#include <Game/Game.h>
+#include <Level/GameLevel.h>
 
 #include <cmath>
 
@@ -17,7 +19,7 @@ using namespace Craft;
 
 Player::Player(
 	Craft::Vector2 position
-) : Character({ " * ", "***", " * "}, position, Color::Green),
+) : Character({ "   ", " * ", "   "}, position, Color::Green),
 	fireMode(FireMode::OneShot)
 {
 	// 캐릭터 타입 설정
@@ -32,11 +34,6 @@ Player::Player(
 	sight->SetDegree(30.f);
 
 	camera = std::make_unique<Camera>(Renderer::Get().GetScreenSize(), this);
-
-	// 생성 위치 설정
-	// DEBUGGING
-	//int x = (Engine::Get().GetWidth() / 2) - (width / 2);
-	//int y = (Engine::Get().GetHeight() / 2) - (height / 2);
 
 	int x = position.x;
 	int y = position.y;
@@ -64,11 +61,23 @@ void Player::Tick(float deltaTime)
 	super::Tick(deltaTime);
 	sight->Tick(deltaTime);
 	camera->FollowPlayer();
-
+	
+	std::shared_ptr<GameLevel> gameLevel = Cast<GameLevel>(GetOwner());
+	if (gameLevel)
+	{
+		gameLevel->SetElapsedTime(deltaTime);
+	}
 
 	// ESC 키 종료
 	if (Input::Get().GetKeyDown(VK_ESCAPE))
-		QuitGame();
+	{
+		// 메뉴 토글
+		Game& game = dynamic_cast<Game&>(Engine::Get());
+		game.ToggleMenu();
+		return;
+
+		//QuitGame();
+	}
 
 	float xDir = 0.f;
 	if (Input::Get().GetKey('D'))
@@ -104,20 +113,20 @@ void Player::Tick(float deltaTime)
 	Vector2 mousePos = Input::Get().GetMousePosition();
 	forward = (mousePos - GetCenterPosition()).normalized();
 
-	std::string temp =
-		std::to_string(mousePos.x) +
-		", " +
-		std::to_string(mousePos.y);
+	//std::string temp =
+	//	std::to_string(mousePos.x) +
+	//	", " +
+	//	std::to_string(mousePos.y);
 
-	Renderer::Get().Submit(
-		nullptr,
-		{ temp },
-		Vector2(20, 0)
-	);
+	//Renderer::Get().Submit(
+	//	nullptr,
+	//	{ temp },
+	//	Vector2(20, 0)
+	//);
 
 	// 바라보는 방향에 따라 이미지 바꿔주기
-	Actor::Direction dir = GetForwardDirection();
-	image = sprites[static_cast<int>(dir)];
+	//Actor::Direction dir = GetForwardDirection();
+	//image = sprites[static_cast<int>(dir)];
 
 	// 발사 타이머 업데이트
 	timer.Tick(deltaTime);

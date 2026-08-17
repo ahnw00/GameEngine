@@ -19,7 +19,18 @@ public:
 		const std::shared_ptr<Craft::Actor>& movingActor
 	);
 
+	inline bool CheckGameClear() const { return leftEnemy <= 0; }
+	inline void EnemyKilled() { leftEnemy--; }
+	inline void SetElapsedTime(float deltaTime) { elapsedTime += deltaTime; }
+	inline float GetElapsedTime() const { return elapsedTime; }
+
 private:
 	void LoadMap(const std::string& filename);
+
+	bool isGameClear = false;
+
+	float elapsedTime = 0.f;
+
+	int leftEnemy = 0;
 };
 

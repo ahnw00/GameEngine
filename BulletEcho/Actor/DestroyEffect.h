@@ -44,6 +44,12 @@ private:
 	// 효과 재생을 위한 Tick 이벤트 함수 오버라이드.
 	virtual void Tick(float deltaTime) override;
 
+	// 이펙트는 시야 벗어나도 보여야해
+	virtual bool IsVisibleOutsideSight() const override { return true; };
+
+	// true면 시야처리 무시
+	virtual bool IgnoreSight() const override { return true; }
+
 private:
 
 	// 시퀀스 문자열 수(배열 원소 수).

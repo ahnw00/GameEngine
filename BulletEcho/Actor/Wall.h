@@ -7,11 +7,11 @@ class Wall : public Craft::Actor
 	TYPE_DECLARATIONS(Wall, Actor)
 
 public:
-	Wall(Craft::Vector2 position);
+	Wall(Craft::Vector2 position, int width, int height);
 
-	// 이거 활성화하면 벽도 시야 밖으로 가도 보여
+	// 이거 활성화하면 벽이 보여
 	// DEBUGGING
-	virtual bool IsVisibleOutsideSight() const override { return true; }
+	//virtual bool IsVisibleOutsideSight() const override { return true; }
 
 private:
 

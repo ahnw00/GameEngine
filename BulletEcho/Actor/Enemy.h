@@ -57,21 +57,10 @@ class Enemy : public Character
 		}
 	};
 
-	struct Vector2Hash
-	{
-		size_t operator()(const Craft::Vector2& position) const
-		{
-			size_t x = std::hash<int>{}(position.x);
-			size_t y = std::hash<int>{}(position.y);
-
-			return x ^ (y << 1);
-		}
-	};
-
 	TYPE_DECLARATIONS(Enemy, Character)
 
 public:
-	Enemy(Craft::Vector2 position);
+	Enemy(Craft::Vector2 position, const std::vector<Craft::Vector2>& patrolPoints);
 
 private:
 	// 이벤트 함수 오버라이드
@@ -109,10 +98,10 @@ private:
 	// 순찰 위치들
 	std::vector<Craft::Vector2> patrolPoints = 
 	{
-		Craft::Vector2(10, 10),
-		Craft::Vector2(10, 20),
-		Craft::Vector2(20, 20),
-		Craft::Vector2(20, 10)
+		Craft::Vector2(65, 6),
+		Craft::Vector2(65, 20),
+		//Craft::Vector2(20, 20),
+		//Craft::Vector2(20, 10)
 		//Craft::Vector2(10, 10)
 	};
 	int currentPatrolIndex = 0;
