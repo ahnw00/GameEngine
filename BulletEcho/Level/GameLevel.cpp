@@ -44,9 +44,9 @@ void GameLevel::ProcessPlayerSight()
 		bool b = actor->IsTypeOf<Player>();
 		// 플레이 모드면 적의 시야 렌더 안해줘
 		// DEBUGGING
-		//if (currentMode == Renderer::RenderMode::PLAY &&
-		//	!actor->IsTypeOf<Player>())
-		//	continue;
+		if (currentMode == Renderer::RenderMode::PLAY &&
+			!actor->IsTypeOf<Player>())
+			continue;
 
 		// 디버그 모드: 적과 플레이어 시야 모두 렌더
 		// 플레이 모드: 플레이어의 시야만 렌더
@@ -210,23 +210,6 @@ void GameLevel::LoadMap(const std::string& filename)
 	{
 		for (int x = 0; x < static_cast<int>(map[y].size()); ++x)
 		{
-			//switch (map[y][x])
-			//{
-			//case 'E':
-			//	SpawnActor<Enemy>(Vector2(
-			//		static_cast<float>(x),
-			//		static_cast<float>(y)
-			//	));
-			//	break;
-
-			//case 'P':
-			//	SpawnActor<Player>(Vector2(
-			//		static_cast<float>(x),
-			//		static_cast<float>(y)
-			//	));
-			//	break;
-			//}
-
 			if (map[y][x] == 'P')
 			{
 				SpawnActor<Player>(Vector2(
@@ -301,12 +284,9 @@ void GameLevel::LoadMap(const std::string& filename)
 
 				bool canExtend = true;
 
-				for (int checkX = x;
-					checkX < x + width;
-					++checkX)
+				for (int checkX = x; checkX < x + width; ++checkX)
 				{
-					if (map[y + height][checkX] != '#' ||
-						visited[y + height][checkX])
+					if (map[y + height][checkX] != '#' || visited[y + height][checkX])
 					{
 						canExtend = false;
 						break;
@@ -323,13 +303,9 @@ void GameLevel::LoadMap(const std::string& filename)
 			// 3-3. 사용한 #들을 visited 처리
 			// ------------------------------------------
 
-			for (int wallY = y;
-				wallY < y + height;
-				++wallY)
+			for (int wallY = y; wallY < y + height; ++wallY)
 			{
-				for (int wallX = x;
-					wallX < x + width;
-					++wallX)
+				for (int wallX = x; wallX < x + width; ++wallX)
 				{
 					visited[wallY][wallX] = true;
 				}

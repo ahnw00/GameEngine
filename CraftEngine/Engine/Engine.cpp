@@ -237,15 +237,11 @@ namespace Craft
 
 		renderer->DrawRenderQueue();
 
-		//if (Engine::Get().GetMainLevelType() == Level::LevelType::GamePlay)
-		//{
-			// Player::Sight::Detect
-			mainLevel->ProcessPlayerSight();
+		mainLevel->ProcessPlayerSight();
 
-			renderer->DrawSight();
+		renderer->DrawSight();
 
-			renderer->DrawMouseCursor();
-		//}
+		renderer->DrawMouseCursor();
 
 		renderer->Present();
 	}

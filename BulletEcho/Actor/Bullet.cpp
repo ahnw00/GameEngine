@@ -30,9 +30,9 @@ void Bullet::Tick(float deltaTime)
 	int yLimit = Engine::Get().GetHeight() - 1;
 
 	if (newPosition.x < 0.f || newPosition.x >= xLimit)
-		Destroy();
+		DestroyAndEffect();
 	if (newPosition.y < 0.f || newPosition.y >= yLimit)
-		Destroy();
+		DestroyAndEffect();
 
 	// 현재 체크하는 위치에 올라와있는 액터들 가져와
 	const auto& actors = Renderer::Get().GetActorsAt(newPosition);
