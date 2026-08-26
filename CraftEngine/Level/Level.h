@@ -41,6 +41,7 @@ namespace Craft
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
 		virtual void Draw();
+		virtual void Draw3D();
 
 		// 액터 추가 함수(템플릿)
 		template<typename T, typename ...Args,

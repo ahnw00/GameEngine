@@ -21,7 +21,9 @@ namespace Craft
 		{
 			DEBUG,
 			PLAY,
-			MENU
+			MENU,
+			TwoDimension,
+			ThreeDimension
 		};
 
 		enum class SightState
@@ -126,6 +128,14 @@ namespace Craft
 
 		// 마우스 커서 표시
 		void DrawMouseCursor();
+
+		// 3D 렌더링
+		void Draw3DView(
+			const Vector2& playerPos,
+			const Vector2& playerDir,
+			const Vector2& cameraPlane,
+			const std::vector<std::string>& mapData
+		);
 
 		// 그린 결과를 화면에 표시하는 함수
 		void Present();

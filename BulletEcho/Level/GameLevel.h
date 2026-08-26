@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include <Level/Level.h>
+#include <memory>
 
+class Player;
 
 class GameLevel : public Craft::Level
 {
@@ -13,6 +15,7 @@ private:
 
 public:
 	virtual void ProcessPlayerSight() override;
+	virtual void Draw3D() override;
 
 	bool CanMove(
 		const Craft::Vector2& nextPosition,
@@ -27,10 +30,14 @@ public:
 private:
 	void LoadMap(const std::string& filename);
 
+	std::vector<std::string> map;
+
 	bool isGameClear = false;
 
 	float elapsedTime = 0.f;
 
 	int leftEnemy = 0;
+
+	std::weak_ptr<Player> player;
 };
 

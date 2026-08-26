@@ -467,6 +467,188 @@ namespace Craft
 		);
 	}
 
+	//// 1. 플레이어의 현재 위치와 정면 벡터를 가져옵니다.
+	//Vector2 playerPos = player->GetPosition();
+	//Vector2 playerDir = player->GetForward();
+
+	//// 2. Camera Plane(카메라 평면) 벡터 계산
+	//// 정면 벡터(playerDir)와 수직(-y, x)이 되게 만듭니다.
+	//// 0.66f를 곱하는 이유는 시야각(FOV)을 설정하기 위함입니다. (약 66도 시야각)
+	//// 이 값을 키우면 광각 렌즈(FOV 넓어짐)가 되고, 줄이면 망원 렌즈(FOV 좁아짐)가 됩니다.
+	//float fov = 0.66f;
+	//Vector2 cameraPlane(-playerDir.y * fov, playerDir.x* fov);
+
+	void Renderer::Draw3DView(
+		const Vector2& playerPos, 
+		const Vector2& playerDir, 
+		const Vector2& cameraPlane, 
+		const std::vector<std::string>& mapData)
+	{
+		const int width = static_cast<int>(screenSize.x);
+		const int height = static_cast<int>(screenSize.y);
+
+		// 화면의 가로 픽셀(x열) 수만큼 레이를 발사
+		for (int x = 0; x < width; ++x)
+		{
+			// 현재 화면 x좌표를 -1.0 ~ 1.0 사이의 비율로 변환
+			double cameraX = 2.0 * x / static_cast<double>(width) - 1.0;
+
+			// 레이의 최종 방향 벡터 계산
+			double rayDirX = playerDir.x + cameraPlane.x * cameraX;
+			double rayDirY = playerDir.y + cameraPlane.y * cameraX;
+
+			// 현재 레이가 위치한 맵의 정수 좌표
+			int mapX = static_cast<int>(playerPos.x);
+			int mapY = static_cast<int>(playerPos.y);
+
+			// DDA 알고리즘
+			double sideDistX, sideDistY;
+
+			// deltaDist: 레이가 1칸 이동할 때 실제로 이동하는 총 거리
+			// rayDir이 0일 때 0으로 나누는 에러 방지 위해 1e30 대입
+			double deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1.0 / rayDirX);
+			double deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1.0 / rayDirY);
+
+			double perpWallDist; // 벽까지의 최종 수직 거리
+
+			// 레이가 전진할 방향(-1 또는 1)
+			int stepX, stepY;
+			
+			int hit = 0; // 벽에 부딪혔는지 여부(0: 안 부딪힘, 1: 부딪힘)
+			int side = -1;    // 부딪힌 벽의 면(0: x축에 평행한 면, 1: y축에 평행한 면)
+
+			// step과 초기 sideDist 세팅
+			if (rayDirX < 0) // 왼쪽 방향으로 레이 발사
+			{
+				stepX = -1;
+				sideDistX = (playerPos.x - mapX) * deltaDistX;
+			}
+			else // 오른쪽 방향으로 레이 발사
+			{
+				stepX = 1;
+				sideDistX = (mapX + 1 - playerPos.x) * deltaDistX;
+			}
+
+			if (rayDirY < 0) // 위쪽 방향으로 레이 발사
+			{
+				stepY = -1;
+				sideDistY = (playerPos.y - mapY) * deltaDistY;
+			}
+			else // 아래쪽 방향으로 레이 발사
+			{
+				stepY = 1;
+				sideDistY = (mapY + 1 - playerPos.y) * deltaDistY;
+			}
+
+			// DDA 루프(벽에 부딪히거나 시야 거리 안까지 광선 1칸씩 전진)
+			while (hit == 0)
+			{
+				// Todo: 시야 범위 정하기
+				// 시야 범위 벗어나면 중단
+				if (min(sideDistX, sideDistY) >= 15.f)
+					break;
+
+				if (sideDistX < sideDistY)
+				{
+					sideDistX += deltaDistX; // x축에 평행하게 한 칸 이동
+					mapX += stepX;
+					side = 0;
+				}
+				else
+				{
+					sideDistY += deltaDistY; // y축에 평행하게 한 칸 이동
+					mapY += stepY;
+					side = 1;
+				}
+
+				if (mapX < 0 || mapX >= mapData[0].size() ||
+					mapY < 0 || mapY >= mapData.size())
+					break;
+
+				if (mapData[mapY][mapX] == '#')
+					hit = 1;
+			}
+
+			if (hit == 1)
+			{
+				// --- [ 1. 벽을 찾았을 때의 일반적인 그리기 로직 ] ---
+
+				// 수직 거리 계산
+				if (side == 0) perpWallDist = (mapX - playerPos.x + (1 - stepX) / 2) / rayDirX;
+				else           perpWallDist = (mapY - playerPos.y + (1 - stepY) / 2) / rayDirY;
+
+				if (perpWallDist <= 0.0) perpWallDist = 0.001;
+
+				// (선택 사항) 만약 계산된 수직 거리가 sightLimit보다 멀다면 안 그려도 무방함
+				if (perpWallDist > 15.f) 
+				{
+					// 거리가 너무 멀어서 안개(어둠) 속으로 사라짐
+					for (int y = 0; y < height; ++y) 
+					{
+						frame->charInfoArray[y * width + x].Char.AsciiChar = ' ';
+						frame->charInfoArray[y * width + x].Attributes = 0;
+					}
+					continue; // 다음 x열로 넘어감
+				}
+
+				// 벽 높이 계산
+				int lineHeight = static_cast<int>(height / perpWallDist) * 3;
+				int drawStart = -lineHeight / 2 + height / 2;
+				if (drawStart < 0) drawStart = 0;
+				int drawEnd = lineHeight / 2 + height / 2;
+				if (drawEnd >= height) drawEnd = height - 1;
+
+				// 화면 프레임에 기록
+				for (int y = 0; y < height; ++y)
+				{
+					const int index = y * width + x;
+					if (y < drawStart) 
+					{
+						// 천장
+						frame->charInfoArray[index].Char.AsciiChar = ' ';
+						frame->charInfoArray[index].Attributes = 0;
+					}
+					else if (y >= drawStart && y <= drawEnd) 
+					{
+						// 벽 그리기 (이전 답변의 거리별 색상 처리 로직 적용)
+						frame->charInfoArray[index].Char.AsciiChar = 219;
+						frame->charInfoArray[index].Attributes = FOREGROUND_GREEN;
+					}
+					else 
+					{
+						// 바닥
+						frame->charInfoArray[index].Char.AsciiChar = '.';
+						frame->charInfoArray[index].Attributes = FOREGROUND_INTENSITY;
+					}
+				}
+			}
+			else
+			{
+				// --- [ 2. 벽을 못 찾고 시야 한계(sightLimit)에서 끝났을 때 ] ---
+
+				for (int y = 0; y < height; ++y)
+				{
+					const int index = y * width + x;
+
+					// 시야 끝에는 아무것도 안 보이게 까맣게(혹은 바닥만) 처리
+
+					// 예시: 벽 없이 위쪽 절반은 천장, 아래쪽 절반은 바닥으로 그리기
+					if (y < height / 2) 
+					{
+						frame->charInfoArray[index].Char.AsciiChar = ' '; // 빈공간 (어둠)
+						frame->charInfoArray[index].Attributes = 0;
+					}
+					else 
+					{
+						// 끝이 안 보이는 먼 바닥을 표현하고 싶다면 옅게 그림
+						frame->charInfoArray[index].Char.AsciiChar = '.';
+						frame->charInfoArray[index].Attributes = FOREGROUND_INTENSITY; // 어두운 색
+					}
+				}
+			}
+		}
+	}
+
 	void Renderer::Present()
 	{
 		
@@ -487,6 +669,7 @@ namespace Craft
 		// 스마트 포인터라서 get()을 이용해 원시 포인터 얻어내
 		return screenBufferArray[currentBufferIndex].get(); 
 	}
+
 	void Renderer::DrawMouseCursor()
 	{
 		Vector2 mousePosition = Input::Get().GetMousePosition();

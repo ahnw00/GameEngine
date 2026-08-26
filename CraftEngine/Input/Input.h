@@ -37,6 +37,9 @@ namespace Craft
 		// 마우스 위치 Getter
 		inline Vector2 GetMousePosition() const { return mousePosition; }
 
+		// 이전 마우스 위치 Getter
+		inline Vector2 GetPrevMousePosition() const { return prevMousePosition; }
+
 		// 외부에서 접근이 가능하도록
 		static Input& Get();
 
@@ -59,6 +62,9 @@ namespace Craft
 
 		// 마우스 위치 저장 변수
 		Vector2 mousePosition;
+
+		// 마우스 이전 위치 저장 변수
+		Vector2 prevMousePosition;
 
 		// 화면 버퍼 핸들
 		HANDLE buffer = nullptr;

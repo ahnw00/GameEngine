@@ -109,20 +109,24 @@ void Player::Tick(float deltaTime)
 		footstepTimer = 0.35f;
 	}
 
+	// Todo: 2d일 때랑 3d일 때 회전 다르게 처리
 	// 바라보는 방향 구하기
 	Vector2 mousePos = Input::Get().GetMousePosition();
-	forward = (mousePos - GetCenterPosition()).normalized();
+	//forward = (mousePos - GetCenterPosition()).normalized();
 
-	//std::string temp =
-	//	std::to_string(mousePos.x) +
-	//	", " +
-	//	std::to_string(mousePos.y);
-
-	//Renderer::Get().Submit(
-	//	nullptr,
-	//	{ temp },
-	//	Vector2(20, 0)
-	//);
+	Vector2 newForward = forward;
+	Vector2 prevMousePos = Input::Get().GetPrevMousePosition();
+	
+	// 오른쪽으로 회전
+	if (mousePos.x - prevMousePos.x > 0)
+	{
+		// Todo: 회전 각도 계산해주기
+	}
+	// 왼쪽으로 회전
+	else
+	{
+		// Todo: 회전 각도 계산해주기
+	}
 
 	// 바라보는 방향에 따라 이미지 바꿔주기
 	//Actor::Direction dir = GetForwardDirection();

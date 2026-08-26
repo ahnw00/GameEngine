@@ -83,6 +83,7 @@ namespace Craft
 
 			if (record.EventType == MOUSE_EVENT)
 			{
+				prevMousePosition = mousePosition;
 				const auto& mouseEvent = record.Event.MouseEvent;
 
 				mousePosition = Vector2(
@@ -95,17 +96,6 @@ namespace Craft
 		
 			--eventCount;
 		}
-
-		//std::string temp =
-		//	std::to_string(mousePosition.x) +
-		//	", " +
-		//	std::to_string(mousePosition.y);
-
-		//Renderer::Get().Submit(
-		//	nullptr,
-		//	{ temp },
-		//	mousePosition
-		//);
 	}
 
 	void Input::SavePreviousStates()

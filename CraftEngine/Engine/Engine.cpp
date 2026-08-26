@@ -237,11 +237,18 @@ namespace Craft
 
 		renderer->DrawRenderQueue();
 
-		mainLevel->ProcessPlayerSight();
+		// Todo: 3d 렌더 모드, 2d 렌더 모드 나누기
+		{
+			//mainLevel->ProcessPlayerSight();
 
-		renderer->DrawSight();
+			//renderer->DrawSight();
 
-		renderer->DrawMouseCursor();
+			//renderer->DrawMouseCursor();
+		}
+
+		{
+			mainLevel->Draw3D();
+		}
 
 		renderer->Present();
 	}

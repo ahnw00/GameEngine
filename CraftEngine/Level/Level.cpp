@@ -56,6 +56,10 @@ namespace Craft
 		}
 	}
 
+	void Level::Draw3D()
+	{
+	}
+
 	void Level::ProcessAddAndDestroyActors()
 	{
 		// 액터 제거 처리

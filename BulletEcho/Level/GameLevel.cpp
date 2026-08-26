@@ -68,8 +68,28 @@ void GameLevel::ProcessPlayerSight()
 	}
 }
 
+void GameLevel::Draw3D()
+{
+	const std::shared_ptr<Player> p = player.lock();
+
+	if (!p) return;
+
+	Vector2 playerPos = p->GetCenterPosition();
+	Vector2 playerDir = p->GetForward();
+	
+	float fov = 0.66f;
+	Vector2 cameraPlane(-playerDir.y * fov, playerDir.x * fov);
+
+	Renderer::Get().Draw3DView(
+		playerPos, 
+		playerDir, 
+		cameraPlane, 
+		map
+	);
+}
+
 bool GameLevel::CanMove(
-	const Craft::Vector2& nextPosition,
+	const Vector2& nextPosition,
 	const std::shared_ptr<Actor>& movingActor)
 {
 	// 게임 클리어인 경우 처리 안함
@@ -161,7 +181,7 @@ void GameLevel::LoadMap(const std::string& filename)
 
 	assert(readSize > 0 && "No data in the stage file");
 
-	std::vector<std::string> map;
+	//std::vector<std::string> map;
 	std::string currentRow;
 
 	for (long i = 0; i < fileSize; ++i)
@@ -212,7 +232,7 @@ void GameLevel::LoadMap(const std::string& filename)
 		{
 			if (map[y][x] == 'P')
 			{
-				SpawnActor<Player>(Vector2(
+				player = SpawnActor<Player>(Vector2(
 					static_cast<float>(x),
 					static_cast<float>(y)
 				));
