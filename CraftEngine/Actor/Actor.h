@@ -138,7 +138,7 @@ namespace Craft
 		Vector2 prevPosition;
 
 		// 바라보는 방향
-		Vector2 forward = Vector2::Zero;
+		Vector2 forward = Vector2::Up;
 
 		// 방향 스테이트
 		Direction direction = Direction::N;

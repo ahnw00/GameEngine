@@ -79,20 +79,41 @@ void Player::Tick(float deltaTime)
 		//QuitGame();
 	}
 
-	float xDir = 0.f;
-	if (Input::Get().GetKey('D'))
-		xDir = 1.f;
-	if (Input::Get().GetKey('A'))
-		xDir = -1.f;
+	// 2d일 때 움직임
+	//float xDir = 0.f;
+	//if (Input::Get().GetKey('D'))
+	//	xDir = 1.f;
+	//if (Input::Get().GetKey('A'))
+	//	xDir = -1.f;
 
-	float yDir = 0.f;
-	if (Input::Get().GetKey('S'))
-		yDir = 1.f;
+	//float yDir = 0.f;
+	//if (Input::Get().GetKey('S'))
+	//	yDir = 1.f;
+	//if (Input::Get().GetKey('W'))
+	//	yDir = -1.f;
+
+	Vector2 movingDir = Vector2::Zero;
+	Vector2 right(-forward.y, forward.x);
+
 	if (Input::Get().GetKey('W'))
-		yDir = -1.f;
+		movingDir += forward;
+	if (Input::Get().GetKey('A'))
+		movingDir -= right;
+	if (Input::Get().GetKey('S'))
+		movingDir -= forward;
+	if (Input::Get().GetKey('D'))
+		movingDir += right;
 
 	// 이동 함수 호출
-	bool isMoving = Move(xDir, yDir, deltaTime);
+	//bool isMoving = Move(xDir, yDir, deltaTime);
+
+	bool isMoving = false;
+	if (movingDir.x != 0.f || movingDir.y != 0.f)
+	{
+		movingDir = movingDir.normalized();
+
+		isMoving = Move(movingDir.x, movingDir.y, deltaTime);
+	}
 
 	if (isMoving)
 	{
@@ -114,18 +135,28 @@ void Player::Tick(float deltaTime)
 	Vector2 mousePos = Input::Get().GetMousePosition();
 	//forward = (mousePos - GetCenterPosition()).normalized();
 
-	Vector2 newForward = forward;
 	Vector2 prevMousePos = Input::Get().GetPrevMousePosition();
 	
-	// 오른쪽으로 회전
-	if (mousePos.x - prevMousePos.x > 0)
+	float mouseDeltaX = Input::Get().GetMouseDelta().x;
+
+	if (mouseDeltaX != 0.f)
 	{
-		// Todo: 회전 각도 계산해주기
-	}
-	// 왼쪽으로 회전
-	else
-	{
-		// Todo: 회전 각도 계산해주기
+		float rotation = rotateSpeed * mouseDeltaX;
+
+		// Degree -> Radian 변환
+		float radStep = rotation * (3.14159265f / 180.f);
+
+		// 회전 행렬을 적용하여 forward 벡터 회전
+		float cosVal = std::cos(radStep);
+		float sinVal = std::sin(radStep);
+
+		float newX = forward.x * cosVal - forward.y * sinVal;
+		float newY = forward.x * sinVal + forward.y * cosVal;
+
+		if (!(newX == 0 && newY == 0))
+		{
+			forward = Vector2(newX, newY).normalized();
+		}
 	}
 
 	// 바라보는 방향에 따라 이미지 바꿔주기

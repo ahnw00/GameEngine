@@ -40,6 +40,12 @@ namespace Craft
 		// 이전 마우스 위치 Getter
 		inline Vector2 GetPrevMousePosition() const { return prevMousePosition; }
 
+		// 마우스 델타 값 가져오기
+		inline Vector2 GetMouseDelta() const { return mouseDelta; }
+
+		// 마우스 고정 모드 켜기/끄기
+		inline void SetCursorLock(bool lock) { isCursorLocked = lock; }
+
 		// 외부에서 접근이 가능하도록
 		static Input& Get();
 
@@ -61,12 +67,16 @@ namespace Craft
 		static Input* instance;
 
 		// 마우스 위치 저장 변수
-		Vector2 mousePosition;
+		Vector2 mousePosition = Vector2::Up;
 
 		// 마우스 이전 위치 저장 변수
-		Vector2 prevMousePosition;
+		Vector2 prevMousePosition = Vector2::Up;
 
 		// 화면 버퍼 핸들
 		HANDLE buffer = nullptr;
+
+		HWND consoleWindow = nullptr; // 콘솔 창 핸들
+		bool isCursorLocked = true;  // 마우스 중앙 고정 모드 플래그
+		Vector2 mouseDelta;           // 마우스가 중앙에서 얼마나 이동했는지 저장
 	};
 }

@@ -509,8 +509,6 @@ namespace Craft
 			double deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1.0 / rayDirX);
 			double deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1.0 / rayDirY);
 
-			double perpWallDist; // 벽까지의 최종 수직 거리
-
 			// 레이가 전진할 방향(-1 또는 1)
 			int stepX, stepY;
 			
@@ -569,6 +567,8 @@ namespace Craft
 					hit = 1;
 			}
 
+			double perpWallDist; // 벽까지의 최종 수직 거리
+
 			if (hit == 1)
 			{
 				// --- [ 1. 벽을 찾았을 때의 일반적인 그리기 로직 ] ---
@@ -579,6 +579,7 @@ namespace Craft
 
 				if (perpWallDist <= 0.0) perpWallDist = 0.001;
 
+				// Todo: 시야범위 변수화
 				// (선택 사항) 만약 계산된 수직 거리가 sightLimit보다 멀다면 안 그려도 무방함
 				if (perpWallDist > 15.f) 
 				{
@@ -592,7 +593,7 @@ namespace Craft
 				}
 
 				// 벽 높이 계산
-				int lineHeight = static_cast<int>(height / perpWallDist) * 3;
+				int lineHeight = static_cast<int>(height / perpWallDist) * 6;
 				int drawStart = -lineHeight / 2 + height / 2;
 				if (drawStart < 0) drawStart = 0;
 				int drawEnd = lineHeight / 2 + height / 2;

@@ -45,6 +45,8 @@ private:
 
 	std::unique_ptr<Camera> camera;
 
+	float rotateSpeed = 1.f;
+
 	float footstepTimer = 0.35f;
 	float footstepInterval = 0.4f;
 

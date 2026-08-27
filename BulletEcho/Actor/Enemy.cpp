@@ -175,7 +175,7 @@ void Enemy::Patrol(const std::vector<Vector2>& patrolPoints, float deltaTime)
 		float newX = forward.x * cosVal - forward.y * sinVal;
 		float newY = forward.x * sinVal + forward.y * cosVal;
 
-		forward = Craft::Vector2(newX, newY).normalized();
+		forward = Vector2(newX, newY).normalized();
 
 		// 회전이 끝났는지 체크
 		if (turnAngle >= targetAngle)
@@ -184,7 +184,7 @@ void Enemy::Patrol(const std::vector<Vector2>& patrolPoints, float deltaTime)
 			turnAngle = 0.f;
 
 			// 미세한 부동소수점 오차를 잡기 위해 다음 목표를 향하도록 forward 강제 고정
-			Craft::Vector2 nextTarget = patrolPoints[currentPatrolIndex];
+			Vector2 nextTarget = patrolPoints[currentPatrolIndex];
 			forward = (nextTarget - GetPosition()).normalized();
 		}
 
@@ -194,9 +194,9 @@ void Enemy::Patrol(const std::vector<Vector2>& patrolPoints, float deltaTime)
 	// ----------------------------------------------------
 	// 2. 이동 상태 (목표 패트롤 지점을 향해 이동)
 	// ----------------------------------------------------
-	Craft::Vector2 targetPt = patrolPoints[currentPatrolIndex];
-	Craft::Vector2 currentPos = GetPosition();
-	Craft::Vector2 dir = targetPt - currentPos;
+	Vector2 targetPt = patrolPoints[currentPatrolIndex];
+	Vector2 currentPos = GetPosition();
+	Vector2 dir = targetPt - currentPos;
 	float distance = dir.size();
 
 	// 목표 지점에 도달했을 경우 (오차 허용 범위 0.1f)
@@ -209,13 +209,13 @@ void Enemy::Patrol(const std::vector<Vector2>& patrolPoints, float deltaTime)
 		int currIdx = currentPatrolIndex;
 		int nextIdx = (currentPatrolIndex + 1) % pointCount;
 
-		Craft::Vector2 pPrev = patrolPoints[prevIdx];
-		Craft::Vector2 pCurr = patrolPoints[currIdx];
-		Craft::Vector2 pNext = patrolPoints[nextIdx];
+		Vector2 pPrev = patrolPoints[prevIdx];
+		Vector2 pCurr = patrolPoints[currIdx];
+		Vector2 pNext = patrolPoints[nextIdx];
 
 		// 진입 벡터(u)와 진출 벡터(v) 계산
-		Craft::Vector2 u = (pCurr - pPrev).normalized();
-		Craft::Vector2 v = (pNext - pCurr).normalized();
+		Vector2 u = (pCurr - pPrev).normalized();
+		Vector2 v = (pNext - pCurr).normalized();
 
 		// 내적(Dot Product)을 이용해 사이 각도(Degree) 계산
 		float dot = u.x * v.x + u.y * v.y;
@@ -267,7 +267,7 @@ void Enemy::Patrol(const std::vector<Vector2>& patrolPoints, float deltaTime)
 	else
 	{
 		// 아직 도달하지 않았다면 목표를 향해 이동
-		Craft::Vector2 moveDir = dir.normalized();
+		Vector2 moveDir = dir.normalized();
 		forward = moveDir; // 이동 방향으로 시선 고정
 
 		Move(moveDir.x, moveDir.y, deltaTime);

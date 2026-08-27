@@ -24,7 +24,7 @@ void GameLevel::OnInitialized()
 
 	Engine::Get().PlayerBackgroundMusic("bgm.wav");
 
-	LoadMap("RandomMap.txt");
+	LoadMap("TestMap.txt");
 
 	//// 플레이어 액터 추가
 	//SpawnActor<Player>(Vector2(50, 50));
@@ -77,7 +77,7 @@ void GameLevel::Draw3D()
 	Vector2 playerPos = p->GetCenterPosition();
 	Vector2 playerDir = p->GetForward();
 	
-	float fov = 0.66f;
+	float fov = 1.732f;
 	Vector2 cameraPlane(-playerDir.y * fov, playerDir.x * fov);
 
 	Renderer::Get().Draw3DView(

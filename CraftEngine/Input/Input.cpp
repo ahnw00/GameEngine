@@ -31,6 +31,8 @@ namespace Craft
 
 		result = SetConsoleMode(buffer, mode); // 마우스 입력 활성화
 		assert(result);
+
+		consoleWindow = GetConsoleWindow();
 	}
 
 	bool Input::GetKeyDown(int keyCode) const
@@ -67,34 +69,67 @@ namespace Craft
 			keyStates[ix].isKeyDown = ((GetAsyncKeyState(ix) & 0x8000) != 0);
 		}
 
-		DWORD eventCount = 0;
-		GetNumberOfConsoleInputEvents(buffer, &eventCount);
-
-		while(eventCount > 0)
+		if (!isCursorLocked)
 		{
-			// 현재 프레임에 마우스 입력이나 움직임이 있으면 위치 반환
-			INPUT_RECORD record;
-			DWORD count = 0;
-			
-			BOOL result = ReadConsoleInput(buffer, &record, 1, &count);
-			
-			if (!result)
-				break;
+			DWORD eventCount = 0;
+			GetNumberOfConsoleInputEvents(buffer, &eventCount);
 
-			if (record.EventType == MOUSE_EVENT)
+			while (eventCount > 0)
 			{
-				prevMousePosition = mousePosition;
-				const auto& mouseEvent = record.Event.MouseEvent;
+				// 현재 프레임에 마우스 입력이나 움직임이 있으면 위치 반환
+				INPUT_RECORD record;
+				DWORD count = 0;
 
-				mousePosition = Vector2(
-					static_cast<float>(mouseEvent.dwMousePosition.X),
-					static_cast<float>(mouseEvent.dwMousePosition.Y)
-				);
+				BOOL result = ReadConsoleInput(buffer, &record, 1, &count);
 
-				mousePosition += Renderer::Get().GetRenderStartPosition();
+				if (!result)
+					break;
+
+				if (record.EventType == MOUSE_EVENT)
+				{
+					prevMousePosition = mousePosition;
+					const auto& mouseEvent = record.Event.MouseEvent;
+
+					mousePosition = Vector2(
+						static_cast<float>(mouseEvent.dwMousePosition.X),
+						static_cast<float>(mouseEvent.dwMousePosition.Y)
+					);
+
+					mousePosition += Renderer::Get().GetRenderStartPosition();
+				}
+
+				--eventCount;
 			}
-		
-			--eventCount;
+		}
+
+		// 3차원일 때 마우스 회전 처리
+		if (isCursorLocked && consoleWindow != nullptr)
+		{
+			//// 1. 현재 화면에서 콘솔 창이 위치한 영역(Rect)을 가져옵니다.
+			//RECT rect;
+			//GetWindowRect(consoleWindow, &rect);
+
+			// 2. 콘솔 창의 정중앙 픽셀 좌표 계산
+			//int centerX = (Renderer::Get().GetScreenSize().x) / 2;
+			//int centerY = (Renderer::Get().GetScreenSize().y) / 2;
+			int centerX = 70;
+			int centerY = 20;
+
+			// 3. 현재 실제 마우스 커서의 화면 위치 가져오기
+			POINT currentPos;
+			GetCursorPos(&currentPos);
+
+			// 4. 중앙 좌표와 현재 마우스 위치의 차이(Delta)를 계산
+			mouseDelta.x = static_cast<float>(currentPos.x - centerX);
+			mouseDelta.y = static_cast<float>(currentPos.y - centerY);
+
+			// 5. 계산이 끝났으면 마우스 커서를 다시 콘솔 창 정중앙으로 강제 이동!
+			SetCursorPos(centerX, centerY);
+		}
+		else
+		{
+			// 고정 모드가 아닐 때는 델타값을 0으로 유지
+			mouseDelta = Vector2(0.f, 0.f);
 		}
 	}
 
