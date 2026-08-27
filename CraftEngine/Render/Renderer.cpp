@@ -8,6 +8,7 @@
 #include <Engine/Engine.h>
 #include <Level/Level.h>
 
+
 namespace Craft
 {
 	//--------------------Frame------------------------//
@@ -543,8 +544,8 @@ namespace Craft
 			{
 				// Todo: 시야 범위 정하기
 				// 시야 범위 벗어나면 중단
-				if (min(sideDistX, sideDistY) >= 15.f)
-					break;
+				//if (min(sideDistX, sideDistY) >= 15.f)
+				//	break;
 
 				if (sideDistX < sideDistY)
 				{
@@ -581,23 +582,37 @@ namespace Craft
 
 				// Todo: 시야범위 변수화
 				// (선택 사항) 만약 계산된 수직 거리가 sightLimit보다 멀다면 안 그려도 무방함
-				if (perpWallDist > 15.f) 
-				{
-					// 거리가 너무 멀어서 안개(어둠) 속으로 사라짐
-					for (int y = 0; y < height; ++y) 
-					{
-						frame->charInfoArray[y * width + x].Char.AsciiChar = ' ';
-						frame->charInfoArray[y * width + x].Attributes = 0;
-					}
-					continue; // 다음 x열로 넘어감
-				}
+				//if (perpWallDist > 15.f) 
+				//{
+				//	// 거리가 너무 멀어서 안개(어둠) 속으로 사라짐
+				//	for (int y = 0; y < height; ++y) 
+				//	{
+				//		frame->charInfoArray[y * width + x].Char.AsciiChar = ' ';
+				//		frame->charInfoArray[y * width + x].Attributes = 0;
+				//	}
+				//	continue; // 다음 x열로 넘어감
+				//}
 
 				// 벽 높이 계산
-				int lineHeight = static_cast<int>(height / perpWallDist) * 6;
-				int drawStart = -lineHeight / 2 + height / 2;
-				if (drawStart < 0) drawStart = 0;
-				int drawEnd = lineHeight / 2 + height / 2;
-				if (drawEnd >= height) drawEnd = height - 1;
+				float lineHeight =
+					static_cast<float>(height) / static_cast<float>(perpWallDist) * 2.5f;
+
+				float drawStartF =
+					static_cast<float>(height) * 0.5f - lineHeight * 0.5f;
+
+				float drawEndF =
+					static_cast<float>(height) * 0.5f + lineHeight * 0.5f;
+
+				int drawStart = static_cast<int>(std::floor(drawStartF));
+				int drawEnd = static_cast<int>(std::ceil(drawEndF));
+
+				drawStart = max(drawStart, 0);
+				drawEnd = min(drawEnd, height - 1);
+
+				//int drawStart = -lineHeight / 2 + height / 2;
+				//if (drawStart < 0) drawStart = 0;
+				//int drawEnd = lineHeight / 2 + height / 2;
+				//if (drawEnd >= height) drawEnd = height - 1;
 
 				// 화면 프레임에 기록
 				for (int y = 0; y < height; ++y)
@@ -612,7 +627,45 @@ namespace Craft
 					else if (y >= drawStart && y <= drawEnd) 
 					{
 						// 벽 그리기 (이전 답변의 거리별 색상 처리 로직 적용)
-						frame->charInfoArray[index].Char.AsciiChar = 219;
+						//frame->charInfoArray[index].Char.AsciiChar = 219;
+						//frame->charInfoArray[index].Attributes = FOREGROUND_GREEN;
+
+						// 벽의 거리에 따라 음영 결정
+						char shade;
+
+						if (perpWallDist < 4.0)
+						{
+							// 매우 가까운 벽
+							shade = 219; // █
+						}
+						else if (perpWallDist < 7.0)
+						{
+							// 가까운 벽
+							shade = 178; // ▓
+						}
+						else if (perpWallDist < 10.0)
+						{
+							// 중간 거리
+							shade = 177; // ▒
+						}
+						else
+						{
+							// 먼 벽
+							shade = 176; // ░
+						}
+
+						// side가 1이면 한 단계 어둡게
+						if (side == 1)
+						{
+							if (shade == 219)
+								shade = 178;
+							else if (shade == 178)
+								shade = 177;
+							else if (shade == 177)
+								shade = 176;
+						}
+
+						frame->charInfoArray[index].Char.AsciiChar = shade;
 						frame->charInfoArray[index].Attributes = FOREGROUND_GREEN;
 					}
 					else 
