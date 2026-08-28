@@ -595,7 +595,7 @@ namespace Craft
 
 				// 벽 높이 계산
 				float lineHeight =
-					static_cast<float>(height) / static_cast<float>(perpWallDist) * 2.5f;
+					static_cast<float>(height) / static_cast<float>(perpWallDist) * 8.f;
 
 				float drawStartF =
 					static_cast<float>(height) * 0.5f - lineHeight * 0.5f;

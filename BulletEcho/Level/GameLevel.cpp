@@ -109,42 +109,53 @@ bool GameLevel::CanMove(
 	{
 		for (int y = startY; y <= endY; ++y)
 		{
-			const auto& actors = 
-				Renderer::Get().GetActorsAt(Vector2(
-					static_cast<int>(x), static_cast<int>(y)));
+			//const auto& actors = 
+			//	Renderer::Get().GetActorsAt(Vector2(
+			//		static_cast<int>(x), static_cast<int>(y)));
 
-			for (const auto& actor : actors)
-			{
-				// 자기 자신이면 무시
-				if (actor == movingActor.get())
-					continue;
+			//for (const auto& actor : actors)
+			//{
+			//	// 자기 자신이면 무시
+			//	if (actor == movingActor.get())
+			//		continue;
 
-				const float actorMinX = actor->GetPosition().x;
-				const float actorMinY = actor->GetPosition().y;
+			//	const float actorMinX = actor->GetPosition().x;
+			//	const float actorMinY = actor->GetPosition().y;
 
-				const float actorMaxX =
-					actorMinX + actor->GetWidth() - 1;
+			//	const float actorMaxX =
+			//		actorMinX + actor->GetWidth() - 1;
 
-				const float actorMaxY =
-					actorMinY + actor->GetHeight() - 1;
+			//	const float actorMaxY =
+			//		actorMinY + actor->GetHeight() - 1;
 
-				const float movingMinX = nextPosition.x;
-				const float movingMinY = nextPosition.y;
+			//	const float movingMinX = nextPosition.x;
+			//	const float movingMinY = nextPosition.y;
 
-				const float movingMaxX =
-					movingMinX + movingActor->GetWidth() - 1;
+			//	const float movingMaxX =
+			//		movingMinX + movingActor->GetWidth() - 1;
 
-				const float movingMaxY =
-					movingMinY + movingActor->GetHeight() - 1;
+			//	const float movingMaxY =
+			//		movingMinY + movingActor->GetHeight() - 1;
 
-				if (movingMaxX < actorMinX || actorMaxX < movingMinX)
-					continue;
+			//	if (movingMaxX < actorMinX || actorMaxX < movingMinX)
+			//		continue;
 
-				if (movingMaxY < actorMinY || actorMaxY < movingMinY)
-					continue;
+			//	if (movingMaxY < actorMinY || actorMaxY < movingMinY)
+			//		continue;
 
+			//	return false;
+			//}
+
+			// 맵 밖
+			if (y < 0 || y >= static_cast<int>(map.size()))
 				return false;
-			}
+
+			if (x < 0 || x >= static_cast<int>(map[y].size()))
+				return false;
+
+			// 벽
+			if (map[y][x] == '#')
+				return false;
 		}
 	}
 

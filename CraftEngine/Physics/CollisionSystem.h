@@ -8,6 +8,12 @@ namespace Craft
 	// 전방 선언.
 	class Actor;
 
+	struct Bounds
+	{
+		float minX, minY;
+		float maxX, maxY;
+	};
+
 	// 액터 간 충돌을 테스트하는 클래스.
 	class CollisionSystem
 	{
@@ -30,5 +36,15 @@ namespace Craft
 			const std::shared_ptr<Actor>& left,
 			const std::shared_ptr<Actor>& right
 		);
+
+	//private:
+	//	Bounds GetBounds(const Actor& actor)
+	//	{
+	//		Vector2 pos = actor.GetPosition();
+
+	//		return { pos.x, pos.y,
+	//		pos.x + actor.GetWidth() - 1,
+	//		pos.y + actor.GetHeight() - 1 };
+	//	}
 	};
 }
