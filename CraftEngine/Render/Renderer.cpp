@@ -621,8 +621,8 @@ namespace Craft
 					if (y < drawStart) 
 					{
 						// 천장
-						frame->charInfoArray[index].Char.AsciiChar = ' ';
-						frame->charInfoArray[index].Attributes = 0;
+						frame->charInfoArray[index].Char.AsciiChar = 176;
+						frame->charInfoArray[index].Attributes = FOREGROUND_BLUE;
 					}
 					else if (y >= drawStart && y <= drawEnd) 
 					{
@@ -631,38 +631,39 @@ namespace Craft
 						//frame->charInfoArray[index].Attributes = FOREGROUND_GREEN;
 
 						// 벽의 거리에 따라 음영 결정
-						char shade;
+						char shade = 178;
 
-						if (perpWallDist < 4.0)
-						{
-							// 매우 가까운 벽
-							shade = 219; // █
-						}
-						else if (perpWallDist < 7.0)
-						{
-							// 가까운 벽
-							shade = 178; // ▓
-						}
-						else if (perpWallDist < 10.0)
-						{
-							// 중간 거리
-							shade = 177; // ▒
-						}
-						else
-						{
-							// 먼 벽
-							shade = 176; // ░
-						}
+						//if (perpWallDist < 4.0)
+						//{
+						//	// 매우 가까운 벽
+						//	shade = 219; // █
+						//}
+						//else if (perpWallDist < 7.0)
+						//{
+						//	// 가까운 벽
+						//	shade = 178; // ▓
+						//}
+						//else if (perpWallDist < 10.0)
+						//{
+						//	// 중간 거리
+						//	shade = 177; // ▒
+						//}
+						//else
+						//{
+						//	// 먼 벽
+						//	shade = 176; // ░
+						//}
 
 						// side가 1이면 한 단계 어둡게
 						if (side == 1)
 						{
-							if (shade == 219)
-								shade = 178;
-							else if (shade == 178)
-								shade = 177;
-							else if (shade == 177)
-								shade = 176;
+							shade = 176;
+							//if (shade == 219)
+							//	shade = 178;
+							//else if (shade == 178)
+							//	shade = 177;
+							//else if (shade == 177)
+							//	shade = 176;
 						}
 
 						frame->charInfoArray[index].Char.AsciiChar = shade;
@@ -671,8 +672,8 @@ namespace Craft
 					else 
 					{
 						// 바닥
-						frame->charInfoArray[index].Char.AsciiChar = '.';
-						frame->charInfoArray[index].Attributes = FOREGROUND_INTENSITY;
+						frame->charInfoArray[index].Char.AsciiChar = 176;
+						//frame->charInfoArray[index].Attributes |= FOREGROUND_INTENSITY;
 					}
 				}
 			}

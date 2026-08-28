@@ -18,13 +18,16 @@ namespace Craft
 		// 값 확인
 		assert(buffer != INVALID_HANDLE_VALUE);
 
+		BOOL result = SetConsoleOutputCP(437);
+		assert(result == TRUE);
+
 		// 화면 창 크기 설정
 		SMALL_RECT rect = {};
 		rect.Top = 0;
 		rect.Left = 0;
 		rect.Right = static_cast<short>(screenSize.x - 1);
 		rect.Bottom = static_cast<short>(screenSize.y - 1);
-		BOOL result = SetConsoleWindowInfo(buffer, TRUE, &rect);
+		result = SetConsoleWindowInfo(buffer, TRUE, &rect);
 
 		// 결과 확인
 		assert(result == TRUE);

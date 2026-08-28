@@ -233,9 +233,12 @@ namespace Craft
 		// Frame 초기화(clear)
 		renderer->BeginFrame();
 
-		mainLevel->Draw();
+		if (renderer->GetRenderMode() != Renderer::RenderMode::PLAY)
+		{
+			mainLevel->Draw();
 
-		renderer->DrawRenderQueue();
+			renderer->DrawRenderQueue();
+		}
 
 		// Todo: 3d 렌더 모드, 2d 렌더 모드 나누기
 		{

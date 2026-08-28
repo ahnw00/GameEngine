@@ -32,7 +32,19 @@ namespace Craft
 		result = SetConsoleMode(buffer, mode); // 마우스 입력 활성화
 		assert(result);
 
-		consoleWindow = GetConsoleWindow();
+		consoleWindow = GetForegroundWindow();
+
+		std::cout << "consoleWindow: " << consoleWindow << "\n";
+
+		RECT rect;
+		result = GetWindowRect(consoleWindow, &rect);
+
+		std::cout << "GetWindowRect result = " << result << "\n";
+		std::cout << "rect = "
+			<< rect.left << ", "
+			<< rect.top << ", "
+			<< rect.right << ", "
+			<< rect.bottom << "\n";
 	}
 
 	bool Input::GetKeyDown(int keyCode) const
@@ -106,25 +118,42 @@ namespace Craft
 		if (isCursorLocked && consoleWindow != nullptr)
 		{
 			//// 1. 현재 화면에서 콘솔 창이 위치한 영역(Rect)을 가져옵니다.
-			//RECT rect;
-			//GetWindowRect(consoleWindow, &rect);
+			RECT rect;
+			GetClientRect(consoleWindow, &rect);
 
 			// 2. 콘솔 창의 정중앙 픽셀 좌표 계산
-			//int centerX = (Renderer::Get().GetScreenSize().x) / 2;
-			//int centerY = (Renderer::Get().GetScreenSize().y) / 2;
-			int centerX = 70;
-			int centerY = 20;
+			POINT center;
+			center.x = (rect.left + rect.right) / 2;
+			center.y = (rect.top + rect.bottom) / 2;
+
+			//ClientToScreen(consoleWindow, &center);
+			//int centerX = 400;
+			//int centerY = 400;
+
+			//std::cout
+			//	<< "rect: "
+			//	<< rect.left << ", "
+			//	<< rect.top << " / "
+			//	<< rect.right << ", "
+			//	<< rect.bottom
+			//	<< "\n";
+
+			//std::cout
+			//	<< "center: "
+			//	<< center.x << ", "
+			//	<< center.y
+			//	<< "\n";
 
 			// 3. 현재 실제 마우스 커서의 화면 위치 가져오기
 			POINT currentPos;
 			GetCursorPos(&currentPos);
 
 			// 4. 중앙 좌표와 현재 마우스 위치의 차이(Delta)를 계산
-			mouseDelta.x = static_cast<float>(currentPos.x - centerX);
-			mouseDelta.y = static_cast<float>(currentPos.y - centerY);
+			mouseDelta.x = static_cast<float>(currentPos.x - center.x);
+			mouseDelta.y = static_cast<float>(currentPos.y - center.y);
 
 			// 5. 계산이 끝났으면 마우스 커서를 다시 콘솔 창 정중앙으로 강제 이동!
-			SetCursorPos(centerX, centerY);
+			SetCursorPos(center.x, center.y);
 		}
 		else
 		{
