@@ -1,4 +1,5 @@
 ﻿#include "Level.h"
+#include <Physics/CollisionSystem.h>
 
 namespace Craft
 {
@@ -70,6 +71,7 @@ namespace Craft
 			auto actor = *it;
 			if (actor->HasExpired())
 			{
+				CollisionSystem::Get().RemoveActor(actor.get(), actor->GetPosition());
 				it = actorList.erase(it);
 				continue;
 			}
@@ -91,6 +93,7 @@ namespace Craft
 		// 추가 처리된 목록 정리
 		addResquestedActorList.clear();
 	}
+
 	void Level::SavePrevActorStates()
 	{
 		// 액터 순회하면 이전 상태 저장 처리

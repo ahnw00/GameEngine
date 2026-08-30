@@ -7,6 +7,7 @@
 #include <Actor/Enemy.h>
 #include <Actor/DestroyEffect.h>
 #include <Level/GameLevel.h>
+#include <Physics/CollisionSystem.h>
 
 
 using namespace Craft;
@@ -29,22 +30,44 @@ void Bullet::Tick(float deltaTime)
 	int xLimit = Engine::Get().GetWidth() - 1;
 	int yLimit = Engine::Get().GetHeight() - 1;
 
-	if (newPosition.x < 0.f || newPosition.x >= xLimit)
+	if (newPosition.x < 0.f || newPosition.x >= xLimit ||
+		newPosition.y < 0.f || newPosition.y >= yLimit)
+	{
 		DestroyAndEffect();
-	if (newPosition.y < 0.f || newPosition.y >= yLimit)
+		return;
+	}
+
+	std::shared_ptr<GameLevel> level = Cast<GameLevel>(GetOwner());
+	// 벽 충돌 판정
+	if (level && !level->CanMove(newPosition, shared_from_this()))
+	{
 		DestroyAndEffect();
+		return;
+	}
 
 	// 현재 체크하는 위치에 올라와있는 액터들 가져와
-	const auto& actors = Renderer::Get().GetActorsAt(newPosition);
+	//const auto& actors = Renderer::Get().GetActorsAt(newPosition);
 
-	bool checked = false;
-	for (const auto& actor : actors)
-	{
-		if (actor->IsTypeOf<Wall>())
-		{
-			DestroyAndEffect();
-		}
-	}
+	//bool checked = false;
+	//for (const auto& actor : actors)
+	//{
+	//	if (actor->IsTypeOf<Wall>())
+	//	{
+	//		DestroyAndEffect();
+	//		return;
+	//	}
+	//}
+
+	// 새로운 위치에서 충돌 검사
+	CollisionSystem::Get().Test(this, newPosition);
+	
+
+	// 충돌하지 않았으면 Grid 위치 갱신
+	CollisionSystem::Get().UpdateActor(
+		GetPosition(),
+		newPosition,
+		this
+	);
 
 	SetPosition(newPosition);
 }
@@ -73,6 +96,9 @@ void Bullet::OnCollision(const std::shared_ptr<Actor>& other)
 
 void Bullet::DestroyAndEffect()
 {
+	if (HasExpired())
+		return;
+
 	Engine::Get().PlayerOneShot("hit.wav");
 
 	std::vector<DestroyEffect::EffectFrame> sequence =

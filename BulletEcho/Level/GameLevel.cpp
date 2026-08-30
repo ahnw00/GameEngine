@@ -7,6 +7,7 @@
 #include <Render/Renderer.h>
 #include <Input/Input.h>
 #include <Engine/Engine.h>
+#include <Physics/CollisionSystem.h>
 #include <Utility/Utility.h>
 
 #include <cassert>
@@ -24,7 +25,7 @@ void GameLevel::OnInitialized()
 
 	Engine::Get().PlayerBackgroundMusic("bgm.wav");
 
-	LoadMap("TestMap.txt");
+	LoadMap("RandomMap.txt");
 
 	//// 플레이어 액터 추가
 	//SpawnActor<Player>(Vector2(50, 50));
@@ -39,12 +40,12 @@ void GameLevel::ProcessPlayerSight()
 	{
 		if (!actor) continue;
 
-		Renderer::RenderMode currentMode = Renderer::Get().GetRenderMode();
+		Renderer::PlayMode currentMode = Renderer::Get().GetPlayMode();
 
 		bool b = actor->IsTypeOf<Player>();
 		// 플레이 모드면 적의 시야 렌더 안해줘
 		// DEBUGGING
-		if (currentMode == Renderer::RenderMode::PLAY &&
+		if (currentMode == Renderer::PlayMode::PLAY &&
 			!actor->IsTypeOf<Player>())
 			continue;
 
@@ -88,6 +89,7 @@ void GameLevel::Draw3D()
 	);
 }
 
+// 정적 충돌 판정
 bool GameLevel::CanMove(
 	const Vector2& nextPosition,
 	const std::shared_ptr<Actor>& movingActor)
@@ -356,4 +358,6 @@ void GameLevel::LoadMap(const std::string& filename)
 			);
 		}
 	}
+
+	CollisionSystem::Get().Build(mapSize, actorList);
 }

@@ -81,7 +81,10 @@ namespace Craft
 			keyStates[ix].isKeyDown = ((GetAsyncKeyState(ix) & 0x8000) != 0);
 		}
 
-		if (!isCursorLocked)
+		Renderer::RenderMode curRenderMode = Renderer::Get().GetRenderMode();
+
+
+		if (curRenderMode != Renderer::RenderMode::ThreeDimension)
 		{
 			DWORD eventCount = 0;
 			GetNumberOfConsoleInputEvents(buffer, &eventCount);
@@ -115,9 +118,10 @@ namespace Craft
 		}
 
 		// 3차원일 때 마우스 회전 처리
-		if (isCursorLocked && consoleWindow != nullptr)
+		if (consoleWindow != nullptr &&
+			curRenderMode == Renderer::RenderMode::ThreeDimension)
 		{
-			//// 1. 현재 화면에서 콘솔 창이 위치한 영역(Rect)을 가져옵니다.
+			// 1. 현재 화면에서 콘솔 창이 위치한 영역(Rect)을 가져옵니다.
 			RECT rect;
 			GetClientRect(consoleWindow, &rect);
 
@@ -125,24 +129,6 @@ namespace Craft
 			POINT center;
 			center.x = (rect.left + rect.right) / 2;
 			center.y = (rect.top + rect.bottom) / 2;
-
-			//ClientToScreen(consoleWindow, &center);
-			//int centerX = 400;
-			//int centerY = 400;
-
-			//std::cout
-			//	<< "rect: "
-			//	<< rect.left << ", "
-			//	<< rect.top << " / "
-			//	<< rect.right << ", "
-			//	<< rect.bottom
-			//	<< "\n";
-
-			//std::cout
-			//	<< "center: "
-			//	<< center.x << ", "
-			//	<< center.y
-			//	<< "\n";
 
 			// 3. 현재 실제 마우스 커서의 화면 위치 가져오기
 			POINT currentPos;

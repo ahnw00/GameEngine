@@ -46,7 +46,7 @@ void Game::ToggleMenu()
 
 	if (state == State::GamePlay)
 	{
-		Renderer::Get().SetRenderMode(Renderer::RenderMode::PLAY);
+		Renderer::Get().SetRenderMode(Renderer::RenderMode::TwoDimension);
 	}
 	else if(state == State::Menu)
 	{
@@ -63,7 +63,7 @@ void Game::GotoLevel(State newState)
 
 	if (state == State::GamePlay)
 	{
-		Renderer::Get().SetRenderMode(Renderer::RenderMode::PLAY);
+		Renderer::Get().SetRenderMode(Renderer::RenderMode::TwoDimension);
 		Engine::Get().PlayerBackgroundMusic(BgmList[1]);
 	}
 	else

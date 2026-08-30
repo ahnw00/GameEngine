@@ -1,6 +1,7 @@
 ﻿#include "Actor.h"
 #include <Engine/Engine.h>
 #include <Render/Renderer.h>
+#include <Physics/CollisionSystem.h>
 
 namespace Craft
 {
@@ -37,6 +38,21 @@ namespace Craft
 		Renderer::Get().Submit(this, image, position, color, sortingOrder);
 	}
 
+	const bool Actor::CheckCollisionOn(
+		const Vector2& prevPosition, const Vector2& newPosition)
+	{
+		// result가 true면 충돌한거, false면 충돌 안한거
+		bool result = CollisionSystem::Get().Test(this, newPosition);
+
+		// 충돌 했다면 true 반환
+		if (result == true) return true;
+
+		// 충돌 안했으면 이동 및 true 반환
+		CollisionSystem::Get().UpdateActor(prevPosition, newPosition, this);
+		//SetPosition(newPosition);
+		return false;
+	}
+
 	void Actor::OnCollision(const std::shared_ptr<Actor>& other)
 	{
 	}
@@ -59,6 +75,7 @@ namespace Craft
 		if (position == newPosition)
 			return;
 
+		prevPosition = position;
 		position = newPosition;
 	}
 }

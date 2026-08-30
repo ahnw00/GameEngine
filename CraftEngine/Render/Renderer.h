@@ -19,11 +19,15 @@ namespace Craft
 	public:
 		enum class RenderMode
 		{
-			DEBUG,
-			PLAY,
 			MENU,
 			TwoDimension,
 			ThreeDimension
+		};
+
+		enum class PlayMode
+		{
+			DEBUG,
+			PLAY
 		};
 
 		enum class SightState
@@ -101,18 +105,20 @@ namespace Craft
 
 		const std::vector<Actor*>& GetActorsAt(const Vector2& position);
 
-		inline const RenderMode GetRenderMode() const { return mode; }
+		inline const RenderMode GetRenderMode() const { return renderMode; }
+		inline void SetRenderMode(RenderMode newMode) { renderMode = newMode; }
 
-		inline void SetRenderMode(RenderMode newMode) { mode = newMode; }
+		inline const PlayMode GetPlayMode() const { return playMode; }
+		inline void SetPlayMode(PlayMode newMode) { playMode = newMode; }
 
 		inline const Vector2 GetScreenSize() const { return screenSize; }
-
 		inline const Vector2 GetWorldSize() const { return worldSize; }
-
 		inline void SetWorldSize(const Vector2& newWorldSize) { worldSize = newWorldSize; }
 
-		inline void SetRenderStartPosition(const Vector2& position) { renderStartPosition = position; }
-
+		inline void SetRenderStartPosition(const Vector2& position) 
+		{ 
+			renderStartPosition = position; 
+		}
 		inline const Vector2 GetRenderStartPosition() const { return renderStartPosition; }
 
 		bool WorldToScreenPosition(const Vector2& worldPosition, Vector2& screenPosition) const;
@@ -173,7 +179,10 @@ namespace Craft
 		int currentBufferIndex = 0;
 
 		// 렌더 모드
-		RenderMode mode = RenderMode::PLAY;
+		RenderMode renderMode = RenderMode::TwoDimension;
+
+		// 플레이 모드
+		PlayMode playMode = PlayMode::PLAY;
 
 		Vector2 renderStartPosition = Vector2::Zero;
 	};

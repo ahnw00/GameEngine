@@ -11,6 +11,7 @@
 #include <Actor/Enemy.h>
 #include <Actor/Player.h>
 #include <Game/Game.h>
+#include <Physics/CollisionSystem.h>
 
 #include <cmath>
 
@@ -87,15 +88,38 @@ bool Character::Move(float xDir, float yDir, float deltaTime)
 	// 이동 처리를 위해 GameLevel 객체 얻어오기
 	// 다운 캐스팅 - 형변환 실패하면 null 반환
 	std::shared_ptr<GameLevel> level = Cast<GameLevel>(GetOwner());
+
+	// 벽 충돌 판정
 	if (level && level->CanMove(newPosition, shared_from_this()))
 	{
-		//Vector2 prevPosition = Vector2(xPosition, yPosition);
+		Vector2 prevPosition = Vector2(xPosition, yPosition);
+
+		Actor* curActor = static_cast<Actor*>(this);
+		
+		// 충돌 했다면 false 반환
+		if (CollisionSystem::Get().Test(curActor, newPosition))
+			return false;
+
+		//CollisionSystem::Get().RemoveActor(curActor, prevPosition);
+
+		CollisionSystem::Get().UpdateActor(GetPosition(), newPosition, this);
 
 		SetPosition(newPosition);
 		xPosition = newX;
 		yPosition = newY;
 
+		//CollisionSystem::Get().AddActor(curActor, newPosition);
+
 		return true;
+
+		//if (CheckCollisionOn(prevPosition, newPosition))
+		//{
+		//	xPosition = newX;
+		//	yPosition = newY;
+		//	SetPosition(newPosition);
+		//	
+		//	return true;
+		//}
 	}
 
 	return false;
@@ -110,6 +134,8 @@ void Character::Fire()
 		GetPosition().y + (height / 2)
 	);
 
+	std::shared_ptr<Character> shooter = Cast<Character>(shared_from_this());
+
 	// 탄약 생성
 	std::shared_ptr<Level> owner = GetOwner();
 	if (owner)
@@ -117,7 +143,7 @@ void Character::Fire()
 		owner->SpawnActor<Bullet>(
 			bulletInitPosition, 
 			forward, 
-			shared_from_this(),
+			shooter,
 			attackPower
 		);
 	}

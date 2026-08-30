@@ -233,22 +233,24 @@ namespace Craft
 		// Frame 초기화(clear)
 		renderer->BeginFrame();
 
-		if (renderer->GetRenderMode() != Renderer::RenderMode::PLAY)
+		// Todo : 여기도 렌더모드에 따라서 제대로 나눠야해
+		if (renderer->GetRenderMode() != Renderer::RenderMode::ThreeDimension)
 		{
 			mainLevel->Draw();
 
 			renderer->DrawRenderQueue();
+			
+			mainLevel->ProcessPlayerSight();
+
+			renderer->DrawSight();
+
+			renderer->DrawMouseCursor();
 		}
 
 		// Todo: 3d 렌더 모드, 2d 렌더 모드 나누기
-		{
-			//mainLevel->ProcessPlayerSight();
-
-			//renderer->DrawSight();
-
-			//renderer->DrawMouseCursor();
-		}
-
+		//{
+		//}
+		else
 		{
 			mainLevel->Draw3D();
 		}

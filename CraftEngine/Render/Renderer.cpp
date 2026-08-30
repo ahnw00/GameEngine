@@ -182,8 +182,7 @@ namespace Craft
 	}
 
 	bool Renderer::WorldToScreenPosition(
-		const Vector2& worldPosition, 
-		Vector2& screenPosition) const
+		const Vector2& worldPosition,  Vector2& screenPosition) const
 	{
 		if (worldPosition.x < 0 || worldPosition.x >= worldSize.x ||
 			worldPosition.y < 0 || worldPosition.y >= worldSize.y)
@@ -212,7 +211,7 @@ namespace Craft
 	// 시야 안에 들어온 좌표들 처리
 	void Renderer::DrawSight()
 	{
-		if (mode != RenderMode::PLAY)
+		if (renderMode == RenderMode::MENU)
 			return;
 
 		const int width = static_cast<int>(screenSize.x);
@@ -408,7 +407,7 @@ namespace Craft
 
 					int screenX, screenY;
 
-					if (mode != RenderMode::PLAY)
+					if (renderMode == RenderMode::MENU)
 					{
 						screenX = worldX;
 						screenY = worldY;

@@ -6,7 +6,7 @@
 
 class Sight;
 
-class Character : public Craft::Actor, public std::enable_shared_from_this<Character>
+class Character : public Craft::Actor//, public std::enable_shared_from_this<Character>
 {
 public:
 	enum class Type

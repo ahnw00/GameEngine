@@ -14,7 +14,7 @@ namespace Craft
 	class Level;
 
 	// 가상 공간에 배치될 모든 액터의 기본 클래스
-	class CRAFT_API Actor : public CraftObject
+	class CRAFT_API Actor : public CraftObject, public std::enable_shared_from_this<Actor>
 	{
 	public:
 		// 액터가 바라보는 방향
@@ -74,7 +74,7 @@ namespace Craft
 		}
 
 		// 이전 위치 반환 함수
-		inline Vector2 GetPreviousPosition() const { return prevPosition; }
+		inline Vector2 GetPrevPosition() const { return prevPosition; }
 
 		// 프레임 종료 후 이전 프레임 위치 저장 함수
 		inline void SavePrevState() { prevPosition = position; }
@@ -98,6 +98,12 @@ namespace Craft
 			// 새로운 글자 값 설정
 			image = newImage;
 		}
+
+	protected:
+		const bool CheckCollisionOn(
+			const Vector2& prevPosition,
+			const Vector2& newPosition
+		);
 
 	protected:
 		// BeginPlay 이벤트 처리 여부 플래그

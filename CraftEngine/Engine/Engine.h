@@ -4,6 +4,7 @@
 #include <Level/Level.h>
 #include <memory> // 스마트 포인터 사용을 위해
 #include <string>
+#include <cassert>
 
 // Sound는 Craft 네임스페이스 사용 안함
 class Sound;

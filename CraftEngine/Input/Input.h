@@ -76,7 +76,8 @@ namespace Craft
 		HANDLE buffer = nullptr;
 
 		HWND consoleWindow = nullptr; // 콘솔 창 핸들
-		bool isCursorLocked = true;  // 마우스 중앙 고정 모드 플래그
+		//DEBUGGING
+		bool isCursorLocked = false;  // 마우스 중앙 고정 모드 플래그
 		Vector2 mouseDelta;           // 마우스가 중앙에서 얼마나 이동했는지 저장
 	};
 }
