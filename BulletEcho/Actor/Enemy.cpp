@@ -4,6 +4,7 @@
 #include <Util/Sight.h>
 #include <Engine/Engine.h>
 #include <Render/Renderer.h>
+#include <Physics/CollisionSystem.h>
 #include <Level/GameLevel.h>
 
 #include <queue>
@@ -366,6 +367,7 @@ void Enemy::PlayEffect(const std::vector<DestroyEffect::EffectFrame>& sequence)
 	}
 }
 
+// A* 알고리즘
 std::vector<Vector2> Enemy::FindPath(
 	const Vector2& startPosition, 
 	const Vector2& targetPosition)
@@ -378,9 +380,15 @@ std::vector<Vector2> Enemy::FindPath(
 
 	std::priority_queue<AStarNode> openList;
 
+	//int mapHeight = Engine::Get().GetHeight();
+	//int mapWidth = Engine::Get().GetWidth();
+
+	//std::vector<std::vector<bool>> closedList(mapHeight, std::vector<bool>(mapWidth));
 	bool closedList[MAP_HEIGHT][MAP_WIDTH] = {};
+	//std::vector<std::vector<int>> gCosts(mapHeight, std::vector<int>(mapWidth));
 	int gCosts[MAP_HEIGHT][MAP_WIDTH];
-	Craft::Vector2 parents[MAP_HEIGHT][MAP_WIDTH];
+	//std::vector<std::vector<Vector2>> parents(mapHeight, std::vector<Vector2>(mapWidth));
+	Vector2 parents[MAP_HEIGHT][MAP_WIDTH];
 
 	// gCost 초기화
 	for (int y = 0; y < MAP_HEIGHT; ++y)
@@ -478,7 +486,8 @@ std::vector<Vector2> Enemy::FindPath(
 			if (closedList[nextY][nextX])
 				continue;
 
-			// 이동하려는 위치에 액터가 존재하면 이동 불가
+			// 이동하려는 위치에 벽 액터가 존재하면 이동 불가
+			// 정적 충돌 판단
 			if (!level->CanMove(nextPosition, shared_from_this()))
 				continue;
 
@@ -503,7 +512,9 @@ std::vector<Vector2> Enemy::FindPath(
 			int dy = std::abs(static_cast<int>(targetPosition.y - nextPosition.y));
 
 			// 8방향 이동에 맞는 Octile Distance
+			// 대각선
 			int diagonal = min(dx, dy);
+			// 직선
 			int straight = max(dx, dy) - diagonal;
 
 			int newHCost = diagonal * 14 + straight * 10;

@@ -198,7 +198,7 @@ namespace Craft
 		return true;
 	}
 
-	// 충돌 테스트
+	// 동적 충돌 테스트
 	bool CollisionSystem::Test(Actor* actor, const Vector2& position)
 	{
 		if (!actor) return false;
@@ -242,10 +242,6 @@ namespace Craft
 
 		// 여기까지 왔으면 충돌 발생X
 		return false;
-	}
-	
-	void CollisionSystem::BuildCollisionMap()
-	{
 	}
 
 	void CollisionSystem::UpdateActor(

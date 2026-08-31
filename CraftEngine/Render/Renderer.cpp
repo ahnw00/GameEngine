@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 #include <Windows.h>
+#include <cfloat>
 #include <Actor/Actor.h>
 #include <Input/Input.h>
 #include <Engine/Engine.h>
@@ -85,6 +86,7 @@ namespace Craft
 		// 프레임 객체 생성
 		const int bufferCount = screenSize.x * screenSize.y;
 		frame = std::make_unique<Frame>(bufferCount);
+		depthBuffer = std::make_unique<float[]>(static_cast<int>(screenSize.x));
 		
 		// 생성 후 프레임 지우기
 		frame->Clear(screenSize);
@@ -482,10 +484,14 @@ namespace Craft
 		const Vector2& playerPos, 
 		const Vector2& playerDir, 
 		const Vector2& cameraPlane, 
-		const std::vector<std::string>& mapData)
+		const std::vector<std::string>& mapData,
+		const std::vector<std::shared_ptr<Actor>>& actorList)
 	{
 		const int width = static_cast<int>(screenSize.x);
 		const int height = static_cast<int>(screenSize.y);
+
+		for (int x = 0; x < width; ++x)
+			depthBuffer[x] = FLT_MAX;
 
 		// 화면의 가로 픽셀(x열) 수만큼 레이를 발사
 		for (int x = 0; x < width; ++x)
@@ -579,6 +585,8 @@ namespace Craft
 
 				if (perpWallDist <= 0.0) perpWallDist = 0.001;
 
+				depthBuffer[x] = static_cast<float>(perpWallDist);
+
 				// Todo: 시야범위 변수화
 				// (선택 사항) 만약 계산된 수직 거리가 sightLimit보다 멀다면 안 그려도 무방함
 				//if (perpWallDist > 15.f) 
@@ -594,7 +602,7 @@ namespace Craft
 
 				// 벽 높이 계산
 				float lineHeight =
-					static_cast<float>(height) / static_cast<float>(perpWallDist) * 8.f;
+					static_cast<float>(height) / static_cast<float>(perpWallDist) * 16.f;
 
 				float drawStartF =
 					static_cast<float>(height) * 0.5f - lineHeight * 0.5f;
@@ -608,11 +616,6 @@ namespace Craft
 				drawStart = max(drawStart, 0);
 				drawEnd = min(drawEnd, height - 1);
 
-				//int drawStart = -lineHeight / 2 + height / 2;
-				//if (drawStart < 0) drawStart = 0;
-				//int drawEnd = lineHeight / 2 + height / 2;
-				//if (drawEnd >= height) drawEnd = height - 1;
-
 				// 화면 프레임에 기록
 				for (int y = 0; y < height; ++y)
 				{
@@ -621,58 +624,33 @@ namespace Craft
 					{
 						// 천장
 						frame->charInfoArray[index].Char.AsciiChar = 176;
-						frame->charInfoArray[index].Attributes = FOREGROUND_BLUE;
+						//frame->charInfoArray[index].Attributes = FOREGROUND_BLUE;
 					}
 					else if (y >= drawStart && y <= drawEnd) 
 					{
-						// 벽 그리기 (이전 답변의 거리별 색상 처리 로직 적용)
-						//frame->charInfoArray[index].Char.AsciiChar = 219;
-						//frame->charInfoArray[index].Attributes = FOREGROUND_GREEN;
-
-						// 벽의 거리에 따라 음영 결정
-						char shade = 178;
-
-						//if (perpWallDist < 4.0)
-						//{
-						//	// 매우 가까운 벽
-						//	shade = 219; // █
-						//}
-						//else if (perpWallDist < 7.0)
-						//{
-						//	// 가까운 벽
-						//	shade = 178; // ▓
-						//}
-						//else if (perpWallDist < 10.0)
-						//{
-						//	// 중간 거리
-						//	shade = 177; // ▒
-						//}
-						//else
-						//{
-						//	// 먼 벽
-						//	shade = 176; // ░
-						//}
+						// 벽 그리기
+						// 219, 178, 177, 176
+						char shade = 219;
 
 						// side가 1이면 한 단계 어둡게
 						if (side == 1)
 						{
-							shade = 176;
-							//if (shade == 219)
-							//	shade = 178;
-							//else if (shade == 178)
-							//	shade = 177;
-							//else if (shade == 177)
-							//	shade = 176;
+							shade = 178;
 						}
 
 						frame->charInfoArray[index].Char.AsciiChar = shade;
-						frame->charInfoArray[index].Attributes = FOREGROUND_GREEN;
+						frame->charInfoArray[index].Attributes |= FOREGROUND_BLUE;
+						frame->charInfoArray[index].Attributes |= FOREGROUND_GREEN;
+						frame->charInfoArray[index].Attributes |= FOREGROUND_RED;
 					}
 					else 
 					{
 						// 바닥
-						frame->charInfoArray[index].Char.AsciiChar = 176;
+						frame->charInfoArray[index].Char.AsciiChar = 177;
 						//frame->charInfoArray[index].Attributes |= FOREGROUND_INTENSITY;
+						frame->charInfoArray[index].Attributes |= FOREGROUND_BLUE;
+						frame->charInfoArray[index].Attributes |= FOREGROUND_GREEN;
+						frame->charInfoArray[index].Attributes |= FOREGROUND_RED;
 					}
 				}
 			}
@@ -701,6 +679,23 @@ namespace Craft
 				}
 			}
 		}
+
+		for (const auto& actor : actorList)
+		{
+			if (!actor)
+				continue;
+
+			// Wall은 mapData + DDA에서 이미 렌더링함
+			//if (Cast<Wall>(actor.get()))
+			//	continue;
+
+			DrawActor3D(
+				actor.get(),
+				playerPos,
+				playerDir,
+				cameraPlane
+			);
+		}
 	}
 
 	void Renderer::Present()
@@ -722,6 +717,25 @@ namespace Craft
 		// unique_ptr<>&로 받아올 수 있는데 그러면 unique_ptr의 성격 때문에 불가
 		// 스마트 포인터라서 get()을 이용해 원시 포인터 얻어내
 		return screenBufferArray[currentBufferIndex].get(); 
+	}
+
+	void Renderer::DrawActor3D(Actor* actor, const Vector2& playerPos, const Vector2& playerDir, const Vector2& cameraPlane)
+	{
+		Vector2 relative = actor->GetCenterPosition() - playerPos;
+
+		float determinant = cameraPlane.x * playerDir.y - playerDir.x * cameraPlane.y;
+
+		if (std::abs(determinant) < 0.0001f)
+			return;
+
+		float invDet = 1.f / determinant;
+
+		float transformX = invDet * (playerDir.y * relative.x - playerDir.x * relative.y);
+		float transformY = invDet * (-cameraPlane.y * relative.x + cameraPlane.x * relative.y);
+
+		// 플레이어 뒤에 있는 Actor
+		if (transformY <= 0.0f)
+			return;
 	}
 
 	void Renderer::DrawMouseCursor()

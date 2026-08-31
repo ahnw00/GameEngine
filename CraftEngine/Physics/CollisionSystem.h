@@ -24,6 +24,8 @@ namespace Craft
 		CollisionSystem();
 		~CollisionSystem();
 
+		// 액터 순회하면서 콜리전 맵 구성
+		// 맵 로드할 때 한 번만 실행
 		void Build(
 			const Vector2& worldSize,
 			const std::vector<std::shared_ptr<Actor>>& actorList
@@ -42,10 +44,6 @@ namespace Craft
 		);
 
 		bool Test(Actor* actor, const Vector2& position);
-
-		// 액터 순회하면서 콜리전 맵 구성
-		// 처음 한번만 실행
-		void BuildCollisionMap();
 
 		void UpdateActor(
 			const Vector2& prevPos,

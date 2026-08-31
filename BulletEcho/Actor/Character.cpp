@@ -96,7 +96,7 @@ bool Character::Move(float xDir, float yDir, float deltaTime)
 
 		Actor* curActor = static_cast<Actor*>(this);
 		
-		// 충돌 했다면 false 반환
+		// 동적 충돌 했다면 false 반환
 		if (CollisionSystem::Get().Test(curActor, newPosition))
 			return false;
 

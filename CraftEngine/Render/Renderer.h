@@ -140,7 +140,8 @@ namespace Craft
 			const Vector2& playerPos,
 			const Vector2& playerDir,
 			const Vector2& cameraPlane,
-			const std::vector<std::string>& mapData
+			const std::vector<std::string>& mapData,
+			const std::vector<std::shared_ptr<Actor>>& actorList
 		);
 
 		// 그린 결과를 화면에 표시하는 함수
@@ -152,6 +153,13 @@ namespace Craft
 
 		// Getter
 		const ScreenBuffer* const GetCurrentBuffer() const;
+
+		void DrawActor3D(
+			Actor* actor,
+			const Vector2& playerPos,
+			const Vector2& playerDir,
+			const Vector2& cameraPlane
+		);
 
 	private:
 		// 전역 접근이 가능하도록 변수 선언
@@ -166,6 +174,10 @@ namespace Craft
 
 		// 월드 크기
 		Vector2 worldSize;
+
+		// 3D 렌더링용 깊이 버퍼
+		// 가 화면 x열에서 가장 가까운 벽까지의 거리
+		std::unique_ptr<float[]> depthBuffer;
 
 		// 글자/그리기 순서 2차원 배열을 관리하는 프레임 객체
 		std::unique_ptr<Frame> frame;
