@@ -569,3 +569,15 @@ void Enemy::MoveAlongPath(float deltaTime)
 		hasPath = false;
 	}
 }
+
+bool Enemy::GetRender3DData(Render3DData& outData) const
+{
+	outData.shape = Render3DData::Shape::Rectangle;
+
+	outData.width = 3.f;
+	outData.height = 3.f;
+
+	outData.color = Color::Red;
+
+	return true;
+}

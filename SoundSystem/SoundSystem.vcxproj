@@ -63,7 +63,7 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <PreBuildEvent>
-      <Command>xcopy *.h ..\Includes\  /e /y /i</Command>
+      <Command>xcopy *.h ..\Includes\ /e /y /i</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy $(OutDir)\*.lib ..\Lib\ /e /y /i
@@ -87,6 +87,9 @@ xcopy $(OutDir)\*.dll ..\Lib\ /e /y /i</Command>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
+    <PreBuildEvent>
+      <Command>xcopy *.h ..\Includes\ /e /y /i</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="SoundSystem\Sound.h" />

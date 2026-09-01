@@ -94,6 +94,18 @@ void Bullet::OnCollision(const std::shared_ptr<Actor>& other)
 	}
 }
 
+bool Bullet::GetRender3DData(Render3DData& outData) const
+{
+	outData.shape = Render3DData::Shape::Circle;
+
+	outData.width = 0.5f;
+	outData.height = 0.5f;
+
+	outData.color = Color::Yellow;
+
+	return true;
+}
+
 void Bullet::DestroyAndEffect()
 {
 	if (HasExpired())

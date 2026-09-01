@@ -4,6 +4,7 @@
 #include <Math/Vector2.h>
 #include <Math/Color.h>
 #include <Core/CraftObject.h>
+#include <Render/Render3DData.h>
 #include <memory>  // std::weak_ptr 사용을 위해
 #include <string>
 #include <vector>
@@ -98,6 +99,9 @@ namespace Craft
 			// 새로운 글자 값 설정
 			image = newImage;
 		}
+
+		// 3D 렌더 관련
+		virtual bool GetRender3DData(Render3DData& outData) const;
 
 	protected:
 		const bool CheckCollisionOn(

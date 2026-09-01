@@ -125,6 +125,7 @@ xcopy $(OutDir)\*.dll ..\Lib\ /e /y /i</Command>
     <ClInclude Include="Math\Color.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Physics\CollisionSystem.h" />
+    <ClInclude Include="Render\Render3DData.h" />
     <ClInclude Include="Render\Renderer.h" />
     <ClInclude Include="Render\ScreenBuffer.h" />
     <ClInclude Include="Utility\Utility.h" />

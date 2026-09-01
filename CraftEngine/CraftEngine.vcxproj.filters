@@ -77,5 +77,8 @@
     <ClInclude Include="Physics\CollisionSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Render\Render3DData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

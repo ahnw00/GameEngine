@@ -2,6 +2,7 @@
 
 #include <Actor/Actor.h>
 #include <Actor/Character.h>
+#include <Render/Render3DData.h>
 #include <memory>
 
 class Bullet : public Craft::Actor
@@ -28,6 +29,8 @@ public:
 
 	// 총알은 시야 벗어나도 보여야해
 	virtual bool IsVisibleOutsideSight() const override { return true; };
+
+	virtual bool GetRender3DData(Craft::Render3DData& outData) const override;
 
 private:
 	void DestroyAndEffect();

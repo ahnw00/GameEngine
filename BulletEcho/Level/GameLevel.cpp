@@ -13,6 +13,7 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 
 using namespace Craft;
@@ -81,12 +82,17 @@ void GameLevel::Draw3D()
 	float fov = 1.732f;
 	Vector2 cameraPlane(-playerDir.y * fov, playerDir.x * fov);
 
+	auto start = std::chrono::high_resolution_clock::now();
 	Renderer::Get().Draw3DView(
 		playerPos, 
 		playerDir, 
 		cameraPlane, 
-		map
+		map,
+		actorList
 	);
+	auto end = std::chrono::high_resolution_clock::now();
+	float ms = std::chrono::duration<float, std::milli>(end - start).count();
+	std::cout << "Draw3DView: " << ms << "ms\n";
 }
 
 // 정적 충돌 판정

@@ -1,13 +1,16 @@
 ﻿#include "Renderer.h"
 #include "ScreenBuffer.h"
-#include <cassert>
-#include <iostream>
-#include <Windows.h>
-#include <cfloat>
+
 #include <Actor/Actor.h>
 #include <Input/Input.h>
 #include <Engine/Engine.h>
 #include <Level/Level.h>
+
+#include <cassert>
+#include <iostream>
+#include <Windows.h>
+#include <cfloat>
+#include <chrono>
 
 
 namespace Craft
@@ -493,27 +496,53 @@ namespace Craft
 		for (int x = 0; x < width; ++x)
 			depthBuffer[x] = FLT_MAX;
 
+		// 천장과 벽 미리 그려주기
+		// Ray마다 반복하지 않고 프레임당 한 번만 처리
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				const int index = y * width + x;
+
+				if (y < height / 2)
+				{
+					// 천장
+					frame->charInfoArray[index].Char.AsciiChar = 176;
+					frame->charInfoArray[index].Attributes = 0;
+				}
+				else
+				{
+					// 바닥
+					frame->charInfoArray[index].Char.AsciiChar = 177;
+					frame->charInfoArray[index].Attributes =
+						FOREGROUND_BLUE |
+						FOREGROUND_GREEN |
+						FOREGROUND_RED;
+				}
+			}
+		}
+
 		// 화면의 가로 픽셀(x열) 수만큼 레이를 발사
 		for (int x = 0; x < width; ++x)
 		{
 			// 현재 화면 x좌표를 -1.0 ~ 1.0 사이의 비율로 변환
-			double cameraX = 2.0 * x / static_cast<double>(width) - 1.0;
+			float cameraX = 2.0 * x / static_cast<float>(width) - 1.0;
 
 			// 레이의 최종 방향 벡터 계산
-			double rayDirX = playerDir.x + cameraPlane.x * cameraX;
-			double rayDirY = playerDir.y + cameraPlane.y * cameraX;
+			float rayDirX = playerDir.x + cameraPlane.x * cameraX;
+			float rayDirY = playerDir.y + cameraPlane.y * cameraX;
 
 			// 현재 레이가 위치한 맵의 정수 좌표
 			int mapX = static_cast<int>(playerPos.x);
 			int mapY = static_cast<int>(playerPos.y);
 
 			// DDA 알고리즘
-			double sideDistX, sideDistY;
+			float sideDistX, sideDistY;
 
 			// deltaDist: 레이가 1칸 이동할 때 실제로 이동하는 총 거리
 			// rayDir이 0일 때 0으로 나누는 에러 방지 위해 1e30 대입
-			double deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1.0 / rayDirX);
-			double deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1.0 / rayDirY);
+			float deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1.0 / rayDirX);
+			float deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1.0 / rayDirY);
 
 			// 레이가 전진할 방향(-1 또는 1)
 			int stepX, stepY;
@@ -547,11 +576,6 @@ namespace Craft
 			// DDA 루프(벽에 부딪히거나 시야 거리 안까지 광선 1칸씩 전진)
 			while (hit == 0)
 			{
-				// Todo: 시야 범위 정하기
-				// 시야 범위 벗어나면 중단
-				//if (min(sideDistX, sideDistY) >= 15.f)
-				//	break;
-
 				if (sideDistX < sideDistY)
 				{
 					sideDistX += deltaDistX; // x축에 평행하게 한 칸 이동
@@ -569,11 +593,16 @@ namespace Craft
 					mapY < 0 || mapY >= mapData.size())
 					break;
 
+				// Todo: 시야 범위 정하기
+				// 시야 범위 벗어나면 중단
+				//if (min(sideDistX, sideDistY) >= 15.f)
+				//	break;
+
 				if (mapData[mapY][mapX] == '#')
 					hit = 1;
 			}
 
-			double perpWallDist; // 벽까지의 최종 수직 거리
+			float perpWallDist; // 벽까지의 최종 수직 거리
 
 			if (hit == 1)
 			{
@@ -653,49 +682,91 @@ namespace Craft
 						frame->charInfoArray[index].Attributes |= FOREGROUND_RED;
 					}
 				}
+
+				// 천장
+				//for (int y = 0; y < drawStart; ++y)
+				//{
+				//	const int index = y * width + x;
+
+				//	frame->charInfoArray[index].Char.AsciiChar = 176;
+				//}
+
+				// 벽
+				//for (int y = drawStart; y <= drawEnd; ++y)
+				//{
+				//	const int index = y * width + x;
+
+				//	char shade = (side == 1) ? 178 : 219;
+
+				//	frame->charInfoArray[index].Char.AsciiChar = shade;
+				//	frame->charInfoArray[index].Attributes =
+				//		FOREGROUND_BLUE |
+				//		FOREGROUND_GREEN |
+				//		FOREGROUND_RED;
+				//}
+
+				// 바닥
+				//for (int y = drawEnd + 1; y < height; ++y)
+				//{
+				//	const int index = y * width + x;
+
+				//	frame->charInfoArray[index].Char.AsciiChar = 177;
+				//	frame->charInfoArray[index].Attributes =
+				//		FOREGROUND_BLUE |
+				//		FOREGROUND_GREEN |
+				//		FOREGROUND_RED;
+				//}
 			}
-			else
-			{
-				// --- [ 2. 벽을 못 찾고 시야 한계(sightLimit)에서 끝났을 때 ] ---
+			//else
+			//{
+			//	// --- [ 2. 벽을 못 찾고 시야 한계(sightLimit)에서 끝났을 때 ] ---
 
-				for (int y = 0; y < height; ++y)
-				{
-					const int index = y * width + x;
+			//	for (int y = 0; y < height; ++y)
+			//	{
+			//		const int index = y * width + x;
 
-					// 시야 끝에는 아무것도 안 보이게 까맣게(혹은 바닥만) 처리
+			//		// 시야 끝에는 아무것도 안 보이게 까맣게(혹은 바닥만) 처리
 
-					// 예시: 벽 없이 위쪽 절반은 천장, 아래쪽 절반은 바닥으로 그리기
-					if (y < height / 2) 
-					{
-						frame->charInfoArray[index].Char.AsciiChar = ' '; // 빈공간 (어둠)
-						frame->charInfoArray[index].Attributes = 0;
-					}
-					else 
-					{
-						// 끝이 안 보이는 먼 바닥을 표현하고 싶다면 옅게 그림
-						frame->charInfoArray[index].Char.AsciiChar = '.';
-						frame->charInfoArray[index].Attributes = FOREGROUND_INTENSITY; // 어두운 색
-					}
-				}
-			}
+			//		// 예시: 벽 없이 위쪽 절반은 천장, 아래쪽 절반은 바닥으로 그리기
+			//		if (y < height / 2) 
+			//		{
+			//			frame->charInfoArray[index].Char.AsciiChar = ' '; // 빈공간 (어둠)
+			//			frame->charInfoArray[index].Attributes = 0;
+			//		}
+			//		else 
+			//		{
+			//			// 바닥
+			//			frame->charInfoArray[index].Char.AsciiChar = 177;
+			//			frame->charInfoArray[index].Attributes =
+			//				FOREGROUND_BLUE |
+			//				FOREGROUND_GREEN |
+			//				FOREGROUND_RED;
+			//		}
+			//	}
+			//}
 		}
 
+		auto start = std::chrono::high_resolution_clock::now();
 		for (const auto& actor : actorList)
 		{
 			if (!actor)
 				continue;
 
-			// Wall은 mapData + DDA에서 이미 렌더링함
-			//if (Cast<Wall>(actor.get()))
-			//	continue;
-
+			Render3DData renderData;
+			if (!actor->GetRender3DData(renderData))
+				continue;
+			
 			DrawActor3D(
 				actor.get(),
+				renderData,
 				playerPos,
 				playerDir,
 				cameraPlane
 			);
 		}
+		auto end = std::chrono::high_resolution_clock::now();
+		float ms = std::chrono::duration<float, std::milli>(end - start).count();
+		std::cout << "DrawActor3D: " << ms << "ms\n";
 	}
 
 	void Renderer::Present()
@@ -719,23 +790,90 @@ namespace Craft
 		return screenBufferArray[currentBufferIndex].get(); 
 	}
 
-	void Renderer::DrawActor3D(Actor* actor, const Vector2& playerPos, const Vector2& playerDir, const Vector2& cameraPlane)
+	void Renderer::DrawActor3D(
+		Actor* actor,
+		const Render3DData& renderData,
+		const Vector2& playerPos, 
+		const Vector2& playerDir, 
+		const Vector2& cameraPlane)
 	{
-		Vector2 relative = actor->GetCenterPosition() - playerPos;
+		if (!actor) return;
 
+		const int width = static_cast<int>(screenSize.x);
+		const int height = static_cast<int>(screenSize.y);
+
+		// 플레이어 기준 다른 액터의 상대적 위치
+		Vector2 relative = actor->GetCenterPosition() - playerPos;
+		// Camera Space 변환
 		float determinant = cameraPlane.x * playerDir.y - playerDir.x * cameraPlane.y;
 
 		if (std::abs(determinant) < 0.0001f)
 			return;
 
-		float invDet = 1.f / determinant;
+		float inverseDeterminant = 1.f / determinant;
 
-		float transformX = invDet * (playerDir.y * relative.x - playerDir.x * relative.y);
-		float transformY = invDet * (-cameraPlane.y * relative.x + cameraPlane.x * relative.y);
+		float transformX = inverseDeterminant * (playerDir.y * relative.x - playerDir.x * relative.y);
+		float transformY = inverseDeterminant * (-cameraPlane.y * relative.x + cameraPlane.x * relative.y);
 
 		// 플레이어 뒤에 있는 Actor
 		if (transformY <= 0.0f)
 			return;
+
+		int screenX = static_cast<int>((width / 2.f) * (1.f + transformX / transformY));
+		if (screenX < 0 || screenX >= width)
+			return;
+
+		// Sprite 크기 계산
+		int spriteWidth = static_cast<int>(height * renderData.width / transformY);
+		int spriteHeight = static_cast<int>(height * renderData.height / transformY);
+
+		if (spriteHeight <= 0 || spriteWidth <= 0)
+			return;
+
+		int drawStartX = screenX - spriteWidth / 2;
+		int drawEndX = screenX + spriteWidth / 2;
+		int drawStartY = height / 2 - spriteHeight / 2;
+		int drawEndY = height / 2 + spriteHeight / 2;
+		
+		// shape에 따라 렌더링
+		for (int x = drawStartX; x < drawEndX; ++x)
+		{
+			if (x < 0 || x >= width)
+				continue;
+
+			// 벽보다 뒤에 있으면 렌더링X
+			if (transformY >= depthBuffer[x])
+				continue;
+
+			for (int y = drawStartY; y <= drawEndY; ++y)
+			{
+				if (y < 0 || y >= height)
+					continue;
+
+				if (renderData.shape == Render3DData::Shape::Circle)
+				{
+					float centerX = (drawStartX + drawEndX) * 0.5f;
+					float centerY = (drawStartY + drawEndY) * 0.5f;
+
+					float radiusX = spriteWidth * 0.5f;
+					float radiusY = spriteHeight * 0.5f;
+
+					float dx = (x - centerX) / radiusX;
+					float dy = (y - centerY) / radiusY;
+
+					if (dx * dx + dy * dy > 1.0f)
+						continue;
+				}
+				else if (renderData.shape == Render3DData::Shape::Rectangle)
+				{
+				}
+
+				const int index = y * width + x;
+
+				frame->charInfoArray[index].Char.AsciiChar = 219;
+				frame->charInfoArray[index].Attributes = static_cast<WORD>(renderData.color);
+			}
+		}
 	}
 
 	void Renderer::DrawMouseCursor()

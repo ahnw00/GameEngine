@@ -2,9 +2,10 @@
 
 #include <Actor/Actor.h>
 #include <Actor/Character.h>
+#include <Render/Render3DData.h>
+#include <Actor/DestroyEffect.h>
 #include <memory>
 #include <vector>
-#include <Actor/DestroyEffect.h>
 
 // DEBUGGING
 constexpr auto MAP_WIDTH = 200;
@@ -93,6 +94,9 @@ private:
 
 public:
 	inline void SetTarget(Player* p) { target = p; }
+
+protected:
+	virtual bool GetRender3DData(Craft::Render3DData& outData) const override;
 
 private:
 	// 순찰 위치들

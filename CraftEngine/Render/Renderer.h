@@ -3,6 +3,7 @@
 #include <Core/Core.h> // 외부에서 접근하게 하려고
 #include <Math/Vector2.h>
 #include <Math/Color.h>
+#include <Render/Render3DData.h>
 #include <string>
 #include <vector>
 #include <memory>
@@ -156,6 +157,7 @@ namespace Craft
 
 		void DrawActor3D(
 			Actor* actor,
+			const Render3DData& renderData,
 			const Vector2& playerPos,
 			const Vector2& playerDir,
 			const Vector2& cameraPlane

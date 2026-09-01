@@ -8,6 +8,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <cassert>
+#include <chrono>
 
 namespace Craft
 {
@@ -98,14 +99,26 @@ namespace Craft
 				// 게임 이벤트의 초기화 함수(1번만 호출)
 				BeginPlay();
 
+				//auto start = std::chrono::high_resolution_clock::now();
+
 				// 게임 업데이트
 				Tick(deltaTime);
 
-				// 충돌 처리
+				//auto end = std::chrono::high_resolution_clock::now();
+				//float ms = std::chrono::duration<float, std::milli>(end - start).count();
+				//std::cout << "Tick: " << ms << "ms\n";
+
+				// 정적 충돌 처리
 				ProcessCollision();
+
+				//start = std::chrono::high_resolution_clock::now();
 
 				// 화면 그리기
 				Draw();
+
+				//end = std::chrono::high_resolution_clock::now();
+				//ms = std::chrono::duration<float, std::milli>(end - start).count();
+				//std::cout << "Draw: " << ms << "ms\n";
 
 				// 여기까지는 프레임 처리 완료됨
 
@@ -239,7 +252,7 @@ namespace Craft
 			mainLevel->Draw();
 
 			renderer->DrawRenderQueue();
-			
+		
 			mainLevel->ProcessPlayerSight();
 
 			renderer->DrawSight();
@@ -252,7 +265,11 @@ namespace Craft
 		//}
 		else
 		{
+			//auto start = std::chrono::high_resolution_clock::now();
 			mainLevel->Draw3D();
+			//auto end = std::chrono::high_resolution_clock::now();
+			//float ms = std::chrono::duration<float, std::milli>(end - start).count();
+			//std::cout << "Draw3D: " << ms << "ms\n";
 		}
 
 		renderer->Present();

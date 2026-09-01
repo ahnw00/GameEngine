@@ -38,6 +38,11 @@ namespace Craft
 		Renderer::Get().Submit(this, image, position, color, sortingOrder);
 	}
 
+	bool Actor::GetRender3DData(Render3DData& outData) const
+	{
+		return false;
+	}
+
 	const bool Actor::CheckCollisionOn(
 		const Vector2& prevPosition, const Vector2& newPosition)
 	{
