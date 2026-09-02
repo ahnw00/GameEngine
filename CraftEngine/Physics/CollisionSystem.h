@@ -53,6 +53,8 @@ namespace Craft
 
 		static CollisionSystem& Get();
 
+		bool FindActorOn(const Actor* targetActor, const Vector2& position) const;
+
 	private:
 		inline int GetIndex(int x, int y) const
 		{

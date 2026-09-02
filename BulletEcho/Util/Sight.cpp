@@ -5,6 +5,8 @@
 #include <Actor/Wall.h>
 #include <Engine/Engine.h>
 #include <Render/Renderer.h>
+#include <Physics/CollisionSystem.h>
+#include <Level/GameLevel.h>
 
 #include <cmath>
 
@@ -76,15 +78,24 @@ Player* Sight::DetectPlayer()
                 continue;
 
             // 현재 포인트 위에 올라와있는 액터들의 리스트 가져오기
-            const auto& actors = Renderer::Get().GetActorsAt(point);
+            //const auto& actors = Renderer::Get().GetActorsAt(point);
 
-            for (auto actor : actors)
-            {
-                if (actor->IsTypeOf<Player>())
-                {
-                    return static_cast<Player*>(actor);
-                }
-            }
+            //for (auto actor : actors)
+            //{
+            //    if (actor->IsTypeOf<Player>())
+            //    {
+            //        return static_cast<Player*>(actor);
+            //    }
+            //}
+
+            std::shared_ptr<Level> level = owner->GetOwner();
+            if (!level) return nullptr;
+
+            std::shared_ptr<GameLevel> gameLevel = Cast<GameLevel>(level);
+            if (!gameLevel) return nullptr;
+
+            if (CollisionSystem::Get().FindActorOn(gameLevel->GetPlayer(), point))
+                return gameLevel->GetPlayer();
         }
     }
 

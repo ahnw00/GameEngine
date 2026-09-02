@@ -493,34 +493,13 @@ namespace Craft
 		const int width = static_cast<int>(screenSize.x);
 		const int height = static_cast<int>(screenSize.y);
 
+		const float sightRadius = 30.f;
+
 		for (int x = 0; x < width; ++x)
 			depthBuffer[x] = FLT_MAX;
 
-		// 천장과 벽 미리 그려주기
-		// Ray마다 반복하지 않고 프레임당 한 번만 처리
-		for (int y = 0; y < height; ++y)
-		{
-			for (int x = 0; x < width; ++x)
-			{
-				const int index = y * width + x;
-
-				if (y < height / 2)
-				{
-					// 천장
-					frame->charInfoArray[index].Char.AsciiChar = 176;
-					frame->charInfoArray[index].Attributes = 0;
-				}
-				else
-				{
-					// 바닥
-					frame->charInfoArray[index].Char.AsciiChar = 177;
-					frame->charInfoArray[index].Attributes =
-						FOREGROUND_BLUE |
-						FOREGROUND_GREEN |
-						FOREGROUND_RED;
-				}
-			}
-		}
+		constexpr float INF = 1e30f;
+		constexpr float EPSILON = 0.0001f;
 
 		// 화면의 가로 픽셀(x열) 수만큼 레이를 발사
 		for (int x = 0; x < width; ++x)
@@ -541,8 +520,8 @@ namespace Craft
 
 			// deltaDist: 레이가 1칸 이동할 때 실제로 이동하는 총 거리
 			// rayDir이 0일 때 0으로 나누는 에러 방지 위해 1e30 대입
-			float deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1.0 / rayDirX);
-			float deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1.0 / rayDirY);
+			float deltaDistX = (std::abs(rayDirX) < EPSILON) ? INF : std::abs(1.0 / rayDirX);
+			float deltaDistY = (std::abs(rayDirY) < EPSILON) ? INF : std::abs(1.0 / rayDirY);
 
 			// 레이가 전진할 방향(-1 또는 1)
 			int stepX, stepY;
@@ -574,176 +553,321 @@ namespace Craft
 			}
 
 			// DDA 루프(벽에 부딪히거나 시야 거리 안까지 광선 1칸씩 전진)
-			while (hit == 0)
+			//while (hit == 0)
+			//{
+			//	if (sideDistX <= sideDistY + EPSILON)
+			//	{
+			//		sideDistX += deltaDistX; // x축에 평행하게 한 칸 이동
+			//		mapX += stepX;
+			//		side = 0;
+			//	}
+			//	else
+			//	{
+			//		sideDistY += deltaDistY; // y축에 평행하게 한 칸 이동
+			//		mapY += stepY;
+			//		side = 1;
+			//	}
+
+			//	if (mapX < 0 || mapX >= mapData[0].size() ||
+			//		mapY < 0 || mapY >= mapData.size())
+			//		break;
+
+			//	// 시야 범위 벗어나면 중단
+			//	if (min(sideDistX, sideDistY) >= sightRadius)
+			//		break;
+
+			//	if (mapData[mapY][mapX] == '#')
+			//		hit = 1;
+			//}
+
+			while (!hit)
 			{
-				if (sideDistX < sideDistY)
+				//--------------------------------------------------//
+				// X / Y 경계까지의 거리가 거의 동일하다면
+				// 레이가 셀 코너를 통과하는 상황
+				//--------------------------------------------------//
+
+				float difference = std::abs(sideDistX - sideDistY);
+
+				if (difference <= EPSILON)
 				{
-					sideDistX += deltaDistX; // x축에 평행하게 한 칸 이동
+					// 현재 코너까지의 거리
+					float cornerDist = sideDistX;
+
+					//------------------------------------------------//
+					// X 방향으로 들어가는 셀
+					//------------------------------------------------//
+
+					int nextMapX = mapX + stepX;
+					int nextMapY = mapY;
+
+					if (nextMapX < 0 || nextMapX >= static_cast<int>(mapData[0].size()) ||
+						nextMapY < 0 || nextMapY >= static_cast<int>(mapData.size()))
+					{
+						break;
+					}
+
+					//------------------------------------------------//
+					// Y 방향으로 들어가는 셀
+					//------------------------------------------------//
+
+					int diagonalMapX = mapX;
+					int diagonalMapY = mapY + stepY;
+
+					if (diagonalMapX < 0 || diagonalMapX >= static_cast<int>(mapData[0].size()) ||
+						diagonalMapY < 0 || diagonalMapY >= static_cast<int>(mapData.size()))
+					{
+						break;
+					}
+
+					//------------------------------------------------//
+					// 코너 양쪽에 벽이 있는지 확인
+					//------------------------------------------------//
+
+					bool hitX = (mapData[nextMapY][nextMapX] == '#');
+					bool hitY = (mapData[diagonalMapY][diagonalMapX] == '#');
+
+					//------------------------------------------------//
+					// 둘 중 하나라도 벽이면 충돌
+					//------------------------------------------------//
+
+					if (hitX || hitY)
+					{
+						hit = 1;
+
+						// 어느 면을 사용할지 결정
+						if (hitX && hitY)
+						{
+							// 양쪽 모두 벽이면 실제 이동 방향 기준
+							// 한쪽을 선택
+							if (rayDirX * rayDirX > rayDirY * rayDirY)
+								side = 0;
+							else
+								side = 1;
+						}
+						else if (hitX)
+						{
+							side = 0;
+						}
+						else
+						{
+							side = 1;
+						}
+
+						//------------------------------------------------//
+						// 코너까지의 거리를 유지
+						//------------------------------------------------//
+
+						sideDistX = cornerDist;
+						sideDistY = cornerDist;
+
+						break;
+					}
+
+					//------------------------------------------------//
+					// 둘 다 벽이 아니라면 대각선 셀로 이동
+					//------------------------------------------------//
+
 					mapX += stepX;
+					mapY += stepY;
+
+					sideDistX += deltaDistX;
+					sideDistY += deltaDistY;
+
+					side = (rayDirX * rayDirX > rayDirY * rayDirY) ? 0 : 1;
+
+					//------------------------------------------------//
+					// 맵 범위 검사
+					//------------------------------------------------//
+
+					if (mapX < 0 || mapX >= static_cast<int>(mapData[0].size()) ||
+						mapY < 0 || mapY >= static_cast<int>(mapData.size()))
+					{
+						break;
+					}
+
+					//------------------------------------------------//
+					// 시야 거리 검사
+					//------------------------------------------------//
+
+					if (cornerDist > sightRadius + EPSILON)
+						break;
+				}
+				else if (sideDistX < sideDistY)
+				{
+					//------------------------------------------------//
+					// X 방향 셀 경계 통과
+					//------------------------------------------------//
+
+					float currentDist = sideDistX;
+
+					sideDistX += deltaDistX;
+					mapX += stepX;
+
 					side = 0;
+
+					//------------------------------------------------//
+					// 맵 범위
+					//------------------------------------------------//
+
+					if (mapX < 0 || mapX >= static_cast<int>(mapData[0].size()) ||
+						mapY < 0 || mapY >= static_cast<int>(mapData.size()))
+					{
+						break;
+					}
+
+					//------------------------------------------------//
+					// 시야 거리
+					//------------------------------------------------//
+
+					if (currentDist > sightRadius + EPSILON)
+						break;
+
+					//------------------------------------------------//
+					// 벽 검사
+					//------------------------------------------------//
+
+					if (mapData[mapY][mapX] == '#')
+					{
+						hit = 1;
+						break;
+					}
 				}
 				else
 				{
-					sideDistY += deltaDistY; // y축에 평행하게 한 칸 이동
+					//------------------------------------------------//
+					// Y 방향 셀 경계 통과
+					//------------------------------------------------//
+
+					float currentDist = sideDistY;
+
+					sideDistY += deltaDistY;
 					mapY += stepY;
+
 					side = 1;
+
+					//------------------------------------------------//
+					// 맵 범위
+					//------------------------------------------------//
+
+					if (mapX < 0 || mapX >= static_cast<int>(mapData[0].size()) ||
+						mapY < 0 || mapY >= static_cast<int>(mapData.size()))
+					{
+						break;
+					}
+
+					//------------------------------------------------//
+					// 시야 거리
+					//------------------------------------------------//
+
+					if (currentDist > sightRadius + EPSILON)
+						break;
+
+					//------------------------------------------------//
+					// 벽 검사
+					//------------------------------------------------//
+
+					if (mapData[mapY][mapX] == '#')
+					{
+						hit = 1;
+						break;
+					}
 				}
-
-				if (mapX < 0 || mapX >= mapData[0].size() ||
-					mapY < 0 || mapY >= mapData.size())
-					break;
-
-				// Todo: 시야 범위 정하기
-				// 시야 범위 벗어나면 중단
-				//if (min(sideDistX, sideDistY) >= 15.f)
-				//	break;
-
-				if (mapData[mapY][mapX] == '#')
-					hit = 1;
 			}
-
-			float perpWallDist; // 벽까지의 최종 수직 거리
+			
+			float perpWallDist = FLT_MAX; // 기본값을 무한대로 (벽에 안 부딪혔을 때 대비)
+			char wallShade = ' ';
 
 			if (hit == 1)
 			{
-				// --- [ 1. 벽을 찾았을 때의 일반적인 그리기 로직 ] ---
-
 				// 수직 거리 계산
 				if (side == 0) perpWallDist = (mapX - playerPos.x + (1 - stepX) / 2) / rayDirX;
 				else           perpWallDist = (mapY - playerPos.y + (1 - stepY) / 2) / rayDirY;
 
-				if (perpWallDist <= 0.0) perpWallDist = 0.001;
+				if (perpWallDist <= 0.0f) perpWallDist = 0.001f;
+				wallShade = (side == 1) ? 178 : 219;
+			}
 
-				depthBuffer[x] = static_cast<float>(perpWallDist);
+			depthBuffer[x] = static_cast<float>(perpWallDist);
 
-				// Todo: 시야범위 변수화
-				// (선택 사항) 만약 계산된 수직 거리가 sightLimit보다 멀다면 안 그려도 무방함
-				//if (perpWallDist > 15.f) 
-				//{
-				//	// 거리가 너무 멀어서 안개(어둠) 속으로 사라짐
-				//	for (int y = 0; y < height; ++y) 
-				//	{
-				//		frame->charInfoArray[y * width + x].Char.AsciiChar = ' ';
-				//		frame->charInfoArray[y * width + x].Attributes = 0;
-				//	}
-				//	continue; // 다음 x열로 넘어감
-				//}
+			// 벽이 화면에 그려질 시작과 끝 높이 계산
+			int wallDrawStart = 0;
+			int wallDrawEnd = -1;
 
-				// 벽 높이 계산
-				float lineHeight =
-					static_cast<float>(height) / static_cast<float>(perpWallDist) * 16.f;
+			// DEBUGGING 시야처리 변수
+			float wallMagnification = 16.0f;
 
-				float drawStartF =
-					static_cast<float>(height) * 0.5f - lineHeight * 0.5f;
+			if (hit == 1)
+			{
+				float wallLineHeight = static_cast<float>(height) / perpWallDist * wallMagnification;
 
-				float drawEndF =
-					static_cast<float>(height) * 0.5f + lineHeight * 0.5f;
+				wallDrawStart = static_cast<int>(std::floor(height * 0.5f - wallLineHeight * 0.5f));
+				wallDrawEnd = static_cast<int>(std::ceil(height * 0.5f + wallLineHeight * 0.5f));
 
-				int drawStart = static_cast<int>(std::floor(drawStartF));
-				int drawEnd = static_cast<int>(std::ceil(drawEndF));
+				wallDrawStart = max(wallDrawStart, 0);
+				wallDrawEnd = min(wallDrawEnd, height - 1);
+			}
 
-				drawStart = max(drawStart, 0);
-				drawEnd = min(drawEnd, height - 1);
+			float rayLength = std::sqrt(rayDirX * rayDirX + rayDirY * rayDirY);
 
-				// 화면 프레임에 기록
-				for (int y = 0; y < height; ++y)
+			// 수직 거리(perpDist)에 레이 길이를 곱하면 플레이어로부터의 실제 직선 거리(Euclidean Dist)가 됩니다.
+			float trueWallDist = perpWallDist * rayLength;
+
+			for (int y = 0; y < height; ++y)
+			{
+				const int index = y * width + x;
+
+				// 1. 벽 영역 렌더링
+				if (hit == 1 && y >= wallDrawStart && y <= wallDrawEnd)
 				{
-					const int index = y * width + x;
-					if (y < drawStart) 
+					// 실제 직선 거리(trueWallDist)로 비교하여 벽도 둥근 시야에 맞게 가려줍니다.
+					if (trueWallDist <= sightRadius)
 					{
-						// 천장
-						frame->charInfoArray[index].Char.AsciiChar = 176;
-						//frame->charInfoArray[index].Attributes = FOREGROUND_BLUE;
+						frame->charInfoArray[index].Char.AsciiChar = wallShade;
+						frame->charInfoArray[index].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED;
 					}
-					else if (y >= drawStart && y <= drawEnd) 
+					else
 					{
-						// 벽 그리기
-						// 219, 178, 177, 176
-						char shade = 219;
-
-						// side가 1이면 한 단계 어둡게
-						if (side == 1)
-						{
-							shade = 178;
-						}
-
-						frame->charInfoArray[index].Char.AsciiChar = shade;
-						frame->charInfoArray[index].Attributes |= FOREGROUND_BLUE;
-						frame->charInfoArray[index].Attributes |= FOREGROUND_GREEN;
-						frame->charInfoArray[index].Attributes |= FOREGROUND_RED;
-					}
-					else 
-					{
-						// 바닥
-						frame->charInfoArray[index].Char.AsciiChar = 177;
-						//frame->charInfoArray[index].Attributes |= FOREGROUND_INTENSITY;
-						frame->charInfoArray[index].Attributes |= FOREGROUND_BLUE;
-						frame->charInfoArray[index].Attributes |= FOREGROUND_GREEN;
-						frame->charInfoArray[index].Attributes |= FOREGROUND_RED;
+						// 시야 밖 벽 (어둠)
+						frame->charInfoArray[index].Char.AsciiChar = ' ';
+						frame->charInfoArray[index].Attributes = 0;
 					}
 				}
+				// 2. 천장 영역 (y가 화면 절반 위쪽이면서 벽이 아닌 부분)
+				else if (y < height / 2)
+				{
+					frame->charInfoArray[index].Char.AsciiChar = ' ';
+					frame->charInfoArray[index].Attributes = 0;
+				}
+				// 3. 바닥 영역 (y가 화면 절반 아래쪽이면서 벽이 아닌 부분)
+				else
+				{
+					float dy = static_cast<float>(y) - static_cast<float>(height) * 0.5f;
+					if (dy < 0.001f) dy = 0.001f;
 
-				// 천장
-				//for (int y = 0; y < drawStart; ++y)
-				//{
-				//	const int index = y * width + x;
+					// 보정 값
+					float correctionValue = wallMagnification / 2.f;
+					// 바닥의 수직 거리 계산
+					float perpFloorDist = (static_cast<float>(height) * correctionValue) / dy;
 
-				//	frame->charInfoArray[index].Char.AsciiChar = 176;
-				//}
+					// 바닥 역시 수직 거리를 실제 3D 직선 거리로 변환합니다.
+					float trueFloorDist = perpFloorDist * rayLength;
 
-				// 벽
-				//for (int y = drawStart; y <= drawEnd; ++y)
-				//{
-				//	const int index = y * width + x;
-
-				//	char shade = (side == 1) ? 178 : 219;
-
-				//	frame->charInfoArray[index].Char.AsciiChar = shade;
-				//	frame->charInfoArray[index].Attributes =
-				//		FOREGROUND_BLUE |
-				//		FOREGROUND_GREEN |
-				//		FOREGROUND_RED;
-				//}
-
-				// 바닥
-				//for (int y = drawEnd + 1; y < height; ++y)
-				//{
-				//	const int index = y * width + x;
-
-				//	frame->charInfoArray[index].Char.AsciiChar = 177;
-				//	frame->charInfoArray[index].Attributes =
-				//		FOREGROUND_BLUE |
-				//		FOREGROUND_GREEN |
-				//		FOREGROUND_RED;
-				//}
+					if (trueFloorDist <= sightRadius)
+					{
+						// 시야 안의 바닥
+						frame->charInfoArray[index].Char.AsciiChar = 177;
+						frame->charInfoArray[index].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED;
+					}
+					else
+					{
+						// 시야 반경 밖의 바닥 (둥근 어둠)
+						frame->charInfoArray[index].Char.AsciiChar = ' ';
+						frame->charInfoArray[index].Attributes = 0;
+					}
+				}
 			}
-			//else
-			//{
-			//	// --- [ 2. 벽을 못 찾고 시야 한계(sightLimit)에서 끝났을 때 ] ---
 
-			//	for (int y = 0; y < height; ++y)
-			//	{
-			//		const int index = y * width + x;
-
-			//		// 시야 끝에는 아무것도 안 보이게 까맣게(혹은 바닥만) 처리
-
-			//		// 예시: 벽 없이 위쪽 절반은 천장, 아래쪽 절반은 바닥으로 그리기
-			//		if (y < height / 2) 
-			//		{
-			//			frame->charInfoArray[index].Char.AsciiChar = ' '; // 빈공간 (어둠)
-			//			frame->charInfoArray[index].Attributes = 0;
-			//		}
-			//		else 
-			//		{
-			//			// 바닥
-			//			frame->charInfoArray[index].Char.AsciiChar = 177;
-			//			frame->charInfoArray[index].Attributes =
-			//				FOREGROUND_BLUE |
-			//				FOREGROUND_GREEN |
-			//				FOREGROUND_RED;
-			//		}
-			//	}
-			//}
 		}
 
 		auto start = std::chrono::high_resolution_clock::now();
@@ -754,6 +878,10 @@ namespace Craft
 
 			Render3DData renderData;
 			if (!actor->GetRender3DData(renderData))
+				continue;
+
+			float distance = (playerPos - actor->GetCenterPosition()).size();
+			if (distance > sightRadius)
 				continue;
 			
 			DrawActor3D(

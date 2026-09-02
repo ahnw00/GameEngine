@@ -263,6 +263,19 @@ namespace Craft
 		assert(instance && "instance should not be null");
 		return *instance;
 	}
+
+	bool CollisionSystem::FindActorOn(const Actor* targetActor, const Vector2& position) const
+	{
+		int index = position.y * worldSize.x + position.x;
+
+		for (const auto& actor : collisionGrid[index])
+		{
+			if (actor == targetActor)
+				return true;
+		}
+
+		return false;
+	}
 	
 	void CollisionSystem::AddToGrid(Actor* actor, const Vector2& position)
 	{

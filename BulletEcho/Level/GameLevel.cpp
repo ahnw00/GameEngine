@@ -79,7 +79,8 @@ void GameLevel::Draw3D()
 	Vector2 playerPos = p->GetCenterPosition();
 	Vector2 playerDir = p->GetForward();
 	
-	float fov = 1.732f;
+	// DEBUGGING 시야처리 변수
+	float fov = 1.f;
 	Vector2 cameraPlane(-playerDir.y * fov, playerDir.x * fov);
 
 	auto start = std::chrono::high_resolution_clock::now();
@@ -168,6 +169,17 @@ bool GameLevel::CanMove(
 	}
 
 	return true;
+}
+
+Player* GameLevel::GetPlayer() const
+{
+	std::shared_ptr<Player> playerPtr = player.lock();
+	if (playerPtr)
+	{
+		return playerPtr.get();
+	}
+
+	return nullptr;
 }
 
 void GameLevel::LoadMap(const std::string& filename)

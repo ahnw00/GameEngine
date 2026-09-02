@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <Level/Level.h>
+#include <Actor/Actor.h>
 #include <memory>
 
 class Player;
@@ -26,6 +27,8 @@ public:
 	inline void EnemyKilled() { leftEnemy--; }
 	inline void SetElapsedTime(float deltaTime) { elapsedTime += deltaTime; }
 	inline float GetElapsedTime() const { return elapsedTime; }
+	
+	Player* GetPlayer() const;
 
 private:
 	void LoadMap(const std::string& filename);
