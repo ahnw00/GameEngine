@@ -870,14 +870,14 @@ namespace Craft
 
 		}
 
-		auto start = std::chrono::high_resolution_clock::now();
+		//auto start = std::chrono::high_resolution_clock::now();
 		for (const auto& actor : actorList)
 		{
 			if (!actor)
 				continue;
 
-			Render3DData renderData;
-			if (!actor->GetRender3DData(renderData))
+			//Render3DData& renderData = actor->GetRender3DData();
+			if (!actor->CheckRender3DData())
 				continue;
 
 			float distance = (playerPos - actor->GetCenterPosition()).size();
@@ -886,15 +886,15 @@ namespace Craft
 			
 			DrawActor3D(
 				actor.get(),
-				renderData,
+				actor->GetRender3DData(),
 				playerPos,
 				playerDir,
 				cameraPlane
 			);
 		}
-		auto end = std::chrono::high_resolution_clock::now();
-		float ms = std::chrono::duration<float, std::milli>(end - start).count();
-		std::cout << "DrawActor3D: " << ms << "ms\n";
+		//auto end = std::chrono::high_resolution_clock::now();
+		//float ms = std::chrono::duration<float, std::milli>(end - start).count();
+		//std::cout << "DrawActor3D: " << ms << "ms\n";
 	}
 
 	void Renderer::Present()
@@ -952,8 +952,12 @@ namespace Craft
 			return;
 
 		// Sprite 크기 계산
-		int spriteWidth = static_cast<int>(height * renderData.width / transformY);
-		int spriteHeight = static_cast<int>(height * renderData.height / transformY);
+		//int spriteWidth = static_cast<int>(height * renderData.width / transformY);
+		//int spriteHeight = static_cast<int>(height * renderData.height / transformY);
+
+		float projectionScale = static_cast<float>(height) / transformY;
+		int spriteWidth = static_cast<int>(renderData.width * projectionScale);
+		int spriteHeight = static_cast<int>(renderData.height * projectionScale);
 
 		if (spriteHeight <= 0 || spriteWidth <= 0)
 			return;
@@ -978,6 +982,8 @@ namespace Craft
 				if (y < 0 || y >= height)
 					continue;
 
+				const int index = y * width + x;
+
 				if (renderData.shape == Render3DData::Shape::Circle)
 				{
 					float centerX = (drawStartX + drawEndX) * 0.5f;
@@ -995,8 +1001,37 @@ namespace Craft
 				else if (renderData.shape == Render3DData::Shape::Rectangle)
 				{
 				}
+				else if (renderData.shape == Render3DData::Shape::Billboard)
+				{
+					if (renderData.image.empty())
+						continue;
 
-				const int index = y * width + x;
+					const int imageHeight = static_cast<int>(renderData.image.size());
+					const int imageWidth = static_cast<int>(renderData.image[0].size());
+
+					if (imageWidth <= 0 || imageHeight <= 0)
+						continue;
+
+					float u = static_cast<float>(x - drawStartX) / static_cast<float>(spriteWidth);
+					float v = static_cast<float>(y - drawStartY) / static_cast<float>(spriteHeight);
+
+					int imageX = static_cast<int>(u * imageWidth);
+					int imageY = static_cast<int>(v * imageHeight);
+
+					if (imageX < 0 || imageX >= imageWidth ||
+						imageY < 0 || imageY >= imageHeight)
+						continue;
+
+					char pixel = renderData.image[imageY][imageX];
+
+					if (pixel == ' ')
+						continue;
+
+					frame->charInfoArray[index].Char.AsciiChar = pixel;
+					frame->charInfoArray[index].Attributes = static_cast<WORD>(Color::Green);
+
+					continue;
+				}
 
 				frame->charInfoArray[index].Char.AsciiChar = 219;
 				frame->charInfoArray[index].Attributes = static_cast<WORD>(renderData.color);

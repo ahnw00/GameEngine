@@ -124,8 +124,6 @@ void Player::Tick(float deltaTime)
 		if (Input::Get().GetKey('D'))
 			movingDir += right;
 
-
-		bool isMoving = false;
 		if (movingDir.x != 0.f || movingDir.y != 0.f)
 		{
 			movingDir = movingDir.normalized();

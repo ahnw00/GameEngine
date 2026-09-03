@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <Actor/Actor.h>
-#include <Util/Timer.h>
+#include <Utility/Timer.h>
 
 class DestroyEffect : public Craft::Actor
 {
@@ -60,7 +60,7 @@ private:
 
 	// 애니메이션 재생에 사용할 타이머.
 	// 시퀀스 사이에 시간 계산용.
-	Timer timer;
+	Craft::Timer timer;
 
 	//const EffectFrame* sequence = nullptr;
 

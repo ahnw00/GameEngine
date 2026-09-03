@@ -101,13 +101,23 @@ namespace Craft
 		}
 
 		// 3D 렌더 관련
-		virtual bool GetRender3DData(Render3DData& outData) const;
+		inline virtual bool CheckRender3DData() { return false; }
+		inline Render3DData& GetRender3DData() { return render3DData; }
+
+		inline void Set3DRenderImage(const std::vector<std::string>& newImage)
+		{
+			render3DData.image = newImage;
+		}
 
 	protected:
 		const bool CheckCollisionOn(
 			const Vector2& prevPosition,
 			const Vector2& newPosition
 		);
+
+		void SetRender3DData(
+			Render3DData::Shape shape,
+			int width, int height, Color color);
 
 	protected:
 		// BeginPlay 이벤트 처리 여부 플래그
@@ -152,5 +162,7 @@ namespace Craft
 
 		// 방향 스테이트
 		Direction direction = Direction::N;
+
+		Render3DData render3DData;
 	};
 }

@@ -2,6 +2,9 @@
 
 #include <Core/Core.h> // 외부에서 접근하게 하려고
 #include <Math/Color.h>
+#include <vector>
+#include <string>
+
 
 namespace Craft
 {
@@ -21,5 +24,7 @@ namespace Craft
 		float height = 1.f;
 
 		Color color = Color::White;
+
+		std::vector<std::string> image;
 	};
 }

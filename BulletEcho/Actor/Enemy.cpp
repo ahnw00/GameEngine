@@ -9,6 +9,7 @@
 
 #include <queue>
 #include <cmath>
+#include <iostream>
 
 
 using namespace Craft;
@@ -46,11 +47,19 @@ Enemy::Enemy(
 	forward = Vector2(0, 1);
 }
 
+void Enemy::BeginPlay()
+{
+	// Animator 붙여주기
+	SetRender3DData(Render3DData::Shape::Billboard, 10.f, 6.f, Color::Grey);
+	animator = std::make_unique<Animator>(shared_from_this());
+}
+
 void Enemy::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 	sight->Tick(deltaTime);
 	timer.Tick(deltaTime);
+	animator->Tick(deltaTime);
 
 	if (target != nullptr && prevTarget == nullptr)
 	{
@@ -69,11 +78,11 @@ void Enemy::Tick(float deltaTime)
 		float distance = (GetCenterPosition() - target->GetCenterPosition()).size();
 
 		if (distance >= 1.5f && distance < 15.f)
-			mode = Mode::Shoot;
+			SetMode(Mode::Shoot);
 		else if (distance < 1.5f)
-			mode = Mode::Stab;
+			SetMode(Mode::Stab);
 		else
-			mode = Mode::Trace;
+			SetMode(Mode::Trace);
 	}
 	else if ((mode == Mode::Shoot || mode == Mode::Trace))
 	{
@@ -85,7 +94,8 @@ void Enemy::Tick(float deltaTime)
 			};
 			PlayEffect(sequence);
 
-			mode = Mode::Search;
+			SetMode(Mode::Search);
+			//mode = Mode::Search;
 			searchForward = forward;
 		}
 	}
@@ -93,7 +103,8 @@ void Enemy::Tick(float deltaTime)
 	{
 		if (searchingTimer > searchingDuration)
 		{
-			mode = Mode::Patrol;
+			SetMode(Mode::Patrol);
+			//mode = Mode::Patrol;
 
 			// 추격이 끝났으니 추격용 변수 초기화
 			path.clear();
@@ -292,18 +303,6 @@ void Enemy::Trace(float deltaTime)
 
 		if (!level)
 			return;
-
-		//// Player 주변의 목표 위치 탐색
-		//for (const Vector2& direction : directions)
-		//{
-		//	Vector2 candidate = playerPosition + direction;
-
-		//	if (level->CanMove(candidate, shared_from_this()))
-		//	{
-		//		targetPosition = candidate;
-		//		break;
-		//	}
-		//}
 
 		CalculatePathToTarget();
 	}
@@ -570,14 +569,38 @@ void Enemy::MoveAlongPath(float deltaTime)
 	}
 }
 
-bool Enemy::GetRender3DData(Render3DData& outData) const
+void Enemy::SetDirection(Actor::Direction direction) const
 {
-	outData.shape = Render3DData::Shape::Rectangle;
+	animator->SetDirection(direction);
+}
 
-	outData.width = 3.f;
-	outData.height = 3.f;
+void Enemy::SetMode(Mode newMode)
+{
+	if (mode == newMode)
+		return;
 
-	outData.color = Color::Red;
+	mode = newMode;
 
-	return true;
+	switch (mode)
+	{
+	case Enemy::Mode::None:
+		animator->SetAnimationMode(Animator::AnimationMode::Idle);
+		break;
+	case Enemy::Mode::Patrol:
+		animator->SetAnimationMode(Animator::AnimationMode::Walk);
+		break;
+	case Enemy::Mode::Trace:
+		animator->SetAnimationMode(Animator::AnimationMode::Walk);
+		break;
+	case Enemy::Mode::Shoot:
+		animator->SetAnimationMode(Animator::AnimationMode::Attack);
+		break;
+	case Enemy::Mode::Stab:
+		break;
+	case Enemy::Mode::Search:
+		animator->SetAnimationMode(Animator::AnimationMode::Search);
+		break;
+	default:
+		break;
+	}
 }

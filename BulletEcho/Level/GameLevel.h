@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include <Level/Level.h>
-#include <Actor/Actor.h>
 #include <memory>
 
+class Actor;
 class Player;
 
 class GameLevel : public Craft::Level
@@ -27,6 +27,8 @@ public:
 	inline void EnemyKilled() { leftEnemy--; }
 	inline void SetElapsedTime(float deltaTime) { elapsedTime += deltaTime; }
 	inline float GetElapsedTime() const { return elapsedTime; }
+
+	bool IsWall(const Craft::Vector2& targetPosition) const;
 	
 	Player* GetPlayer() const;
 

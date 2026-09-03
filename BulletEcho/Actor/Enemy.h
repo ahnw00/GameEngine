@@ -4,6 +4,7 @@
 #include <Actor/Character.h>
 #include <Render/Render3DData.h>
 #include <Actor/DestroyEffect.h>
+#include <Animation/Animator.h>
 #include <memory>
 #include <vector>
 
@@ -16,6 +17,8 @@ class Player;
 
 class Enemy : public Character
 {
+	TYPE_DECLARATIONS(Enemy, Character)
+
 	enum class Mode
 	{
 		None,
@@ -58,13 +61,12 @@ class Enemy : public Character
 		}
 	};
 
-	TYPE_DECLARATIONS(Enemy, Character)
-
 public:
 	Enemy(Craft::Vector2 position, const std::vector<Craft::Vector2>& patrolPoints);
 
 private:
 	// 이벤트 함수 오버라이드
+	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 
 	void Patrol(const std::vector<Craft::Vector2>& patrolPoints, float deltaTime);
@@ -94,9 +96,15 @@ private:
 
 public:
 	inline void SetTarget(Player* p) { target = p; }
+	void SetDirection(Craft::Actor::Direction direction) const;
 
 protected:
-	virtual bool GetRender3DData(Craft::Render3DData& outData) const override;
+	inline virtual bool CheckRender3DData() override { return true; }
+
+private:
+	void SetMode(Mode newMode);
+
+	void LoadSprites();
 
 private:
 	// 순찰 위치들
@@ -161,5 +169,7 @@ private:
 
 	//const int MAP_WIDTH = 200;
 	//const int MAP_HEIGHT = 100;
+
+	std::unique_ptr<Craft::Animator> animator;
 };
 

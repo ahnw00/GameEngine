@@ -38,9 +38,14 @@ namespace Craft
 		Renderer::Get().Submit(this, image, position, color, sortingOrder);
 	}
 
-	bool Actor::GetRender3DData(Render3DData& outData) const
+	void Actor::SetRender3DData(Render3DData::Shape shape, int width, int height, Color color)
 	{
-		return false;
+		render3DData.shape = shape;
+
+		render3DData.width = width;
+		render3DData.height = height;
+
+		render3DData.color = color;
 	}
 
 	const bool Actor::CheckCollisionOn(

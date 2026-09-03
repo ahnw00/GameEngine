@@ -34,17 +34,17 @@ namespace Craft
 
 		consoleWindow = GetForegroundWindow();
 
-		std::cout << "consoleWindow: " << consoleWindow << "\n";
+		//std::cout << "consoleWindow: " << consoleWindow << "\n";
 
 		RECT rect;
 		result = GetWindowRect(consoleWindow, &rect);
 
-		std::cout << "GetWindowRect result = " << result << "\n";
-		std::cout << "rect = "
-			<< rect.left << ", "
-			<< rect.top << ", "
-			<< rect.right << ", "
-			<< rect.bottom << "\n";
+		//std::cout << "GetWindowRect result = " << result << "\n";
+		//std::cout << "rect = "
+		//	<< rect.left << ", "
+		//	<< rect.top << ", "
+		//	<< rect.right << ", "
+		//	<< rect.bottom << "\n";
 	}
 
 	bool Input::GetKeyDown(int keyCode) const

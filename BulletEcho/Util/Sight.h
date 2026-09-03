@@ -1,7 +1,10 @@
 ﻿#pragma once
 
 #include <Actor/Character.h>
+#include <set>
 
+
+class Actor;
 class Player;
 
 class Sight
@@ -17,6 +20,8 @@ public:
 public:
 	// 적의 시야(플레이어 감지)
 	Player* DetectPlayer();
+
+	Character* Detect();
 
 	// 캐릭터(적/플레이어)의 시야
 	void CalculateSight();
@@ -54,5 +59,7 @@ private:
 	int minY = 0, maxY = 0;
 
 	int width = 0, height = 0;
+
+	std::set<Craft::Actor*> detectedEnemies;
 };
 

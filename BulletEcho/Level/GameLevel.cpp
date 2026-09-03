@@ -1,9 +1,11 @@
 ﻿#include "GameLevel.h"
 
+#include <Actor/Actor.h>
 #include <Actor/Player.h>
 #include <Actor/Enemy.h>
 #include <Actor/Wall.h>
 #include <Actor/Bullet.h>
+
 #include <Render/Renderer.h>
 #include <Input/Input.h>
 #include <Engine/Engine.h>
@@ -83,7 +85,7 @@ void GameLevel::Draw3D()
 	float fov = 1.f;
 	Vector2 cameraPlane(-playerDir.y * fov, playerDir.x * fov);
 
-	auto start = std::chrono::high_resolution_clock::now();
+	//auto start = std::chrono::high_resolution_clock::now();
 	Renderer::Get().Draw3DView(
 		playerPos, 
 		playerDir, 
@@ -91,15 +93,15 @@ void GameLevel::Draw3D()
 		map,
 		actorList
 	);
-	auto end = std::chrono::high_resolution_clock::now();
-	float ms = std::chrono::duration<float, std::milli>(end - start).count();
-	std::cout << "Draw3DView: " << ms << "ms\n";
+	//auto end = std::chrono::high_resolution_clock::now();
+	//float ms = std::chrono::duration<float, std::milli>(end - start).count();
+	//std::cout << "Draw3DView: " << ms << "ms\n";
 }
 
 // 정적 충돌 판정
 bool GameLevel::CanMove(
 	const Vector2& nextPosition,
-	const std::shared_ptr<Actor>& movingActor)
+	const std::shared_ptr<Craft::Actor>& movingActor)
 {
 	// 게임 클리어인 경우 처리 안함
 	//if (isGameClear)
@@ -169,6 +171,14 @@ bool GameLevel::CanMove(
 	}
 
 	return true;
+}
+
+bool GameLevel::IsWall(const Craft::Vector2& targetPosition) const
+{
+	if (map[targetPosition.y][targetPosition.x] == '#')
+		return true;
+
+	return false;
 }
 
 Player* GameLevel::GetPlayer() const

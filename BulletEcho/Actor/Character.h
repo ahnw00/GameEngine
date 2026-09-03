@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <Actor/Actor.h>
-#include <Util/Timer.h>
+#include <Utility/Timer.h>
 #include <memory>
 
 class Sight;
@@ -65,7 +65,7 @@ protected:
 	float fireInterval = 0.f;
 
 	// 타이머 변수
-	Timer timer;
+	Craft::Timer timer;
 
 	// 시야
 	std::unique_ptr<Sight> sight;

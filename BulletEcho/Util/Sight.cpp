@@ -1,14 +1,17 @@
 ﻿#include "Sight.h"
 
+#include <Actor/Actor.h>
 #include <Actor/Player.h>
 #include <Actor/Enemy.h>
 #include <Actor/Wall.h>
+
 #include <Engine/Engine.h>
 #include <Render/Renderer.h>
 #include <Physics/CollisionSystem.h>
 #include <Level/GameLevel.h>
 
 #include <cmath>
+#include <iostream>
 
 
 using namespace Craft;
@@ -42,8 +45,17 @@ void Sight::Tick(float deltaTime)
 
     if (ownerType == Character::Type::Enemy)
     {
-        Player* detectedPlayer = DetectPlayer();
-        SetTarget(detectedPlayer);
+        //Player* detectedPlayer = DetectPlayer();
+        Character* detectedPlayer = Detect();
+
+        SetTarget(dynamic_cast<Player*>(detectedPlayer));
+    }
+    else if (ownerType == Character::Type::Player)
+    {
+        //Player* detectedPlayer = DetectPlayer();
+        Detect();
+
+        //SetTarget(dynamic_cast<Player*>(detectedPlayer));
     }
 }
 
@@ -56,12 +68,6 @@ Player* Sight::DetectPlayer()
         return nullptr;
 
     Vector2 startPoint = owner->GetCenterPosition();
-
-    // 현재 프레임에 화면에 그려지고 있는 구조체 Frame 가져오기
-    const auto& frame = Renderer::Get().GetFrame();
-
-    if (!frame)
-        return nullptr;
 
     for (int y = minY; y <= maxY; ++y)
     {
@@ -77,17 +83,6 @@ Player* Sight::DetectPlayer()
             if (IsBehindWall(point, startPoint))
                 continue;
 
-            // 현재 포인트 위에 올라와있는 액터들의 리스트 가져오기
-            //const auto& actors = Renderer::Get().GetActorsAt(point);
-
-            //for (auto actor : actors)
-            //{
-            //    if (actor->IsTypeOf<Player>())
-            //    {
-            //        return static_cast<Player*>(actor);
-            //    }
-            //}
-
             std::shared_ptr<Level> level = owner->GetOwner();
             if (!level) return nullptr;
 
@@ -96,6 +91,91 @@ Player* Sight::DetectPlayer()
 
             if (CollisionSystem::Get().FindActorOn(gameLevel->GetPlayer(), point))
                 return gameLevel->GetPlayer();
+        }
+    }
+
+    return nullptr;
+}
+
+Character* Sight::Detect()
+{
+    if (!owner)
+        return nullptr;
+
+    detectedEnemies.clear();
+
+    Vector2 startPoint = owner->GetCenterPosition();
+
+    for (int y = minY; y <= maxY; ++y)
+    {
+        for (int x = minX; x <= maxX; ++x)
+        {
+            Vector2 point(
+                static_cast<float>(x),
+                static_cast<float>(y)
+            );
+
+            if (!CheckRange(point, startPoint))
+                continue;
+            if (IsBehindWall(point, startPoint))
+                continue;
+
+            std::shared_ptr<Level> level = owner->GetOwner();
+            if (!level) return nullptr;
+
+            std::shared_ptr<GameLevel> gameLevel = Cast<GameLevel>(level);
+            if (!gameLevel) return nullptr;
+
+            if (ownerType == Character::Type::Enemy)
+            {
+                if (CollisionSystem::Get().FindActorOn(gameLevel->GetPlayer(), point))
+                    return gameLevel->GetPlayer(); // 강제 형변환 일어나는데 업캐스팅이라 괜찮아
+            }
+            else if (ownerType == Character::Type::Player)
+            {
+                std::vector<Craft::Actor*> actors = CollisionSystem::Get().GetActorsOn(point);
+
+                for (const auto& actor : actors)
+                {
+                    if (dynamic_cast<Enemy*>(actor))
+                        detectedEnemies.insert(actor);
+                }
+            }
+        }
+    }
+
+    if (!detectedEnemies.empty())
+    {
+        for (auto enemy : detectedEnemies)
+        {
+            Vector2 playerForward = owner->GetForward();
+            Vector2 enemyForward = enemy->GetForward();
+
+            const float PI = 3.141592f;
+
+            // 외적
+            float cross = playerForward.x * enemyForward.y - playerForward.y * enemyForward.x;
+            float dot = playerForward.dot(enemyForward);
+            float angle = std::atan2(cross, dot) * 180.f / PI;
+
+            // 적이 플레이어를 바라보았을때를 0도로
+            angle += 180.f;
+
+            if (angle < 0.f)
+                angle += 360.f;
+            if (angle >= 360.f)
+                angle -= 360.f;
+
+            int idx = static_cast<int>(std::round(angle / 45.f)) % 8;
+
+            //std::cout
+            //    << "PlayerForward: (" << playerForward.x << ", " << playerForward.y << ") "
+            //    << "EnemyForward: (" << enemyForward.x << ", " << enemyForward.y << ") "
+            //    << "Angle: " << angle << " "
+            //    << "Index: " << idx
+            //    << "\n\n";
+
+            static_cast<Enemy*>(enemy)->SetDirection(static_cast<Craft::Actor::Direction>(idx));
         }
     }
 
@@ -188,7 +268,7 @@ bool Sight::CheckRange(Vector2 point, Vector2 startPoint)
     return true;
 }
 
-bool Sight::IsBehindWall(Craft::Vector2 point, Craft::Vector2 startPoint)
+bool Sight::IsBehindWall(Vector2 point, Vector2 startPoint)
 {
     // 시작점과 목표점을 정수 타일 좌표로 변환
     int x0 = static_cast<int>(std::round(startPoint.x));
@@ -216,15 +296,22 @@ bool Sight::IsBehindWall(Craft::Vector2 point, Craft::Vector2 startPoint)
                 static_cast<float>(y0)
             );
 
-            const auto& actors = Renderer::Get().GetActorsAt(checkPoint);
+            //const auto& actors = Renderer::Get().GetActorsAt(checkPoint);
 
-            for (const auto& actor : actors)
-            {
-                if (actor->IsTypeOf<Wall>())
-                {
-                    return true;
-                }
-            }
+            //for (const auto& actor : actors)
+            //{
+            //    if (actor->IsTypeOf<Wall>())
+            //    {
+            //        return true;
+            //    }
+            //}
+
+            std::shared_ptr<GameLevel> gameLevel = Cast<GameLevel>(owner->GetOwner());
+            if (!gameLevel)
+                return false;
+
+            if (gameLevel->IsWall(checkPoint))
+                return true;
         }
 
         // 목표 지점까지 도착

@@ -276,7 +276,15 @@ namespace Craft
 
 		return false;
 	}
-	
+
+	std::vector<Actor*>& CollisionSystem::GetActorsOn(const Vector2& position)
+	{
+		// TODO: insert return statement here
+		int index = position.y * worldSize.x + position.x;
+
+		return collisionGrid[index];
+	}
+
 	void CollisionSystem::AddToGrid(Actor* actor, const Vector2& position)
 	{
 		if (!actor) return;

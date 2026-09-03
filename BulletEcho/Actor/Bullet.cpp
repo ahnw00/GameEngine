@@ -19,7 +19,9 @@ Bullet::Bullet(
 	float damage
 ) : Actor({ "*" }, position, Color::Yellow),
 	direction(direction), position(position), shooter(shooter), damage(damage)
-{}
+{
+	SetRender3DData(Render3DData::Shape::Circle, 1.5f, 1.5f, Color::Yellow);
+}
 
 void Bullet::Tick(float deltaTime)
 {
@@ -92,18 +94,6 @@ void Bullet::OnCollision(const std::shared_ptr<Actor>& other)
 		std::shared_ptr<Character> damagedCharacter = Cast<Character>(other);
 		damagedCharacter->ApplyDamage(damage);
 	}
-}
-
-bool Bullet::GetRender3DData(Render3DData& outData) const
-{
-	outData.shape = Render3DData::Shape::Circle;
-
-	outData.width = 0.5f;
-	outData.height = 0.5f;
-
-	outData.color = Color::Yellow;
-
-	return true;
 }
 
 void Bullet::DestroyAndEffect()
