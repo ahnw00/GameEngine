@@ -964,8 +964,14 @@ namespace Craft
 
 		int drawStartX = screenX - spriteWidth / 2;
 		int drawEndX = screenX + spriteWidth / 2;
-		int drawStartY = height / 2 - spriteHeight / 2;
-		int drawEndY = height / 2 + spriteHeight / 2;
+		//int drawStartY = height / 2 - spriteHeight / 2;
+		//int drawEndY = height / 2 + spriteHeight / 2;
+
+		float correctionValue = 16.f / 2.f;
+
+		float floorScreenY = height * 0.5f + (height * correctionValue) / transformY;
+		int drawEndY = static_cast<int>(std::round(floorScreenY));
+		int drawStartY = drawEndY - spriteHeight;
 		
 		// shape에 따라 렌더링
 		for (int x = drawStartX; x < drawEndX; ++x)
@@ -1018,8 +1024,8 @@ namespace Craft
 					int imageX = static_cast<int>(u * imageWidth);
 					int imageY = static_cast<int>(v * imageHeight);
 
-					if (imageX < 0 || imageX >= imageWidth ||
-						imageY < 0 || imageY >= imageHeight)
+					if (imageY < 0 || imageY >= imageHeight ||
+						imageX < 0 || imageX >= static_cast<int>(renderData.image[imageY].size())						)
 						continue;
 
 					char pixel = renderData.image[imageY][imageX];

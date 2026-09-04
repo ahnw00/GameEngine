@@ -21,6 +21,10 @@ namespace Craft
 		// 설정한 시간이 지났는지 확인하는 함수
 		inline bool IsTimeOut() const { return elapsedTime >= targetTime; }
 
+		// 디버깅용
+		inline float GetElapsedTime() const { return elapsedTime; }
+		inline float GetTargetTime() const { return targetTime; }
+
 	private:
 		// 경과 시간 계산용 변수
 		float elapsedTime = 0.f;

@@ -48,7 +48,7 @@ void Sight::Tick(float deltaTime)
         //Player* detectedPlayer = DetectPlayer();
         Character* detectedPlayer = Detect();
 
-        SetTarget(dynamic_cast<Player*>(detectedPlayer));
+        //SetTarget(dynamic_cast<Player*>(detectedPlayer));
     }
     else if (ownerType == Character::Type::Player)
     {
@@ -146,36 +146,84 @@ Character* Sight::Detect()
 
     if (!detectedEnemies.empty())
     {
-        for (auto enemy : detectedEnemies)
+        for (auto actor : detectedEnemies)
         {
-            Vector2 playerForward = owner->GetForward();
+            //Vector2 enemyForward = enemy->GetForward();
+            ////Vector2 playerForward = owner->GetForward();
+            //Vector2 playerForward = owner->GetCenterPosition() - enemy->GetCenterPosition();
+            //playerForward = playerForward.normalized();
+
+            //const float PI = 3.141592f;
+
+            //// 외적
+            //float cross = playerForward.y * enemyForward.x - playerForward.x * enemyForward.y;
+            //float dot = playerForward.dot(enemyForward);
+            //float angle = std::atan2(cross, dot) * 180.f / PI;
+
+            //// 적이 플레이어를 바라보았을때를 0도로
+            //angle += 180.f;
+
+            //if (angle < 0.f)
+            //    angle += 360.f;
+            //if (angle >= 360.f)
+            //    angle -= 360.f;
+
+            //int idx = static_cast<int>(std::round(angle / 45.f)) % 8;
+
+            ////std::cout
+            ////    << "PlayerForward: (" << playerForward.x << ", " << playerForward.y << ") "
+            ////    << "EnemyForward: (" << enemyForward.x << ", " << enemyForward.y << ") "
+            ////    << "Angle: " << angle << " "
+            ////    << "Index: " << idx
+            ////    << "\n\n";
+
+            //static_cast<Enemy*>(enemy)->SetDirection(static_cast<Craft::Actor::Direction>(idx));
+
+            Enemy* enemy = dynamic_cast<Enemy*>(actor);
+
+            if (!enemy)
+                continue;
+
+            // 적 -> 플레이어 방향
+            Vector2 toPlayer = owner->GetCenterPosition() - enemy->GetCenterPosition();
+            if (toPlayer.size() <= 0.f)
+                continue;
+
+            toPlayer = toPlayer.normalized();
+
             Vector2 enemyForward = enemy->GetForward();
 
-            const float PI = 3.141592f;
+            float cross = toPlayer.x * enemyForward.y - toPlayer.y * enemyForward.x;
+            float dot = toPlayer.dot(enemyForward);
 
-            // 외적
-            float cross = playerForward.x * enemyForward.y - playerForward.y * enemyForward.x;
-            float dot = playerForward.dot(enemyForward);
+            const float PI = 3.14159265f;
             float angle = std::atan2(cross, dot) * 180.f / PI;
 
-            // 적이 플레이어를 바라보았을때를 0도로
-            angle += 180.f;
+            //angle += 180.f;
 
             if (angle < 0.f)
                 angle += 360.f;
             if (angle >= 360.f)
                 angle -= 360.f;
 
+
+            // 현재 Direction의 순서
+            //
+            // N  = 0
+            // NE = 1
+            // E  = 2
+            // SE = 3
+            // S  = 4
+            // SW = 5
+            // W  = 6
+            // NW = 7
+            //
+            // atan2 기준은 E가 0도이므로
+            // Direction 기준으로 90도 회전시켜준다.
+            // 8방향으로 반올림
             int idx = static_cast<int>(std::round(angle / 45.f)) % 8;
 
-            //std::cout
-            //    << "PlayerForward: (" << playerForward.x << ", " << playerForward.y << ") "
-            //    << "EnemyForward: (" << enemyForward.x << ", " << enemyForward.y << ") "
-            //    << "Angle: " << angle << " "
-            //    << "Index: " << idx
-            //    << "\n\n";
-
-            static_cast<Enemy*>(enemy)->SetDirection(static_cast<Craft::Actor::Direction>(idx));
+            enemy->SetDirection(static_cast<Craft::Actor::Direction>(idx));
         }
     }
 

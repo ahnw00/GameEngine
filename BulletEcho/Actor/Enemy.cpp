@@ -49,9 +49,16 @@ Enemy::Enemy(
 
 void Enemy::BeginPlay()
 {
+	super::BeginPlay();
+
 	// Animator 붙여주기
-	SetRender3DData(Render3DData::Shape::Billboard, 10.f, 6.f, Color::Grey);
+	SetRender3DData(Render3DData::Shape::Billboard, 10.f, 10.f, Color::Grey);
 	animator = std::make_unique<Animator>(shared_from_this());
+
+	if (!animator)
+		return;
+
+	animator->LoadSprites("../Assets/Sprites/Enemy");
 }
 
 void Enemy::Tick(float deltaTime)
