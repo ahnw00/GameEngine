@@ -48,7 +48,7 @@ void Sight::Tick(float deltaTime)
         //Player* detectedPlayer = DetectPlayer();
         Character* detectedPlayer = Detect();
 
-        //SetTarget(dynamic_cast<Player*>(detectedPlayer));
+        SetTarget(dynamic_cast<Player*>(detectedPlayer));
     }
     else if (ownerType == Character::Type::Player)
     {

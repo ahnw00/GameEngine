@@ -59,6 +59,7 @@ void Enemy::BeginPlay()
 		return;
 
 	animator->LoadSprites("../Assets/Sprites/Enemy");
+	animator->SetAnimationMode(Animator::AnimationMode::Walk);
 }
 
 void Enemy::Tick(float deltaTime)

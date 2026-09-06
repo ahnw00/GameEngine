@@ -148,7 +148,7 @@ void Craft::Animator::LoadAnimation(int directionIndex, int animationIndex, cons
 // 순서: Idle, Walk, Attack, Search, Dead
 std::string Craft::Animator::GetAnimationFolderName(int animationIndex) const
 {
-	return "Idle";
+	//return "Idle";
 
 	switch (animationIndex)
 	{

@@ -83,10 +83,16 @@ void Player::Tick(float deltaTime)
 
 	if (Input::Get().GetKeyDown(VK_TAB))
 	{
-		if(curRenderMode == Renderer::RenderMode::TwoDimension)
+		if (curRenderMode == Renderer::RenderMode::TwoDimension)
+		{
 			Renderer::Get().SetRenderMode(Renderer::RenderMode::ThreeDimension);
+			sight->SetRadius(50.f);
+		}
 		else
+		{
 			Renderer::Get().SetRenderMode(Renderer::RenderMode::TwoDimension);
+			sight->SetRadius(20.f);
+		}
 	}
 
 	bool isMoving = false;

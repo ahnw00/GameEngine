@@ -28,7 +28,7 @@ void GameLevel::OnInitialized()
 
 	Engine::Get().PlayerBackgroundMusic("bgm.wav");
 
-	LoadMap("TestMap.txt");
+	LoadMap("RandomMap.txt");
 
 	//// 플레이어 액터 추가
 	//SpawnActor<Player>(Vector2(50, 50));
