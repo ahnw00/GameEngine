@@ -26,7 +26,7 @@ class Enemy : public Character
 		Trace,  // 플레이어 감지하면 공격 범위(사격 범위 or 근접 공격 범위)까지 추격
 		Shoot,  // 사격
 		Stab,   // 근접 공격
-		Search  // 플레이어를 공격하다가 놓치면 일정 시간 동안 수색
+		Search, // 플레이어를 공격하다가 놓치면 일정 시간 동안 수색
 	};
 
 	enum class TurnDirection
@@ -68,6 +68,8 @@ private:
 	// 이벤트 함수 오버라이드
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
+	virtual void OnCollision(const std::shared_ptr<Actor>& other) override;
+	virtual void Draw() override;
 
 	void Patrol(const std::vector<Craft::Vector2>& patrolPoints, float deltaTime);
 
@@ -78,6 +80,8 @@ private:
 	void Stab();
 
 	void Search(float deltaTime);
+
+	bool Hit(float deltaTime);
 
 	void CalculatePathToTarget();
 
@@ -130,7 +134,7 @@ private:
 	float rotateSpeed = 90.f;
 	// 경로 탐색에 텀을 둠
 	float pathUpdateTimer = 0.f;
-	const float pathUpdateInterval = 0.2f;
+	const float pathUpdateInterval = 1.f;
 
 	TurnDirection turnDirection = TurnDirection::None;
 	float turnAngle = 0.f;
@@ -139,8 +143,17 @@ private:
 	float searchingTimer = 0.f;
 	const float searchingDuration = 3.f;
 
+	int pathDrawIndex = 0;
+	float pathDrawTimer = 0.f;
+	float pathDrawInterval = 0.01f;
+
 	float searchMaxAngle = 60.f;
 	float searchSpeed = 90.f; // 초당 회전 각도
+
+	// 플레이어한테 맞으면 추격 후 공격을 위한 변수
+	float hitTimer = 0.f;
+	const float hitDuration = 3.f;
+	bool bHit = false;
 
 	// Search할 때 기준이 될 벡터
 	Craft::Vector2 searchForward = Craft::Vector2::Zero;

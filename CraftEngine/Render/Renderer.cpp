@@ -121,18 +121,18 @@ namespace Craft
 		const int bufferCount = screenSize.x * screenSize.y;
 		frame = std::make_unique<Frame>(bufferCount);
 
-		//const int buffer3DCount = 930 * 295;
-		//frame3D = std::make_unique<Frame3D>(buffer3DCount);
-		//depthBuffer = std::make_unique<float[]>(screen3DSize.x);
+		const int buffer3DCount = screen3DSize.x * screen3DSize.y;
+		frame3D = std::make_unique<Frame3D>(buffer3DCount);
+		depthBuffer = std::make_unique<float[]>(screen3DSize.x);
 
-		//frame3D->Clear(buffer3DCount);
+		frame3D->Clear(buffer3DCount);
 
-		//// 작은 크기로 3D 버퍼 생성 후 즉시 Resize
-		//screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
-		//screenBuffer3DArray[0]->Clear();
+		// 작은 크기로 3D 버퍼 생성 후 즉시 Resize
+		screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		screenBuffer3DArray[0]->Clear();
 
-		//screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
-		//screenBuffer3DArray[1]->Clear();
+		screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		screenBuffer3DArray[1]->Clear();
 
 		// 생성 후 프레임 지우기
 		frame->Clear(screenSize);
@@ -980,10 +980,6 @@ namespace Craft
 		currentBufferIndex = 1 - currentBufferIndex;
 	}
 
-	void Renderer::SetScreenbuffer()
-	{
-	}
-
 	void Renderer::SwitchRenderMode(RenderMode newMode)
 	{
 		// 이미 같은 모드라면 무시
@@ -995,41 +991,46 @@ namespace Craft
 		{
 			Vector2 size3D = screen3DSize;
 
-			// 3D 버퍼가 아직 없다면 여기서 처음으로 생성!
-			if (frame3D == nullptr)
-			{
-				const int bufferCount3D = static_cast<int>(size3D.x * size3D.y);
-				frame3D = std::make_unique<Frame3D>(bufferCount3D);
-				depthBuffer = std::make_unique<float[]>(size3D.x);
+			//// 3D 버퍼가 아직 없다면 여기서 처음으로 생성!
+			//if (frame3D == nullptr)
+			//{
+			//	const int bufferCount3D = static_cast<int>(size3D.x * size3D.y);
+			//	frame3D = std::make_unique<Frame3D>(bufferCount3D);
+			//	depthBuffer = std::make_unique<float[]>(size3D.x);
 
-				// 폰트를 먼저 줄인 상태에서 버퍼를 생성하므로 에러가 안 납니다.
-				screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, size3D);
-				screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, size3D);
-				
-			}
+			//	// 폰트를 먼저 줄인 상태에서 버퍼를 생성하므로 에러가 안 납니다.
+			//	screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, size3D);
+			//	screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, size3D);
+			//	
+			//}
 
 			frame3D->Clear(size3D);
 
-			// 1. [순서 변경] 3D 버퍼로 화면을 먼저 활성화합니다.
-			SetConsoleActiveScreenBuffer(screenBuffer3DArray[currentBufferIndex]->GetBuffer());
+			for (int i = 0; i < 2; ++i)
+			{
+				screenBuffer3DArray[i]->Clear();
 
-			// 2. 현재 화면에 띄워진 버퍼의 폰트 크기를 줄입니다.
-			// (콘솔 폰트는 윈도우 전역 설정이므로 현재 활성화된 핸들 하나에만 적용해도 충분합니다)
-			screenBuffer3DArray[0]->SetFontSize(2, 2);
-			screenBuffer3DArray[1]->SetFontSize(2, 2);
+				SetConsoleActiveScreenBuffer(screenBuffer3DArray[i]->GetBuffer());
 
-			// 3. 폰트가 쪼그라든 것을 OS가 인식했으니, 이제 안심하고 리사이즈를 진행합니다.
-			screenBuffer3DArray[0]->Resize(size3D);
-			screenBuffer3DArray[1]->Resize(size3D);
+				screenBuffer3DArray[i]->SetFontSize(4, 4);
+
+				screenBuffer3DArray[i]->Resize(size3D);
+			}
+
+			SetConsoleActiveScreenBuffer(
+				screenBuffer3DArray[currentBufferIndex]->GetBuffer());
 		}
 		else // MENU 또는 TwoDimension
 		{
+			screenBufferArray[0]->Clear();
+			screenBufferArray[1]->Clear();
+
 			// 1. [순서 변경] 2D 버퍼를 먼저 활성화합니다.
 			SetConsoleActiveScreenBuffer(screenBufferArray[currentBufferIndex]->GetBuffer());
 
 			// 2. 화면이 바뀌었으니, 폰트 크기를 기존 2D용으로 복구합니다.
-			screenBufferArray[0]->SetFontSize(12, 12);
-			screenBufferArray[1]->SetFontSize(12, 12);
+			screenBufferArray[0]->SetFontSize(16, 16);
+			screenBufferArray[1]->SetFontSize(16, 16);
 
 			// 3. 리사이즈 진행
 			screenBufferArray[0]->Resize(screenSize);
@@ -1106,14 +1107,23 @@ namespace Craft
 
 		int drawStartX = screenX - spriteWidth / 2;
 		int drawEndX = screenX + spriteWidth / 2;
-		//int drawStartY = height / 2 - spriteHeight / 2;
-		//int drawEndY = height / 2 + spriteHeight / 2;
 
-		float correctionValue = 16.f / 2.f;
+		int drawStartY, drawEndY;
 
-		float floorScreenY = height * 0.5f + (height * correctionValue) / transformY;
-		int drawEndY = static_cast<int>(std::round(floorScreenY));
-		int drawStartY = drawEndY - spriteHeight;
+		// 총알은 화면 중앙에서 발사되도록
+		if (renderData.shape == Render3DData::Shape::Circle)
+		{
+			drawStartY = height / 2 - spriteHeight / 2;
+			drawEndY = height / 2 + spriteHeight / 2;
+		}
+		else
+		{
+			float correctionValue = 16.f / 2.f;
+
+			float floorScreenY = height * 0.5f + (height * correctionValue) / transformY;
+			drawEndY = static_cast<int>(std::round(floorScreenY));
+			drawStartY = drawEndY - spriteHeight;
+		}
 		
 		// shape에 따라 렌더링
 		for (int x = drawStartX; x < drawEndX; ++x)

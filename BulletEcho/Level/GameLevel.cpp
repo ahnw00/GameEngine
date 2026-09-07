@@ -26,9 +26,9 @@ void GameLevel::OnInitialized()
 
 	//SetLevelType(LevelType::GamePlay);
 
-	Engine::Get().PlayerBackgroundMusic("bgm.wav");
+	Engine::Get().PlayerBackgroundMusic("ingameBGM.wav");
 
-	LoadMap("TestMap.txt");
+	LoadMap("RandomMap.txt");
 
 	//// 플레이어 액터 추가
 	//SpawnActor<Player>(Vector2(50, 50));
@@ -48,9 +48,9 @@ void GameLevel::ProcessPlayerSight()
 		bool b = actor->IsTypeOf<Player>();
 		// 플레이 모드면 적의 시야 렌더 안해줘
 		// DEBUGGING
-		if (currentMode == Renderer::PlayMode::PLAY &&
-			!actor->IsTypeOf<Player>())
-			continue;
+		//if (currentMode == Renderer::PlayMode::DEBUG &&
+		//	!actor->IsTypeOf<Player>())
+		//	continue;
 
 		// 디버그 모드: 적과 플레이어 시야 모두 렌더
 		// 플레이 모드: 플레이어의 시야만 렌더

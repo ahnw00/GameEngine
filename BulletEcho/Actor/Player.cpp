@@ -54,6 +54,10 @@ Player::~Player() = default;
 void Player::BeginPlay()
 {
 	//camera = std::make_unique<Camera>(Renderer::Get().)
+	super::BeginPlay();
+
+	Renderer::Get().SwitchRenderMode(Renderer::RenderMode::ThreeDimension);
+	sight->SetRadius(50.f);
 }
 
 void Player::Tick(float deltaTime)
@@ -97,10 +101,21 @@ void Player::Tick(float deltaTime)
 		}
 	}
 
+	if (Input::Get().GetKeyDown(VK_NUMPAD1))
+	{
+		Renderer::Get().SetPlayMode(Renderer::PlayMode::PLAY);
+	}
+	if (Input::Get().GetKeyDown(VK_NUMPAD2))
+	{
+		Renderer::Get().SetPlayMode(Renderer::PlayMode::DEBUG);
+	}
+
 	bool isMoving = false;
+	Renderer::PlayMode curPlayMode = Renderer::Get().GetPlayMode();
 
 	// 2d일 때 움직임
-	if (curRenderMode == Renderer::RenderMode::TwoDimension)
+	if (curRenderMode == Renderer::RenderMode::TwoDimension &&
+		curPlayMode == Renderer::PlayMode::DEBUG)
 	{
 		float xDir = 0.f;
 		if (Input::Get().GetKey('D'))
@@ -201,32 +216,35 @@ void Player::Tick(float deltaTime)
 	if (fireMode == FireMode::OneShot)
 	{
 		// 단발 모드 처리
-		if (Input::Get().GetKeyDown(VK_LBUTTON))
+		if ((curRenderMode == Renderer::RenderMode::ThreeDimension 
+			|| (curRenderMode == Renderer::RenderMode::TwoDimension 
+				&& curPlayMode == Renderer::PlayMode::DEBUG))
+			&& Input::Get().GetKeyDown(VK_LBUTTON))
 		{
 			Fire();
 		}
 	}
-	else if (fireMode == FireMode::Repeat)
-	{
-		// 연사 발사 처리
-		if (Input::Get().GetKey(VK_LBUTTON))
-		{
-			FireInterval();
-		}
-	}
+	//else if (fireMode == FireMode::Repeat)
+	//{
+	//	// 연사 발사 처리
+	//	if (Input::Get().GetKey(VK_LBUTTON))
+	//	{
+	//		FireInterval();
+	//	}
+	//}
 
 	// 발사 모드 전환 처리
-	if (Input::Get().GetKeyDown('R'))
-	{
-		if (fireMode == FireMode::OneShot)
-		{
-			fireMode = FireMode::Repeat;
-		}
-		else if (fireMode == FireMode::Repeat)
-		{
-			fireMode = FireMode::OneShot;
-		}
-	}
+	//if (Input::Get().GetKeyDown('R'))
+	//{
+	//	if (fireMode == FireMode::OneShot)
+	//	{
+	//		fireMode = FireMode::Repeat;
+	//	}
+	//	else if (fireMode == FireMode::Repeat)
+	//	{
+	//		fireMode = FireMode::OneShot;
+	//	}
+	//}
 }
 
 void Player::OnCollision(const std::shared_ptr<Actor>& other)

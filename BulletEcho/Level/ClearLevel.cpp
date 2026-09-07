@@ -10,7 +10,7 @@ using namespace Craft;
 
 ClearLevel::ClearLevel()
 {
-	//menuTitle = "C.L.E.A.R";
+	menuTitle = "CLEAR!";
 
 	// 메뉴 아이템 생성
 	itemList.emplace_back(
@@ -42,7 +42,7 @@ void ClearLevel::OnInitialized()
 {
 	UILevel::OnInitialized();
 
-	Engine::Get().PlayerBackgroundMusic("clearbgm.wav");
+	Engine::Get().PlayerBackgroundMusic("clearCyberpunk.wav");
 }
 
 void ClearLevel::Tick(float deltaTime)
@@ -56,12 +56,12 @@ void ClearLevel::Draw()
 {
 	Vector2 screenSize = Renderer::Get().GetScreenSize();
 	Vector2 center = Vector2(
-		screenSize.x / 2,
-		screenSize.y / 2 - 3
+		screenSize.x / 2 - 16,
+		screenSize.y / 2 - 4
 	);
 
-	std::string timeCleared = std::format("{:.2f}", clearTime) + " sec";
-	Renderer::Get().Submit(nullptr, { "CLEAR!", " ", timeCleared}, center);
+	std::string timeCleared = "You've Saved the Matrix in " + std::format("{:.2f}", clearTime) + " sec";
 
 	UILevel::Draw();
+	Renderer::Get().Submit(nullptr, { " ", timeCleared}, center);
 }

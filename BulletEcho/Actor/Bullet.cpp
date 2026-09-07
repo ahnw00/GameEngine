@@ -85,15 +85,17 @@ void Bullet::OnCollision(const std::shared_ptr<Actor>& other)
 	if (Cast<Bullet>(other))
 		return;
 
-	// 충돌시 총알 제거
-	DestroyAndEffect();
 
 	// 캐릭터(적/플레이어)와 충돌했을 경우
 	if (other->IsTypeOf<Character>())
 	{
+		Engine::Get().PlayerOneShot("manHit.wav");
 		std::shared_ptr<Character> damagedCharacter = Cast<Character>(other);
 		damagedCharacter->ApplyDamage(damage);
 	}
+
+	// 충돌시 총알 제거
+	DestroyAndEffect();
 }
 
 void Bullet::DestroyAndEffect()

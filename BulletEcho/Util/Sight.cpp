@@ -43,19 +43,10 @@ void Sight::Tick(float deltaTime)
 
     forward = owner->GetForward();
 
+    Character* detectedPlayer = Detect();
     if (ownerType == Character::Type::Enemy)
     {
-        //Player* detectedPlayer = DetectPlayer();
-        Character* detectedPlayer = Detect();
-
-        //SetTarget(dynamic_cast<Player*>(detectedPlayer));
-    }
-    else if (ownerType == Character::Type::Player)
-    {
-        //Player* detectedPlayer = DetectPlayer();
-        Detect();
-
-        //SetTarget(dynamic_cast<Player*>(detectedPlayer));
+        SetTarget(dynamic_cast<Player*>(detectedPlayer));
     }
 }
 

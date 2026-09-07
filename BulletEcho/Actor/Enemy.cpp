@@ -6,6 +6,7 @@
 #include <Render/Renderer.h>
 #include <Physics/CollisionSystem.h>
 #include <Level/GameLevel.h>
+#include <Actor/Bullet.h>
 
 #include <queue>
 #include <cmath>
@@ -65,10 +66,23 @@ void Enemy::BeginPlay()
 void Enemy::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
-	sight->Tick(deltaTime);
+
+	if(!bHit)
+		sight->Tick(deltaTime);
+	else
+	{
+		hitTimer += deltaTime;
+
+		if (hitTimer > hitDuration)
+		{
+			bHit = false;
+			hitTimer = 0.f;
+		}
+	}
+
 	timer.Tick(deltaTime);
 	animator->Tick(deltaTime);
-
+	
 	if (target != nullptr && prevTarget == nullptr)
 	{
 		// 이 블록은 타겟을 발견한 딱 1프레임만 실행
@@ -117,6 +131,7 @@ void Enemy::Tick(float deltaTime)
 			// 추격이 끝났으니 추격용 변수 초기화
 			path.clear();
 			currentPathIndex = 0;
+			pathDrawIndex = 0;
 			hasPath = false;
 
 			searchingTimer = 0.f;
@@ -152,7 +167,44 @@ void Enemy::Tick(float deltaTime)
 		break;
 	}
 
+	pathDrawTimer += deltaTime;
+
+	if (pathDrawTimer >= pathDrawInterval)
+	{
+		pathDrawTimer = 0.f;
+
+		if (pathDrawIndex < static_cast<int>(path.size()))
+			++pathDrawIndex;
+	}
+
 	prevTarget = target;
+}
+
+void Enemy::OnCollision(const std::shared_ptr<Actor>& other)
+{
+	super::OnCollision(other);
+
+	if (other->IsTypeOf<Bullet>())
+	{
+		std::shared_ptr<Bullet> hitBullet = Cast<Bullet>(other);
+
+		if (hitBullet && hitBullet->GetShooter()->IsTypeOf<Player>())
+		{
+			std::shared_ptr<Player> attacker = Cast<Player>(hitBullet->GetShooter());
+			bHit = true;
+			SetTarget(attacker.get());
+		}
+	}
+}
+
+void Enemy::Draw()
+{
+	super::Draw();
+
+	for (int i = 0; i < pathDrawIndex; ++i)
+	{
+		Renderer::Get().Submit(nullptr, { "#" }, path[i], Color::Green, 20);
+	}
 }
 
 void Enemy::Patrol(const std::vector<Vector2>& patrolPoints, float deltaTime)
@@ -345,6 +397,19 @@ void Enemy::Search(float deltaTime)
 	).normalized();
 }
 
+bool Enemy::Hit(float deltaTime)
+{
+	hitTimer += deltaTime;
+
+	if (hitTimer > hitDuration)
+	{
+		hitTimer = 0.f;
+		return true;
+	}
+
+	return false;
+}
+
 void Enemy::CalculatePathToTarget()
 {
 	std::vector<Vector2> newPath = FindPath(GetPosition(), targetPosition);
@@ -353,12 +418,17 @@ void Enemy::CalculatePathToTarget()
 	{
 		path.clear();
 		currentPathIndex = 0;
+		pathDrawIndex = 0;
 		hasPath = false;
 		return;
 	}
 
 	path = std::move(newPath);
-	currentPathIndex = 0;
+	//currentPathIndex = 0;
+
+	pathDrawIndex = 0;
+	pathDrawTimer = 0.f;
+
 	hasPath = true;
 }
 
@@ -562,6 +632,7 @@ void Enemy::MoveAlongPath(float deltaTime)
 		hasPath = false;
 		path.clear();
 		currentPathIndex = 0;
+		pathDrawIndex = 0;
 		return;
 	}
 
@@ -602,8 +673,6 @@ void Enemy::SetMode(Mode newMode)
 		break;
 	case Enemy::Mode::Shoot:
 		animator->SetAnimationMode(Animator::AnimationMode::Attack);
-		break;
-	case Enemy::Mode::Stab:
 		break;
 	case Enemy::Mode::Search:
 		animator->SetAnimationMode(Animator::AnimationMode::Search);

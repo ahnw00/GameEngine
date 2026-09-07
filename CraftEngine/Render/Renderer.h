@@ -160,7 +160,7 @@ namespace Craft
 		// 그린 결과를 화면에 표시하는 함수
 		void Present();
 
-		void SetScreenbuffer();
+		void GetLargestWindowSize() const;
 
 		void SwitchRenderMode(RenderMode newMode);
 
@@ -192,7 +192,7 @@ namespace Craft
 		// 화면 크기
 		Vector2 screenSize;
 
-		Vector2 screen3DSize = Vector2(930, 295);
+		Vector2 screen3DSize = Vector2(1280, 342);
 
 		// 월드 크기
 		Vector2 worldSize;

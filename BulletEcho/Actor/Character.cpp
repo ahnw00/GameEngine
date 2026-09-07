@@ -199,7 +199,7 @@ void Character::ApplyDamage(float damage)
 
 void Character::Die()
 {
-	Engine::Get().PlayerOneShot("falling.wav");
+	Engine::Get().PlayerOneShot("matrixDie.wav");
 
 	std::vector<DestroyEffect::EffectFrame> sequence =
 	{

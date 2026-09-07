@@ -67,7 +67,7 @@ void UILevel::Draw()
 	);
 
 	// 제목 그리기
-	Renderer::Get().Submit(nullptr, { menuTitle }, center);
+	Renderer::Get().Submit(nullptr, { menuTitle }, center, Color::White, 20);
 
 	// 메뉴 아이템 그리기
 	const int count = static_cast<int>(itemList.size());
@@ -81,7 +81,7 @@ void UILevel::Draw()
 			nullptr,
 			{ itemList[i]->text },
 			Vector2(center.x, center.y + 2 + i),
-			textColor
+			textColor, 20
 		);
 	}
 }

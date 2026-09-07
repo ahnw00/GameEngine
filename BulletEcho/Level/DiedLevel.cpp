@@ -30,7 +30,7 @@ DiedLevel::DiedLevel()
 			{
 				// 메인메뉴로 나가기
 				Game& game = dynamic_cast<Game&>(Engine::Get());
-				game.GotoLevel(State::Menu);
+				game.GotoLevel(State::Main);
 			}
 		)
 	);
