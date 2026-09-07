@@ -78,6 +78,8 @@ void Craft::Animator::LoadSprites(const std::string& basePath)
 		}
 	}
 
+	std::cout << "Size: " << sprites[4][1].size() << "\n";
+
 	// 기본 애니메이션의 첫 프레임 설정
 	int directionIndex = static_cast<int>(direction);
 	int behaviorIndex = static_cast<int>(curBehavior);
