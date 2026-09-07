@@ -261,7 +261,7 @@ void GameLevel::LoadMap(const std::string& filename)
 
 	Vector2 mapSize = Vector2(map[0].size(), map.size());
 	Renderer::Get().SetWorldSize(mapSize);
-	Engine::Get().SetWorldSize(mapSize.x, mapSize.y);
+	Engine::Get().SetScreenSize(mapSize.x, mapSize.y);
 
 	// 맵에 생성할 수 있는 적은 최대 9명
 	std::vector<Vector2> patrolPointsArray[9];

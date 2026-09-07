@@ -61,6 +61,17 @@ namespace Craft
 			std::unique_ptr<bool[]> sightArray;
 			std::unique_ptr<SightState[]> sightStateArray;
 		};
+
+		struct Frame3D
+		{
+			Frame3D(int bufferCount);
+			~Frame3D();
+
+			void Clear(const Vector2& screenSize);
+
+			// 화면에 그릴 2차원 배열 문자값(1차원 배열로 다뤄)
+			std::unique_ptr<CHAR_INFO[]> charInfoArray;
+		};
 		
 		// 화면에 그릴 데이터를 명령 단위로 저장하기 위한 구조체
 		struct RenderCommand
@@ -115,6 +126,7 @@ namespace Craft
 		inline const Vector2 GetScreenSize() const { return screenSize; }
 		inline const Vector2 GetWorldSize() const { return worldSize; }
 		inline void SetWorldSize(const Vector2& newWorldSize) { worldSize = newWorldSize; }
+		inline void SetScreenSize(const Vector2& newScreenSize) { screenSize = newScreenSize; }
 
 		inline void SetRenderStartPosition(const Vector2& position) 
 		{ 
@@ -148,12 +160,18 @@ namespace Craft
 		// 그린 결과를 화면에 표시하는 함수
 		void Present();
 
+		void SetScreenbuffer();
+
+		void SwitchRenderMode(RenderMode newMode);
+
 	private:
 		// 그리기 작업을 시작할 때 프레임(화면)을 지우는 함수
 		void Clear();
 
 		// Getter
 		const ScreenBuffer* const GetCurrentBuffer() const;
+
+		void SetFontSize(short width, short height);
 
 		void DrawActor3D(
 			Actor* actor,
@@ -174,6 +192,8 @@ namespace Craft
 		// 화면 크기
 		Vector2 screenSize;
 
+		Vector2 screen3DSize = Vector2(930, 295);
+
 		// 월드 크기
 		Vector2 worldSize;
 
@@ -188,6 +208,14 @@ namespace Craft
 		std::unique_ptr<ScreenBuffer> screenBufferArray[2];
 
 		std::unique_ptr<CHAR_INFO[]> screenCharInfoArray;
+		
+		// 글자/그리기 순서 2차원 배열을 관리하는 프레임 객체(3D)
+		std::unique_ptr<Frame3D> frame3D;
+
+		// 이중 버퍼링 구현을 위한 화면 버퍼 2개(3D)
+		std::unique_ptr<ScreenBuffer> screenBuffer3DArray[2];
+
+		std::unique_ptr<CHAR_INFO[]> screenCharInfo3DArray;
 
 		// 버퍼 인덱스
 		int currentBufferIndex = 0;

@@ -67,7 +67,38 @@ namespace Craft
 	}
 	//--------------------Frame------------------------//
 
+	Renderer::Frame3D::Frame3D(int bufferCount)
+	{
+		// 2차원 배열 생성
+		charInfoArray = std::make_unique<CHAR_INFO[]>(bufferCount);
+	}
 
+	Renderer::Frame3D::~Frame3D()
+	{}
+
+	void Renderer::Frame3D::Clear(const Vector2& screenSize)
+	{
+		// 이중 루프를 순회하면서 값 초기화
+		const int width = screenSize.x;
+		const int height = screenSize.y;
+
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				// 1차원 배열을 2차원 배열로 사용할 때
+				// 필요한 인덱스 좌표 변환
+				const int index = (y * width) + x;
+
+				// 글자 항목 초기화
+				CHAR_INFO& info = charInfoArray[index];
+				// 빈문자 설정 - 기존의 설정된 값 지우기
+				info.Char.AsciiChar = ' ';
+				// 색상 표기 안함
+				info.Attributes = 0;
+			}
+		}
+	}
 
 	// static 변수 초기화
 	Renderer* Renderer::instance = nullptr;
@@ -89,8 +120,20 @@ namespace Craft
 		// 프레임 객체 생성
 		const int bufferCount = screenSize.x * screenSize.y;
 		frame = std::make_unique<Frame>(bufferCount);
-		depthBuffer = std::make_unique<float[]>(static_cast<int>(screenSize.x));
-		
+
+		//const int buffer3DCount = 930 * 295;
+		//frame3D = std::make_unique<Frame3D>(buffer3DCount);
+		//depthBuffer = std::make_unique<float[]>(screen3DSize.x);
+
+		//frame3D->Clear(buffer3DCount);
+
+		//// 작은 크기로 3D 버퍼 생성 후 즉시 Resize
+		//screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		//screenBuffer3DArray[0]->Clear();
+
+		//screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		//screenBuffer3DArray[1]->Clear();
+
 		// 생성 후 프레임 지우기
 		frame->Clear(screenSize);
 
@@ -367,6 +410,11 @@ namespace Craft
 		// 프레임 값 초기화
 		frame->Clear(screenSize);
 
+		if (frame3D)
+		{
+			frame3D->Clear(screen3DSize);
+		}
+
 		// 콘솔 버퍼 초기화
 		GetCurrentBuffer()->Clear();
 	}
@@ -490,8 +538,20 @@ namespace Craft
 		const std::vector<std::string>& mapData,
 		const std::vector<std::shared_ptr<Actor>>& actorList)
 	{
-		const int width = static_cast<int>(screenSize.x);
-		const int height = static_cast<int>(screenSize.y);
+		// --- 방어 코드 추가 ---
+		if (frame3D == nullptr)
+		{
+			// frame3D가 아직 할당되지 않았다면 렌더링 중지
+			return;
+		}
+
+		if (depthBuffer == nullptr)
+		{
+			return;
+		}
+
+		const int width = screen3DSize.x;
+		const int height = screen3DSize.y;
 
 		const float sightRadius = 30.f;
 
@@ -823,21 +883,21 @@ namespace Craft
 					// 실제 직선 거리(trueWallDist)로 비교하여 벽도 둥근 시야에 맞게 가려줍니다.
 					if (trueWallDist <= sightRadius)
 					{
-						frame->charInfoArray[index].Char.AsciiChar = wallShade;
-						frame->charInfoArray[index].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED;
+						frame3D->charInfoArray[index].Char.AsciiChar = wallShade;
+						frame3D->charInfoArray[index].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED;
 					}
 					else
 					{
 						// 시야 밖 벽 (어둠)
-						frame->charInfoArray[index].Char.AsciiChar = ' ';
-						frame->charInfoArray[index].Attributes = 0;
+						frame3D->charInfoArray[index].Char.AsciiChar = ' ';
+						frame3D->charInfoArray[index].Attributes = 0;
 					}
 				}
 				// 2. 천장 영역 (y가 화면 절반 위쪽이면서 벽이 아닌 부분)
 				else if (y < height / 2)
 				{
-					frame->charInfoArray[index].Char.AsciiChar = ' ';
-					frame->charInfoArray[index].Attributes = 0;
+					frame3D->charInfoArray[index].Char.AsciiChar = ' ';
+					frame3D->charInfoArray[index].Attributes = 0;
 				}
 				// 3. 바닥 영역 (y가 화면 절반 아래쪽이면서 벽이 아닌 부분)
 				else
@@ -856,14 +916,14 @@ namespace Craft
 					if (trueFloorDist <= sightRadius)
 					{
 						// 시야 안의 바닥
-						frame->charInfoArray[index].Char.AsciiChar = 177;
-						frame->charInfoArray[index].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED;
+						frame3D->charInfoArray[index].Char.AsciiChar = 177;
+						frame3D->charInfoArray[index].Attributes = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED;
 					}
 					else
 					{
 						// 시야 반경 밖의 바닥 (둥근 어둠)
-						frame->charInfoArray[index].Char.AsciiChar = ' ';
-						frame->charInfoArray[index].Attributes = 0;
+						frame3D->charInfoArray[index].Char.AsciiChar = ' ';
+						frame3D->charInfoArray[index].Attributes = 0;
 					}
 				}
 			}
@@ -899,15 +959,82 @@ namespace Craft
 
 	void Renderer::Present()
 	{
-		
-		GetCurrentBuffer()->Draw(frame->charInfoArray.get());
+		if (renderMode == RenderMode::ThreeDimension)
+		{
+			screenBuffer3DArray[currentBufferIndex]->Draw(frame3D->charInfoArray.get());
+			SetConsoleActiveScreenBuffer(screenBuffer3DArray[currentBufferIndex]->GetBuffer());
+		}
+		else
+		{
+			screenBufferArray[currentBufferIndex]->Draw(frame->charInfoArray.get());
+			SetConsoleActiveScreenBuffer(screenBufferArray[currentBufferIndex]->GetBuffer());
+		}
 
-		// 현재 순번의 콘솔 버퍼를 활성화
-		SetConsoleActiveScreenBuffer(GetCurrentBuffer()->GetBuffer());
+		//GetCurrentBuffer()->Draw(frame->charInfoArray.get());
+
+		//// 현재 순번의 콘솔 버퍼를 활성화
+		//SetConsoleActiveScreenBuffer(GetCurrentBuffer()->GetBuffer());
 
 		// 인덱스 업데이트
 		// 마법의 공식 -> One Minus
 		currentBufferIndex = 1 - currentBufferIndex;
+	}
+
+	void Renderer::SetScreenbuffer()
+	{
+	}
+
+	void Renderer::SwitchRenderMode(RenderMode newMode)
+	{
+		// 이미 같은 모드라면 무시
+		if (renderMode == newMode) return;
+
+		renderMode = newMode;
+
+		if (renderMode == RenderMode::ThreeDimension)
+		{
+			Vector2 size3D = screen3DSize;
+
+			// 3D 버퍼가 아직 없다면 여기서 처음으로 생성!
+			if (frame3D == nullptr)
+			{
+				const int bufferCount3D = static_cast<int>(size3D.x * size3D.y);
+				frame3D = std::make_unique<Frame3D>(bufferCount3D);
+				depthBuffer = std::make_unique<float[]>(size3D.x);
+
+				// 폰트를 먼저 줄인 상태에서 버퍼를 생성하므로 에러가 안 납니다.
+				screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, size3D);
+				screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, size3D);
+				
+			}
+
+			frame3D->Clear(size3D);
+
+			// 1. [순서 변경] 3D 버퍼로 화면을 먼저 활성화합니다.
+			SetConsoleActiveScreenBuffer(screenBuffer3DArray[currentBufferIndex]->GetBuffer());
+
+			// 2. 현재 화면에 띄워진 버퍼의 폰트 크기를 줄입니다.
+			// (콘솔 폰트는 윈도우 전역 설정이므로 현재 활성화된 핸들 하나에만 적용해도 충분합니다)
+			screenBuffer3DArray[0]->SetFontSize(2, 2);
+			screenBuffer3DArray[1]->SetFontSize(2, 2);
+
+			// 3. 폰트가 쪼그라든 것을 OS가 인식했으니, 이제 안심하고 리사이즈를 진행합니다.
+			screenBuffer3DArray[0]->Resize(size3D);
+			screenBuffer3DArray[1]->Resize(size3D);
+		}
+		else // MENU 또는 TwoDimension
+		{
+			// 1. [순서 변경] 2D 버퍼를 먼저 활성화합니다.
+			SetConsoleActiveScreenBuffer(screenBufferArray[currentBufferIndex]->GetBuffer());
+
+			// 2. 화면이 바뀌었으니, 폰트 크기를 기존 2D용으로 복구합니다.
+			screenBufferArray[0]->SetFontSize(12, 12);
+			screenBufferArray[1]->SetFontSize(12, 12);
+
+			// 3. 리사이즈 진행
+			screenBufferArray[0]->Resize(screenSize);
+			screenBufferArray[1]->Resize(screenSize);
+		}
 	}
 
 	const ScreenBuffer* const Renderer::GetCurrentBuffer() const
@@ -915,7 +1042,22 @@ namespace Craft
 		// const로 감싸서 원시 포인터로 값 변경 못하도록
 		// unique_ptr<>&로 받아올 수 있는데 그러면 unique_ptr의 성격 때문에 불가
 		// 스마트 포인터라서 get()을 이용해 원시 포인터 얻어내
+		if(renderMode == RenderMode::ThreeDimension)
+			return screenBuffer3DArray[currentBufferIndex].get();
+
 		return screenBufferArray[currentBufferIndex].get(); 
+	}
+
+	void Renderer::SetFontSize(short width, short height)
+	{
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_FONT_INFOEX cfi;
+		cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+
+		GetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
+		cfi.dwFontSize.X = width;
+		cfi.dwFontSize.Y = height;
+		SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 	}
 
 	void Renderer::DrawActor3D(
@@ -927,8 +1069,8 @@ namespace Craft
 	{
 		if (!actor) return;
 
-		const int width = static_cast<int>(screenSize.x);
-		const int height = static_cast<int>(screenSize.y);
+		const int width = screen3DSize.x;
+		const int height = screen3DSize.y;
 
 		// 플레이어 기준 다른 액터의 상대적 위치
 		Vector2 relative = actor->GetCenterPosition() - playerPos;
@@ -1025,7 +1167,7 @@ namespace Craft
 					int imageY = static_cast<int>(v * imageHeight);
 
 					if (imageY < 0 || imageY >= imageHeight ||
-						imageX < 0 || imageX >= static_cast<int>(renderData.image[imageY].size())						)
+						imageX < 0 || imageX >= static_cast<int>(renderData.image[imageY].size()))
 						continue;
 
 					char pixel = renderData.image[imageY][imageX];
@@ -1033,14 +1175,14 @@ namespace Craft
 					if (pixel == ' ')
 						continue;
 
-					frame->charInfoArray[index].Char.AsciiChar = pixel;
-					frame->charInfoArray[index].Attributes = static_cast<WORD>(Color::Green);
+					frame3D->charInfoArray[index].Char.AsciiChar = pixel;
+					frame3D->charInfoArray[index].Attributes = static_cast<WORD>(Color::Green);
 
 					continue;
 				}
 
-				frame->charInfoArray[index].Char.AsciiChar = 219;
-				frame->charInfoArray[index].Attributes = static_cast<WORD>(renderData.color);
+				frame3D->charInfoArray[index].Char.AsciiChar = 219;
+				frame3D->charInfoArray[index].Attributes = static_cast<WORD>(renderData.color);
 			}
 		}
 	}

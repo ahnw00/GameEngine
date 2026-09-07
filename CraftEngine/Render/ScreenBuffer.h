@@ -22,6 +22,10 @@ namespace Craft
 		// Getter
 		inline HANDLE GetBuffer() const { return buffer; }
 
+		void SetFontSize(short width, short height);
+
+		void Resize(const Vector2& newScreenSize);
+
 	private:
 		// 화면 버퍼 핸들
 		HANDLE buffer = nullptr;

@@ -352,6 +352,14 @@ namespace Craft
 			{
 				sscanf_s(token, "height = %d", &setting.height);
 			}
+			else if (strcmp(key, "width3D") == 0)
+			{
+				sscanf_s(token, "width3D = %d", &setting.width3D);
+			}
+			else if (strcmp(key, "height3D") == 0)
+			{
+				sscanf_s(token, "height3D = %d", &setting.height3D);
+			}
 
 			// 나머지 문자열 자르기(개행 문자 기준으로)
 			token = strtok_s(nullptr, "\n", &context);

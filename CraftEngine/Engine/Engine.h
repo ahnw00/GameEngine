@@ -33,6 +33,12 @@ namespace Craft
 
 			// 사용할 콘솔 화면 높이
 			int height = 0;
+
+			// 3차원에 사용할 콘솔 화면 너비
+			int width3D = 0;
+
+			// 3차원에 사용할 콘솔 화면 높이
+			int height3D = 0;
 		};
 
 	public:
@@ -69,10 +75,19 @@ namespace Craft
 		inline int GetWidth() const { return setting.width; }
 		inline int GetHeight() const { return setting.height; }
 
-		inline void SetWorldSize(const int& newWidth, const int& newHeight) 
+		inline void SetScreenSize(const int& newWidth, const int& newHeight) 
 		{
 			setting.width = newWidth;
 			setting.height = newHeight;
+		}
+
+		inline int GetWidth3D() const { return setting.width3D; }
+		inline int GetHeight3D() const { return setting.height3D; }
+
+		inline void SetScreenSize3D(const int newWidth, const int newHeight)
+		{
+			setting.width3D = newWidth;
+			setting.height3D = newHeight;
 		}
 
 		//inline Level::LevelType GetMainLevelType() const { return mainLevel->GetLevelType(); }

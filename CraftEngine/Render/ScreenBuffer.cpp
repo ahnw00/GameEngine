@@ -1,5 +1,7 @@
 ﻿#include "ScreenBuffer.h"
 #include <cassert>
+#include <iostream>
+
 
 namespace Craft
 {
@@ -95,5 +97,72 @@ namespace Craft
 		);
 
 		assert(result == TRUE);
+	}
+	void ScreenBuffer::SetFontSize(short width, short height)
+	{
+		CONSOLE_FONT_INFOEX fontInfo{};
+		fontInfo.cbSize = sizeof(fontInfo);
+
+		BOOL result = GetCurrentConsoleFontEx(
+			buffer,
+			FALSE,
+			&fontInfo
+		);
+
+		assert(result == TRUE);
+
+		std::cout << "Before Font : "
+			<< fontInfo.dwFontSize.X << ", "
+			<< fontInfo.dwFontSize.Y << '\n';
+
+		fontInfo.dwFontSize.X = width;
+		fontInfo.dwFontSize.Y = height;
+
+		result = SetCurrentConsoleFontEx(
+			buffer,
+			FALSE,
+			&fontInfo
+		);
+
+		std::cout << "SetFont Result : " << result << '\n';
+
+		assert(result == TRUE);
+	}
+	void ScreenBuffer::Resize(const Vector2& newScreenSize)
+	{
+		screenSize = newScreenSize;
+
+		// 1. 현재 폰트 기준으로 이 모니터에서 허용되는 가장 큰 콘솔 창 크기 가져오기
+		COORD maxSize = GetLargestConsoleWindowSize(buffer);
+
+		// 2. 목표 크기가 최대 크기를 넘지 않도록 보정 (이게 없으면 OS가 확장을 거부함)
+		short windowWidth = min(static_cast<short>(newScreenSize.x), maxSize.X);
+		short windowHeight = min(static_cast<short>(newScreenSize.y), maxSize.Y);
+
+		COORD targetBufferSize = {
+			static_cast<short>(newScreenSize.x),
+			static_cast<short>(newScreenSize.y)
+		};
+
+		SMALL_RECT targetWindowSize = {
+			0, 0,
+			static_cast<short>(windowWidth - 1),
+			static_cast<short>(windowHeight - 1)
+		};
+
+		// 3. 1x1로 먼저 찌그러뜨리기
+		SMALL_RECT minWindow = { 0, 0, 1, 1 };
+		SetConsoleWindowInfo(buffer, TRUE, &minWindow);
+
+		// 4. 버퍼 늘리기 (버퍼는 모니터 크기와 상관없이 메모리상 커질 수 있음)
+		SetConsoleScreenBufferSize(buffer, targetBufferSize);
+
+		// 5. 창 크기를 안전하게 보정된 크기로 늘리기
+		BOOL result = SetConsoleWindowInfo(buffer, TRUE, &targetWindowSize);
+
+		if (result == FALSE)
+		{
+			std::cout << "\n[Resize Failed] Max Allowed: " << maxSize.X << "x" << maxSize.Y << '\n';
+		}
 	}
 }

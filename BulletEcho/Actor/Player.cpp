@@ -85,12 +85,14 @@ void Player::Tick(float deltaTime)
 	{
 		if (curRenderMode == Renderer::RenderMode::TwoDimension)
 		{
-			Renderer::Get().SetRenderMode(Renderer::RenderMode::ThreeDimension);
+			//Renderer::Get().SetRenderMode(Renderer::RenderMode::ThreeDimension);
+			Renderer::Get().SwitchRenderMode(Renderer::RenderMode::ThreeDimension);
 			sight->SetRadius(50.f);
 		}
 		else
 		{
-			Renderer::Get().SetRenderMode(Renderer::RenderMode::TwoDimension);
+			//Renderer::Get().SetRenderMode(Renderer::RenderMode::TwoDimension);
+			Renderer::Get().SwitchRenderMode(Renderer::RenderMode::TwoDimension);
 			sight->SetRadius(20.f);
 		}
 	}
