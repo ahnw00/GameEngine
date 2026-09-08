@@ -24,6 +24,9 @@ void UILevel::Tick(float deltaTime)
 {
 	Level::Tick(deltaTime);
 
+	if (Renderer::Get().GetRenderMode() != Renderer::RenderMode::MENU)
+		return;
+
 	// 배열의 요소 개수
 	const int length = static_cast<int>(itemList.size());
 	if (Input::Get().GetKeyDown('W'))

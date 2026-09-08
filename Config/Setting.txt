@@ -1,5 +1,5 @@
 framerate = 60
-width = 200
-height = 85
-width3D = 1200
-height3D = 400
+width = 169
+height = 57
+width3D = 576
+height3D = 225

@@ -101,11 +101,11 @@ void Player::Tick(float deltaTime)
 		}
 	}
 
-	if (Input::Get().GetKeyDown(VK_NUMPAD1))
+	if (Input::Get().GetKeyDown('1'))
 	{
 		Renderer::Get().SetPlayMode(Renderer::PlayMode::PLAY);
 	}
-	if (Input::Get().GetKeyDown(VK_NUMPAD2))
+	if (Input::Get().GetKeyDown('2'))
 	{
 		Renderer::Get().SetPlayMode(Renderer::PlayMode::DEBUG);
 	}

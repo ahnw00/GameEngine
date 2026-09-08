@@ -67,6 +67,20 @@ void Enemy::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 
+	timer.Tick(deltaTime);
+	animator->Tick(deltaTime);
+	
+	if (mode == Mode::Dead)
+	{
+		deadTimer += deltaTime;
+
+		if (deadTimer > deadDuration)
+		{
+			Destroy();
+		}
+		return;
+	}
+	
 	if(!bHit)
 		sight->Tick(deltaTime);
 	else
@@ -80,9 +94,6 @@ void Enemy::Tick(float deltaTime)
 		}
 	}
 
-	timer.Tick(deltaTime);
-	animator->Tick(deltaTime);
-	
 	if (target != nullptr && prevTarget == nullptr)
 	{
 		// 이 블록은 타겟을 발견한 딱 1프레임만 실행
@@ -203,7 +214,7 @@ void Enemy::Draw()
 
 	for (int i = 0; i < pathDrawIndex; ++i)
 	{
-		Renderer::Get().Submit(nullptr, { "#" }, path[i], Color::Green, 20);
+		Renderer::Get().Submit(nullptr, { "." }, path[i], Color::Green, 20);
 	}
 }
 
@@ -676,6 +687,9 @@ void Enemy::SetMode(Mode newMode)
 		break;
 	case Enemy::Mode::Search:
 		animator->SetAnimationMode(Animator::AnimationMode::Search);
+		break;
+	case Enemy::Mode::Dead:
+		animator->SetAnimationMode(Animator::AnimationMode::Dead);
 		break;
 	default:
 		break;

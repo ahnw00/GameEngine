@@ -4,6 +4,7 @@
 #include <Render/Renderer.h>
 #include <Actor/Wall.h>
 #include <Actor/Character.h>
+#include <Actor/Player.h>
 #include <Actor/Enemy.h>
 #include <Actor/DestroyEffect.h>
 #include <Level/GameLevel.h>
@@ -89,7 +90,11 @@ void Bullet::OnCollision(const std::shared_ptr<Actor>& other)
 	// 캐릭터(적/플레이어)와 충돌했을 경우
 	if (other->IsTypeOf<Character>())
 	{
-		Engine::Get().PlayerOneShot("manHit.wav");
+		if(other->IsTypeOf<Enemy>())
+			Engine::Get().PlayerOneShot("armorHit.wav");
+		else if(other->IsTypeOf<Player>())
+			Engine::Get().PlayerOneShot("playerHit.wav");
+
 		std::shared_ptr<Character> damagedCharacter = Cast<Character>(other);
 		damagedCharacter->ApplyDamage(damage);
 	}
@@ -103,7 +108,7 @@ void Bullet::DestroyAndEffect()
 	if (HasExpired())
 		return;
 
-	Engine::Get().PlayerOneShot("hit.wav");
+	Engine::Get().PlayerOneShot("bulletHit.wav");
 
 	std::vector<DestroyEffect::EffectFrame> sequence =
 	{

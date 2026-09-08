@@ -14,6 +14,7 @@
 #include <Physics/CollisionSystem.h>
 
 #include <cmath>
+#include <iostream>
 
 
 using namespace Craft;
@@ -191,8 +192,9 @@ void Character::ApplyDamage(float damage)
 {
 	HP = (HP - damage < 0.f) ? 0.f : HP - damage;
 
-	if (HP <= 0.f)
+	if (HP <= 0.f && !isDead)
 	{
+		isDead = true;
 		Die();
 	}
 }
@@ -219,6 +221,14 @@ void Character::Die()
 
 	if (this->IsTypeOf<Enemy>())
 	{
+		std::shared_ptr<Enemy> enemy = Cast<Enemy>(shared_from_this());
+
+		if (enemy)
+		{
+			enemy->SetMode(Enemy::Mode::Dead);
+			std::cout << "Dead\n";
+		}
+
 		std::shared_ptr<GameLevel> gameLevel = Cast<GameLevel>(GetOwner());
 
 		if (gameLevel)
@@ -238,7 +248,6 @@ void Character::Die()
 				clearLevel->SetClearTime(gameLevel->GetElapsedTime());
 			}
 
-
 			game.GotoLevel(State::Clear);
 			game.ResetGame();
 		}
@@ -249,7 +258,8 @@ void Character::Die()
 		Game& game = dynamic_cast<Game&>(Engine::Get());
 		game.GotoLevel(State::Died);
 		game.ResetGame();
+		
+		Destroy();
 	}
 
-	Destroy();
 }

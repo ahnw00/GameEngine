@@ -76,6 +76,8 @@ protected:
 	// 공격력
 	float attackPower = 10.f;
 
+	bool isDead = false;
+
 public:
 	inline Type GetCharacterType()	const { return type; }
 

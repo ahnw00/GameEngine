@@ -128,21 +128,51 @@ namespace Craft
 		frame3D->Clear(buffer3DCount);
 
 		// 작은 크기로 3D 버퍼 생성 후 즉시 Resize
-		screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, firstScreenSize);
 		screenBuffer3DArray[0]->Clear();
 
-		screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, firstScreenSize);
 		screenBuffer3DArray[1]->Clear();
 
 		// 생성 후 프레임 지우기
 		frame->Clear(screenSize);
 
 		// 이중 버퍼 구현을 위한 콘솔 버퍼 생성 및 초기화
-		screenBufferArray[0] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		screenBufferArray[0] = std::make_unique<ScreenBuffer>(worldSize, firstScreenSize);
 		screenBufferArray[0]->Clear();
 
-		screenBufferArray[1] = std::make_unique<ScreenBuffer>(worldSize, screenSize);
+		screenBufferArray[1] = std::make_unique<ScreenBuffer>(worldSize, firstScreenSize);
 		screenBufferArray[1]->Clear();
+
+		for (int i = 0; i < 2; ++i)
+		{
+			int const width = Engine::Get().GetWidth3D();
+			int const height = Engine::Get().GetHeight3D();
+			Vector2 size3D = Vector2(width, height);
+
+			screenBuffer3DArray[i]->Clear();
+
+			SetConsoleActiveScreenBuffer(screenBuffer3DArray[i]->GetBuffer());
+
+			screenBuffer3DArray[i]->SetFontSize(4, 4);
+
+			screenBuffer3DArray[i]->Resize(size3D);
+		}
+		for (int i = 0; i < 2; ++i)
+		{
+			int const width = Engine::Get().GetWidth();
+			int const height = Engine::Get().GetHeight();
+			Vector2 size = Vector2(width, height);
+
+			screenBufferArray[i]->Clear();
+
+			SetConsoleActiveScreenBuffer(screenBufferArray[i]->GetBuffer());
+
+			screenBufferArray[i]->SetFontSize(16, 16);
+
+			screenBufferArray[i]->Resize(size);
+		}
+		
 
 		// 화면에 0번 콘솔 버퍼 활성화
 		SetConsoleActiveScreenBuffer(screenBufferArray[0]->GetBuffer());
@@ -990,19 +1020,6 @@ namespace Craft
 		if (renderMode == RenderMode::ThreeDimension)
 		{
 			Vector2 size3D = screen3DSize;
-
-			//// 3D 버퍼가 아직 없다면 여기서 처음으로 생성!
-			//if (frame3D == nullptr)
-			//{
-			//	const int bufferCount3D = static_cast<int>(size3D.x * size3D.y);
-			//	frame3D = std::make_unique<Frame3D>(bufferCount3D);
-			//	depthBuffer = std::make_unique<float[]>(size3D.x);
-
-			//	// 폰트를 먼저 줄인 상태에서 버퍼를 생성하므로 에러가 안 납니다.
-			//	screenBuffer3DArray[0] = std::make_unique<ScreenBuffer>(worldSize, size3D);
-			//	screenBuffer3DArray[1] = std::make_unique<ScreenBuffer>(worldSize, size3D);
-			//	
-			//}
 
 			frame3D->Clear(size3D);
 

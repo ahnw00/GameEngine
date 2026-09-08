@@ -5,9 +5,12 @@
 #include <Utility/Utility.h>
 
 #include <cmath>
+#include <string>
 
 
 using namespace Craft;
+
+
 
 MainLevel::MainLevel()
 {
@@ -36,12 +39,77 @@ MainLevel::MainLevel()
 		)
 	);
 
+    //MakeCone();
+
+    timer.SetTargetTime(timers[0]);
+}
+
+void MainLevel::OnInitialized()
+{
+	UILevel::OnInitialized();
+
+	// 메인메뉴 브금
+	Engine::Get().PlayerBackgroundMusic("cyberwave.wav");
+}
+
+void MainLevel::Tick(float deltaTime)
+{
+	UILevel::Tick(deltaTime);
+
+    timer.Tick(deltaTime);
+
+    if (timer.IsTimeOut())
+    {
+        timerIndex = (timerIndex + 1) % timerLength;
+        timer.SetTargetTime(timers[timerIndex]);
+
+        if (timerIndex % 2 == 0)
+        {
+            //Engine::Get().PlayerOneShot("lightbulb.wav");
+            Engine::Get().PlayerOneShot("keyboard.wav");
+        }
+        if (timerIndex == 1)
+        {
+            timers[timerIndex] = Util::RandomRange(1.f, 2.f);
+        }
+    }
+
+    if (matrixTimer < matrixInterval)
+    {
+        matrixTimer += deltaTime;
+    }
+    else
+    {
+        MakeMatrix();
+        matrixTimer = 0.f;
+    }
+}
+
+void MainLevel::Draw()
+{
+    //if (timerIndex % 2 == 0)
+    //    return;
+
+    // 배경
+    Renderer::Get().Submit(
+        nullptr,
+        background,
+        Vector2(0, 0),
+        Color::Green,
+        0
+    );
+
+	UILevel::Draw();
+}
+
+void MainLevel::MakeCone()
+{
     const int width = Engine::Get().GetWidth();
     const int height = Engine::Get().GetHeight();
 
     const int centerY = height / 2;
 
-    cone.resize(height);
+    background.resize(height);
 
     for (int y = 0; y < height; ++y)
     {
@@ -66,60 +134,36 @@ MainLevel::MainLevel()
         // 삼각형 바깥
         if (startX >= width)
         {
-            cone[y] = "";
+            background[y] = "";
             continue;
         }
 
         // startX ~ 화면 끝까지 채우기
-        cone[y] = std::string(width - startX, static_cast<char>(219));
+        background[y] = std::string(width - startX, static_cast<char>(219));
     }
-
-    timer.SetTargetTime(timers[0]);
 }
 
-void MainLevel::OnInitialized()
+void MainLevel::MakeMatrix()
 {
-	UILevel::OnInitialized();
+    const int width = Engine::Get().GetWidth();
+    const int height = Engine::Get().GetHeight();
 
-	// 메인메뉴 브금
-	Engine::Get().PlayerBackgroundMusic("cyberpunk.wav");
-}
+    background.resize(height);
 
-void MainLevel::Tick(float deltaTime)
-{
-	UILevel::Tick(deltaTime);
 
-    timer.Tick(deltaTime);
-
-    if (timer.IsTimeOut())
+    for (int j = 0; j < height; ++j)
     {
-        timerIndex = (timerIndex + 1) % timerLength;
-        timer.SetTargetTime(timers[timerIndex]);
+        std::string str = "";
 
-        if (timerIndex % 2 == 0)
+        for (int i = 0; i < width; ++i)
         {
-            Engine::Get().PlayerOneShot("lightbulb.wav");
+            int randNum = Util::RandomRange(0, 20);
+            if (randNum > 9)
+                str += " ";
+            else
+                str += std::to_string(randNum);
         }
-        if (timerIndex == 1)
-        {
-            timers[timerIndex] = Util::RandomRange(1.f, 2.f);
-        }
+        
+        background[j] = str;
     }
-}
-
-void MainLevel::Draw()
-{
-    if (timerIndex % 2 == 0)
-        return;
-
-    // 삼각형 배경
-    Renderer::Get().Submit(
-        nullptr,
-        cone,
-        Vector2(0, 0),
-        Color::White,
-        0
-    );
-
-	UILevel::Draw();
 }

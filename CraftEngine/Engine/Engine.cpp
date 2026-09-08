@@ -32,6 +32,7 @@ namespace Craft
 			Vector2(200, 100),
 			Vector2(setting.width, setting.height)
 		);
+		renderer->SetScreen3DSize(Vector2(setting.width3D, setting.height3D));
 
 		// 충돌 시스템 객체 생성
 		collisionSystem = std::make_unique<CollisionSystem>();

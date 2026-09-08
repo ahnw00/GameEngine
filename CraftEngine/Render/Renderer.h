@@ -164,6 +164,8 @@ namespace Craft
 
 		void SwitchRenderMode(RenderMode newMode);
 
+		inline void SetScreen3DSize(const Vector2& new3DSize) { screen3DSize = new3DSize; }
+
 	private:
 		// 그리기 작업을 시작할 때 프레임(화면)을 지우는 함수
 		void Clear();
@@ -190,6 +192,8 @@ namespace Craft
 		std::vector<RenderCommand> renderQueue;
 
 		// 화면 크기
+		Vector2 firstScreenSize = Vector2(169, 51);
+
 		Vector2 screenSize;
 
 		Vector2 screen3DSize = Vector2(1280, 342);

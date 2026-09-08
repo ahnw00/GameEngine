@@ -42,6 +42,6 @@ private:
 	// 현재 활성화된 레벨의 상태를 나타내는 변수
 	State state = State::GamePlay;
 
-	std::string BgmList[3] = { "cyberpunk.wav", "ingameBGM.wav", "clearCyberpunk.wav" };
+	std::string BgmList[3] = { "cyberwave.wav", "ingameBGM.wav", "dangerousFuture.wav" };
 };
 

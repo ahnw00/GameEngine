@@ -27,6 +27,7 @@ class Enemy : public Character
 		Shoot,  // 사격
 		Stab,   // 근접 공격
 		Search, // 플레이어를 공격하다가 놓치면 일정 시간 동안 수색
+		Dead
 	};
 
 	enum class TurnDirection
@@ -101,13 +102,12 @@ private:
 public:
 	inline void SetTarget(Player* p) { target = p; }
 	void SetDirection(Craft::Actor::Direction direction) const;
+	void SetMode(Mode newMode);
 
 protected:
 	inline virtual bool CheckRender3DData() override { return true; }
 
 private:
-	void SetMode(Mode newMode);
-
 	void LoadSprites();
 
 private:
@@ -154,6 +154,11 @@ private:
 	float hitTimer = 0.f;
 	const float hitDuration = 3.f;
 	bool bHit = false;
+
+	float deadTimer = 0.f;
+	const float deadDuration = 2.f;
+
+	bool isDead = false;
 
 	// Search할 때 기준이 될 벡터
 	Craft::Vector2 searchForward = Craft::Vector2::Zero;

@@ -39,7 +39,7 @@ protected:
 	int currentIdx = 0;
 
 	// 선택된 메뉴 아이템의 색상
-	Craft::Color selectedColor = Craft::Color::Green;
+	Craft::Color selectedColor = Craft::Color::Yellow;
 
 	// 미선택된 메뉴 아이템의 색상
 	Craft::Color unselectedColor = Craft::Color::White;
